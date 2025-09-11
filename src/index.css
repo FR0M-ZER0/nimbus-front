@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
 
 /********************************************** Cores padrão do projeto **********************************************/
 :root {
@@ -58,4 +58,10 @@ button {
 
 a {
     text-decoration: none;
+}
+
+/********************************************** Padrões específicos **********************************************/
+.gradient-dark-bg {
+  background: radial-gradient(circle, rgba(12, 12, 12, 0) -80%, #070230 160%),
+    var(--main-dark-color);
 }

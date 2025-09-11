@@ -1,1 +1,61 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+/********************************************** Cores padrão do projeto **********************************************/
+:root {
+    --main-light-color: #FBFBFB;
+    --alt-light-color: #9093B4;
+    --main-dark-color: #262730;
+    --alt-dark-color: #14141D;
+    --alt-dark-color-2: #17172B;
+    --alt-dark-color-3: #292988;
+    --green-color: #0DFF00;
+    --red-color: #BA1200;
+    --blue-color: #0000FF;
+    --orange-color: #BA4700;
+    --yellow-color: #E1F00D;
+}
+
+/* Texto */
+.main-light-color-text { color: var(--main-light-color); }
+.alt-light-color-text { color: var(--alt-light-color); }
+.main-dark-color-text { color: var(--main-dark-color); }
+.alt-dark-color-text { color: var(--alt-dark-color); }
+.alt-dark-color-2-text { color: var(--alt-dark-color-2); }
+.alt-dark-color-3-text { color: var(--alt-dark-color-3); }
+.green-color-text { color: var(--green-color); }
+.red-color-text { color: var(--red-color); }
+.blue-color-text { color: var(--blue-color); }
+.orange-color-text { color: var(--orange-color); }
+.yellow-color-text { color: var(--yellow-color); }
+
+/* Background */
+.main-light-color-bg { background-color: var(--main-light-color); }
+.alt-light-color-bg { background-color: var(--alt-light-color); }
+.main-dark-color-bg { background-color: var(--main-dark-color); }
+.alt-dark-color-bg { background-color: var(--alt-dark-color); }
+.alt-dark-color-2-bg { background-color: var(--alt-dark-color-2); }
+.alt-dark-color-3-bg { background-color: var(--alt-dark-color-3); }
+.green-color-bg { background-color: var(--green-color); }
+.red-color-bg { background-color: var(--red-color); }
+.blue-color-bg { background-color: var(--blue-color); }
+.orange-color-bg { background-color: var(--orange-color); }
+.yellow-color-bg { background-color: var(--yellow-color); }
+
+
+/********************************************** Outros padrões **********************************************/
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+label {
+    display: block;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}

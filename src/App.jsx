@@ -10,7 +10,13 @@ function App() {
 		<Routes>
 			{/* Rotas do admin */}
 			<Route path='/admin' element={<AdminLayout />} >
-				<Route index element={<DashboardPage/>} />
+				<Route index element={<DashboardPage />} />
+				<Route path='stations' element={<DashboardPage />} />
+				<Route path='alerts' element={<DashboardPage />} />
+				<Route path='logs' element={<DashboardPage />} />
+				<Route path='users' element={<DashboardPage />} />
+				<Route path='profile' element={<DashboardPage />} />
+				<Route path='settings' element={<DashboardPage />} />
 			</Route>
 		</Routes>
 	)

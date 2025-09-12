@@ -15,6 +15,7 @@ function Topbar({ title }) {
                 </div>
 
                 <div className='flex'>
+                    {/* TODO: Adicionar o componente LINK a cada icone */}
                     <UserIcon size={24} className='alt-light-color-text' />
                     <BellIcon size={24} className='alt-light-color-text mx-8' />
                     <GearIcon size={24} className='alt-light-color-text' />

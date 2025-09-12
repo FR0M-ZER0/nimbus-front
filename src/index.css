@@ -62,7 +62,7 @@ a {
 
 /********************************************** Padrões específicos **********************************************/
 .gradient-dark-bg {
-  background: radial-gradient(circle, rgba(12, 12, 12, 0) -80%, #070230 260%),
+  background: radial-gradient(circle, rgba(12, 12, 12, 0) -80%, #070230 360%) /* Deixar ou 260% ou 360% */,
     var(--main-dark-color);
 }
 

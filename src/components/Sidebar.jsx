@@ -6,7 +6,7 @@ function Sidebar() {
     const [activeTab, setActiveTab] = useState(0)
 
     return (
-        <nav className='p-[20px] flex flex-col min-h-screen w-[300px] dark-gradient'>
+        <nav className='p-[20px] md:flex flex-col min-h-screen w-[300px] dark-gradient hidden'>
             <div className='flex w-full justify-center'>
                 <img src='/nimbus_logo.svg' alt="logo" width={140} />
             </div>

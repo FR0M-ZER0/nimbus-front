@@ -1,6 +1,7 @@
 import { React, useState } from 'react'
 import { ListIcon, XIcon } from '@phosphor-icons/react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Link } from 'react-router'
 
 function HamburgerMenu() {
     const [isOpen, setIsOpen] = useState(false)
@@ -24,14 +25,14 @@ function HamburgerMenu() {
                             <XIcon size={24} />
                         </button>
 
-                        <ul className='mt-16 space-y-6 text-xl'>
-                            <li><a href='/admin'>Dashboard</a></li>
-                            <li><a href='/admin/stations'>Estações</a></li>
-                            <li><a href='/admin/alerts'>Alertas</a></li>
-                            <li><a href='/admin/logs'>Histórico</a></li>
-                            <li><a href='/admin/users'>Usuários</a></li>
-                            <li><a href='/admin/profile'>Perfil</a></li>
-                            <li><a href='/admin/settings'>Configurações</a></li>
+                        <ul className='mt-16 space-y-6'>
+                            <li><Link to='/admin' onClick={() => setIsOpen(false)}>Dashboard</Link></li>
+                            <li><Link to='/admin/stations' onClick={() => setIsOpen(false)}>Estações</Link></li>
+                            <li><Link to='/admin/alerts' onClick={() => setIsOpen(false)}>Alertas</Link></li>
+                            <li><Link to='/admin/logs' onClick={() => setIsOpen(false)}>Histórico</Link></li>
+                            <li><Link to='/admin/users' onClick={() => setIsOpen(false)}>Usuários</Link></li>
+                            <li><Link to='/admin/profile' onClick={() => setIsOpen(false)}>Perfil</Link></li>
+                            <li><Link to='/admin/settings' onClick={() => setIsOpen(false)}>Configurações</Link></li>
                             <li><button>Sair</button></li>
                         </ul>
                     </motion.div>

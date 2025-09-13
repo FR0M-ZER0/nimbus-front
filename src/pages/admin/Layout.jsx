@@ -23,7 +23,9 @@ function Layout() {
             <Sidebar />
             <div className='flex-1 px-[20px]'>
                 <Topbar title={title} />
-                <Outlet />
+                <div className='flex flex-col items-center mt-[40px]'>
+                    <Outlet />
+                </div>
             </div>
         </div>
     )

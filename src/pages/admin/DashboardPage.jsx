@@ -87,7 +87,7 @@ function DashboardPage() {
                                 <tbody>
                                     {activities.map((item, index) => (
                                     <tr key={index}>
-                                        <td className="p-2 border-b">{ item.date } {`(${item.station})`}: { item.event }</td>
+                                        <td className="p-2 pt-8 border-b">{ item.date } {`(${item.station})`}: { item.event }</td>
                                     </tr>
                                     ))}
                                 </tbody>

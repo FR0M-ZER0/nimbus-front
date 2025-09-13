@@ -86,7 +86,7 @@ function DashboardPage() {
                             <table className="w-full border-collapse text-lg">
                                 <tbody>
                                     {activities.map((item, index) => (
-                                    <tr key={index} className="hover:bg-gray-50">
+                                    <tr key={index}>
                                         <td className="p-2 border-b">{ item.date } {`(${item.station})`}: { item.event }</td>
                                     </tr>
                                     ))}

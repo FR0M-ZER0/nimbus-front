@@ -14,6 +14,9 @@
     --blue-color: #0000FF;
     --orange-color: #BA4700;
     --yellow-color: #E1F00D;
+    --sb-track-color: #14141d;
+    --sb-thumb-color: #0000ff;
+    --sb-size: 8px;
 }
 
 /* Texto */
@@ -72,4 +75,27 @@ a {
         #14141D 20%,
         rgba(23, 23, 29, 0.3) 90%
     );
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 3px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+    scrollbar-width: thin;
+  }
 }

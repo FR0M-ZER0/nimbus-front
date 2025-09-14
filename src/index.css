@@ -77,6 +77,20 @@ a {
     );
 }
 
+.form-input {
+  padding: 14px 12px;
+  border-radius: 10px;
+  width: 100%;
+  background-color: var(--main-dark-color);
+}
+
+.submit-button {
+  padding: 12px 36px;
+  background-color: var(--blue-color);
+  border-radius: 8px;
+  font-weight: 600;
+}
+
 /* Scrollbar */
 *::-webkit-scrollbar {
   width: var(--sb-size);

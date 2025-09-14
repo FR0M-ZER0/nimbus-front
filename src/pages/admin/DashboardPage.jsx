@@ -34,8 +34,8 @@ function DashboardPage() {
         <div className='w-full'>
             <DateTimeWatcher />
             
-            <div className="grid grid-cols-7 gap-x-4 gap-y-8 mt-6">
-                <div className='col-span-2'>
+            <div className="grid grid-cols-1 lg:grid-cols-7 lg:gap-x-4 gap-y-8 mt-6">
+                <div className='lg:col-span-2'>
                     <DashboardCard
                         title={'Estações conectadas'}
                         dataValue={24}
@@ -43,7 +43,7 @@ function DashboardPage() {
                         icon={<CircuitryIcon size={46} />}
                     />
                 </div>
-                <div className='col-span-3'>
+                <div className='lg:col-span-3'>
                     <DashboardCard
                         title={'Estações disponíveis'}
                         dataValue={24}
@@ -53,7 +53,7 @@ function DashboardPage() {
                         icon={<WifiHighIcon size={46} />}
                     />
                 </div>
-                <div className='col-span-2'>
+                <div className='lg:col-span-2'>
                     <DashboardCard
                         title={'Estações conectadas'}
                         dataValue={46}
@@ -63,24 +63,24 @@ function DashboardPage() {
                     />
                 </div>
 
-                <div className='col-span-2'>
+                <div className='lg:col-span-2'>
                     <InfoCard>
-                        <div className='flex flex-col items-center'>
+                        <div className='flex flex-col items-center h-full'>
                             <p className='text-2xl'>
                                 Alertas
                             </p>
 
-                            <div className='flex items-center justify-center h-84 w-84 my-8 rounded-full border-28 border-[#BA1200]'>
+                            <div className='flex items-center justify-center max-h-84 max-w-84 h-84 w-84 lg:h-full lg:w-full my-8 rounded-full border-28 border-[#BA1200]'>
                                 <p className='text-7xl font-semibold red-color-text'>
                                     48
                                 </p>
                             </div>
 
-                            <p className=''>Estação abc123 - Chuva > 0.5</p>
+                            <p className='text-center'>Estação abc123 - Chuva > 0.5</p>
                         </div>
                     </InfoCard>
                 </div>
-                <div className='col-span-5'>
+                <div className='lg:col-span-5'>
                     <Card title={'Última atividades'}>
                         <div className='flex items-center h-full p-6 alt-dark-color-2-bg max-h-[400px] overflow-y-auto'>
                             <table className="w-full border-collapse text-lg">

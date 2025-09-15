@@ -1,11 +1,9 @@
 import React from 'react'
-import Table from './Table'
+import HeadlessTable from './HeadlessTable'
 
-function StationTable() {
+function StationTable({ stations }) {
     return (
-        <Table title={'Estações'}>
-            
-        </Table>
+        <HeadlessTable title={'Estações'} tableEntries={stations} />
     )
 }
 

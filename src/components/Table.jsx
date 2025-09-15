@@ -1,8 +1,7 @@
 import React from 'react'
 import InfoCard from './InfoCard'
 
-
-function Table({ title, children }) {
+function Table({ title, tableHeadEntries, tableBodyEntries }) {
 	return (
 		<InfoCard>
             <div className='flex flex-col'>
@@ -26,7 +25,25 @@ function Table({ title, children }) {
 					</div>
 				</div>
 
-                { children }
+				<table>
+					<thead>
+						{
+							tableHeadEntries.map((entry, index) => (
+								<th key={index}>{entry}</th>
+							))
+						}
+					</thead>
+
+					<tbody>
+						<tr>
+							{
+								tableBodyEntries.map((entry, index) => (
+									<td key={index}>{entry}</td>
+								))
+							}
+						</tr>
+					</tbody>
+				</table>
             </div>
         </InfoCard>
 	)

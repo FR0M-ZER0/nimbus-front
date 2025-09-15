@@ -42,7 +42,9 @@ function HeadlessTable({ title, tableEntries }) {
                             tableEntries.map((entry, index) => (
                                 <tr key={index} className='border-b-1 border-[#9093B4]'>
                                     {
-                                        Object.entries(entry).map(([key, value]) => ( 
+                                        Object.entries(entry)
+                                        .filter(([key]) => key !== 'status')
+                                        .map(([key, value]) => ( 
                                             <td className='pb-3 pt-6'>
                                                 {
                                                     key !== 'image' ? (

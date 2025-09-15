@@ -86,7 +86,7 @@ a {
 
 .submit-button {
   padding: 12px 36px;
-  background-color: var(--blue-color);
+  background-color: var(--alt-dark-color-3);
   border-radius: 8px;
   font-weight: 600;
 }

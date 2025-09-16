@@ -1,9 +1,9 @@
 import React from 'react'
 import HeadlessTable from './HeadlessTable'
 
-function StationTable({ stations }) {
+function StationTable({ stations, onActionBtnClick }) {
     return (
-        <HeadlessTable title={'Estações'} tableEntries={stations} />
+        <HeadlessTable title={'Estações'} tableEntries={stations} onActionBtnClick={onActionBtnClick} />
     )
 }
 

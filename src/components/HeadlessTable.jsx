@@ -1,7 +1,7 @@
 import React from 'react'
 import InfoCard from './InfoCard'
 
-function HeadlessTable({ title, tableEntries }) {
+function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
     return (
 		<InfoCard>
             <div className='flex flex-col'>
@@ -72,7 +72,7 @@ function HeadlessTable({ title, tableEntries }) {
                                     }
                                     <td className='pb-3 pt-6'>
                                         <p className='alt-light-color-text'>Ações</p>
-                                        <p className='text-[18px] cursor-pointer hover:text-[#0000FF] transition-all duration-300'>Ver mais</p>
+                                        <p className='text-[18px] cursor-pointer hover:text-[#0000FF] transition-all duration-300' onClick={onActionBtnClick}>Ver mais</p>
                                     </td>
                                 </tr>
                             ))

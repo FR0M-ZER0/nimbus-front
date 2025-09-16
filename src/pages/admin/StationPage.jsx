@@ -1,7 +1,8 @@
-import React from 'react'
+import { React, useState } from 'react'
 import StationForm from '../../components/StationForm'
 import StationDownMap from '../../components/StationDownMap'
 import StationTable from '../../components/StationTable'
+import TabModal from '../../components/TabModal'
 import StationImage from '../../assets/station_image.svg'
 
 function StationPage() {
@@ -80,6 +81,16 @@ function StationPage() {
         },
     ]
 
+    const [modalIsOpen, setModalisOpen] = useState(false)
+
+    const openModal = () => {
+        setModalisOpen(true)
+    }
+
+    const closeModal = () => {
+        setModalisOpen(false)
+    }
+
     return (
         <div className='w-full'>
             <div className='flex'>
@@ -93,7 +104,14 @@ function StationPage() {
             </div>
 
             <div className='mb-8'>
-                <StationTable stations={stations} />
+                <StationTable stations={stations} onActionBtnClick={openModal} />
+            </div>
+
+            <div>
+                {
+                    modalIsOpen &&
+                    <TabModal tabName={'Estações'} onClose={closeModal} />
+                }
             </div>
         </div>
     )

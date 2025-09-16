@@ -1,7 +1,21 @@
-import React from 'react'
+import { React, useState } from 'react'
 import InfoCard from './InfoCard'
+import ReactPaginate from 'react-paginate'
+import { CaretRightIcon, CaretLeftIcon } from '@phosphor-icons/react'
 
 function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
+    const itemsPerPage = 3
+    const [itemOffset, setItemOffset] = useState(0)
+    const endOffset = itemOffset + itemsPerPage
+
+    const currentItems = tableEntries.slice(itemOffset, endOffset)
+    const pageCount = Math.ceil(tableEntries.length / itemsPerPage)
+
+    const handlePageClick = (e) => {
+        const newOffset = (e.selected * itemsPerPage) % tableEntries.length
+        setItemOffset(newOffset)
+    }
+
     return (
 		<InfoCard>
             <div className='flex flex-col'>
@@ -29,7 +43,7 @@ function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
 					<thead>
                         <tr>
                             {
-                                tableEntries.map((_, index) => (
+                                currentItems.map((_, index) => (
                                     <th key={index}></th>
                                 ))
                             }
@@ -39,7 +53,7 @@ function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
 
 					<tbody>
                         {
-                            tableEntries.map((entry, index) => (
+                            currentItems.map((entry, index) => (
                                 <tr key={index} className='border-b-1 border-[#9093B4]'>
                                     {
                                         Object.entries(entry)
@@ -78,6 +92,21 @@ function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
                             ))
                         }
 					</tbody>
+
+                    <ReactPaginate
+                        containerClassName='flex'
+                        breakLabel='...'
+                        nextLabel={<CaretRightIcon size={28} className='cursor-pointer' />}
+                        previousLabel={<CaretLeftIcon size={28} className='cursor-pointer' />}
+                        previousClassName='p-1 alt-dark-color-3-bg rounded'
+                        nextClassName='p-1 alt-dark-color-3-bg rounded'
+                        pageClassname='p-1 alt-dark-color-3-bg rounded cursor-pointer'
+                        activeClassName='p-1 blue-color-bg rounded cursor-pointer'
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={pageCount}
+                        renderOnZeroPageCount={null}
+                    />
 				</table>
             </div>
         </InfoCard>

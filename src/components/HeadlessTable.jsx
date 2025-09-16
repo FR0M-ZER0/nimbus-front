@@ -1,20 +1,11 @@
-import { React, useState } from 'react'
+import React from 'react'
 import InfoCard from './InfoCard'
 import Paginator from './Paginator'
+import { usePagination } from '../hooks/usePagination'
 
 function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
     // TODO: mudar o número de items por página quando houver os dados vindos do back
-    const itemsPerPage = 3
-    const [itemOffset, setItemOffset] = useState(0)
-    const endOffset = itemOffset + itemsPerPage
-
-    const currentItems = tableEntries.slice(itemOffset, endOffset)
-    const pageCount = Math.ceil(tableEntries.length / itemsPerPage)
-
-    const handlePageClick = (e) => {
-        const newOffset = (e.selected * itemsPerPage) % tableEntries.length
-        setItemOffset(newOffset)
-    }
+    const { currentItems, pageCount, handlePageClick } = usePagination(tableEntries, 3)
 
     return (
 		<InfoCard>

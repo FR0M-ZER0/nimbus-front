@@ -102,7 +102,7 @@ function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
                         previousClassName='h-10 w-10 p-1 alt-dark-color-3-bg rounded-lg flex justify-center items-center'
                         nextClassName='h-10 w-10 p-1 alt-dark-color-3-bg rounded-lg flex justify-center items-center'
                         pageClassName='h-10 w-10 rounded-lg alt-dark-color-3-bg'
-                        pageLinkClassName='w-full h-full flex justify-center items-center cursor-pointer'
+                        pageLinkClassName='w-full h-full flex justify-center items-center cursor-pointer font-semibold text-lg'
                         activeClassName='h-11 w-11 blue-color-bg'
                         disabledClassName='hidden'
                         onPageChange={handlePageClick}

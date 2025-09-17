@@ -25,7 +25,7 @@ function TabModal({ onClose, tabName, dataTabContent, tabContent }) {
                 </div>
             </div>
 
-            <div className='border-4 border-[#262730] w-full h-full p-4'>
+            <div className='border-4 border-[#262730] w-full h-full p-8'>
                 {activeTab === tabName && (
                     tabContent
                 )}

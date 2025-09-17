@@ -84,11 +84,18 @@ a {
   background-color: var(--main-dark-color);
 }
 
-.submit-button {
+.submit-button, .cancel-button {
   padding: 12px 36px;
-  background-color: var(--alt-dark-color-3);
   border-radius: 8px;
   font-weight: 600;
+}
+
+.submit-button {
+    background-color: var(--alt-dark-color-3);
+}
+
+.cancel-button {
+  background-color: var(--red-color);
 }
 
 /* Scrollbar */

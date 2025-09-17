@@ -103,7 +103,7 @@ function StationPage() {
                 </div>
             </div>
 
-            <div className='mb-8'>
+            <div className='my-8'>
                 <StationTable stations={stations} onActionBtnClick={openModal} />
             </div>
 

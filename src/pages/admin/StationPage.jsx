@@ -110,7 +110,20 @@ function StationPage() {
             <div>
                 {
                     modalIsOpen &&
-                    <TabModal tabName={'Estações'} onClose={closeModal} />
+                    <TabModal
+                        tabName={'Estações'}
+                        onClose={closeModal} 
+                        tabContent={
+                            <div className='flex'>
+                                <div>
+
+                                </div>
+                                <div className='grid grid-cols-6'>
+
+                                </div>
+                            </div>
+                        }
+                    />
                 }
             </div>
         </div>

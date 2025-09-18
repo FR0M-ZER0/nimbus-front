@@ -25,13 +25,14 @@ function Table({ title, tableHeadEntries, tableBodyEntries }) {
 					</div>
 				</div>
 
-				<table>
+				<table className='w-full'>
 					<thead>
 						{
 							tableHeadEntries.map((entry, index) => (
-								<th key={index} className='text-left'>{entry}</th>
+								<th key={index} className='text-left alt-light-color-text pb-2 border-b-1 border-[#9093B4]'>{entry}</th>
 							))
 						}
+						<th className='text-left alt-light-color-text pb-2 border-b-1 border-[#9093B4]'>Ações</th>
 					</thead>
 
 					<tbody>
@@ -40,9 +41,12 @@ function Table({ title, tableHeadEntries, tableBodyEntries }) {
 								<tr key={rowIndex}>
 									{
 										tableHeadEntries.map((col, colIndex) => (
-											<td key={colIndex}>{row[col]}</td>
+											<td key={colIndex} className='pt-10 pb-4 border-b-1 border-[#9093B4]'>{row[col]}</td>
 										))
 									}
+									<td className='pt-10 pb-4 border-b-1 border-[#9093B4] '>
+										<span className='cursor-pointer hover:text-[#0000FF] transition-all duration-300'>Ver mais</span>
+									</td>
 								</tr>
 							))
 						}

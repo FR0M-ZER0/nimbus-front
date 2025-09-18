@@ -12,7 +12,7 @@ function AlertsTable() {
             Data: '09/20/2035 - 17:51'
         },
         {
-            UID: 'xyz178',
+            UID: 'abc123',
             Nome: 'Pluviométrico 0.25',
             Lat: '-23.123923',
             Lon: '46.123123',
@@ -20,7 +20,7 @@ function AlertsTable() {
             Data: '09/20/2035 - 17:51'
         },
         {
-            UID: 'xyz178',
+            UID: 'lsa012',
             Nome: 'Pluviométrico 0.25',
             Lat: '-23.123923',
             Lon: '46.123123',
@@ -28,7 +28,7 @@ function AlertsTable() {
             Data: '09/20/2035 - 17:51'
         },
         {
-            UID: 'xyz178',
+            UID: 'moa102',
             Nome: 'Pluviométrico 0.25',
             Lat: '-23.123923',
             Lon: '46.123123',
@@ -36,7 +36,7 @@ function AlertsTable() {
             Data: '09/20/2035 - 17:51'
         },
         {
-            UID: 'xyz178',
+            UID: 'npa129',
             Nome: 'Pluviométrico 0.25',
             Lat: '-23.123923',
             Lon: '46.123123',
@@ -44,7 +44,7 @@ function AlertsTable() {
             Data: '09/20/2035 - 17:51'
         },
         {
-            UID: 'xyz178',
+            UID: 'nmz125',
             Nome: 'Pluviométrico 0.25',
             Lat: '-23.123923',
             Lon: '46.123123',

@@ -1,7 +1,12 @@
 import React from 'react'
 import InfoCard from './InfoCard'
+import Paginator from './Paginator'
+import { usePagination } from '../hooks/usePagination'
 
 function Table({ title, tableHeadEntries, tableBodyEntries }) {
+	// TODO: mudar o número de items por página quando houver os dados vindos do back
+    const { currentItems, pageCount, handlePageClick } = usePagination(tableBodyEntries, 3)
+
 	return (
 		<InfoCard>
             <div className='flex flex-col'>
@@ -37,7 +42,7 @@ function Table({ title, tableHeadEntries, tableBodyEntries }) {
 
 					<tbody>
 						{
-							tableBodyEntries.map((row, rowIndex) => (
+							currentItems.map((row, rowIndex) => (
 								<tr key={rowIndex}>
 									{
 										tableHeadEntries.map((col, colIndex) => (
@@ -52,6 +57,7 @@ function Table({ title, tableHeadEntries, tableBodyEntries }) {
 						}
 					</tbody>
 				</table>
+				<Paginator pageCount={pageCount} onButtonClick={handlePageClick} />
             </div>
         </InfoCard>
 	)

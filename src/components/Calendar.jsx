@@ -46,7 +46,7 @@ function Calendar() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-7 text-center font-medium mb-2">
+            <div className="grid grid-cols-7 text-center mb-2 mt-12">
                 <div>Dom</div>
                 <div>Seg</div>
                 <div>Ter</div>
@@ -56,17 +56,21 @@ function Calendar() {
                 <div>Sáb</div>
             </div>
 
-            <div className="grid grid-cols-7 gap-2 text-center">
+            <div className="grid grid-cols-7 text-center">
                 {weeks.map((week, index) => (
                     <React.Fragment key={index}>
                         {week.map((day, i) => (
                             <div
                                 key={i}
-                                className={`h-10 flex items-center justify-center rounded-md ${
-                                    day === today.getDate() ? 'bg-blue-500 text-white' : 'text-gray-700'
-                                }`}
+                                className={`flex flex-col items-center rounded-md py-4 h-32 border-1 border-[#262730]`}
                             >
                                 {day || ''}
+                                {
+                                    day === 13 &&
+                                    <div className='flex justify-center items-center w-full red-color-bg rounded-lg py-2 px-1 mt-4'>
+                                        <p>52 alertas</p>
+                                    </div>
+                                }
                             </div>
                         ))}
                     </React.Fragment>

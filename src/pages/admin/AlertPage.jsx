@@ -1,9 +1,10 @@
 import React from 'react'
+import Calendar from '../../components/Calendar'
 
 function AlertPage() {
     return (
-        <div>
-        
+        <div className='w-full'>
+            <Calendar />
         </div>
     )
 }

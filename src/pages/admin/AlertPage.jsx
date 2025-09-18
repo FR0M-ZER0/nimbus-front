@@ -1,6 +1,7 @@
 import React from 'react'
 import Calendar from '../../components/Calendar'
 import LastAlerts from '../../components/LastAlerts'
+import AlertsTable from '../../components/AlertsTable'
 
 function AlertPage() {
     return (
@@ -13,6 +14,8 @@ function AlertPage() {
                     <LastAlerts />
                 </div>
             </div>
+
+            <AlertsTable />
         </div>
     )
 }

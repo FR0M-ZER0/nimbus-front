@@ -29,19 +29,23 @@ function Table({ title, tableHeadEntries, tableBodyEntries }) {
 					<thead>
 						{
 							tableHeadEntries.map((entry, index) => (
-								<th key={index}>{entry}</th>
+								<th key={index} className='text-left'>{entry}</th>
 							))
 						}
 					</thead>
 
 					<tbody>
-						<tr>
-							{
-								tableBodyEntries.map((entry, index) => (
-									<td key={index}>{entry}</td>
-								))
-							}
-						</tr>
+						{
+							tableBodyEntries.map((row, rowIndex) => (
+								<tr key={rowIndex}>
+									{
+										tableHeadEntries.map((col, colIndex) => (
+											<td key={colIndex}>{row[col]}</td>
+										))
+									}
+								</tr>
+							))
+						}
 					</tbody>
 				</table>
             </div>

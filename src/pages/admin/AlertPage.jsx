@@ -15,7 +15,9 @@ function AlertPage() {
                 </div>
             </div>
 
-            <AlertsTable />
+            <div className='my-8'>
+                <AlertsTable />
+            </div>
         </div>
     )
 }

@@ -2,10 +2,11 @@ import React from 'react'
 import InfoCard from './InfoCard'
 import Paginator from './Paginator'
 import { usePagination } from '../hooks/usePagination'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
     // TODO: mudar o número de items por página quando houver os dados vindos do back
-    const { currentItems, pageCount, handlePageClick } = usePagination(tableEntries, 3)
+    const { currentItems, pageCount, handlePageClick, rowAnimation } = usePagination(tableEntries, 3)
 
     return (
 		<InfoCard>
@@ -42,47 +43,54 @@ function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
                         </tr>
 					</thead>
 
-					<tbody>
-                        {
-                            currentItems.map((entry, index) => (
-                                <tr key={index} className='border-b-1 border-[#9093B4]'>
-                                    {
-                                        Object.entries(entry)
+                    <tbody>
+                        <AnimatePresence mode="wait">
+                            {currentItems.map((entry, index) => (
+                                <motion.tr
+                                    key={entry.uid || index}
+                                    variants={rowAnimation}
+                                    initial="hidden"
+                                    animate="visible"
+                                    exit="exit"
+                                    transition={{ duration: 0.3 }}
+                                    className='border-b-1 border-[#9093B4]'
+                                >
+                                    {Object.entries(entry)
                                         .filter(([key]) => key !== 'status')
-                                        .map(([key, value]) => ( 
-                                            <td className='pb-3 pt-6'>
-                                                {
-                                                    key !== 'image' ? (
-                                                        <>
-                                                            <p className='alt-light-color-text flex items-center gap-2'>
-                                                                { key }
-                                                                {
-                                                                    key === 'uid' && (
-                                                                        entry.status === 'online' ? (
-                                                                            <span className='w-3 h-3 inline-block rounded-full green-color-bg'></span>
-                                                                        ) : (
-                                                                            <span className='w-3 h-3 inline-block rounded-full red-color-bg'></span>
-                                                                        )
-                                                                    )
-                                                                }
-                                                            </p>
-                                                            <p className='text-[18px]'>{ value }</p>
-                                                        </>
-                                                    ) : (
-                                                        <img src={value} alt='station image' />
-                                                    )
-                                                }
+                                        .map(([key, value]) => (
+                                            <td key={key} className='pb-3 pt-6'>
+                                                {key !== 'image' ? (
+                                                    <>
+                                                        <p className='alt-light-color-text flex items-center gap-2'>
+                                                            {key}
+                                                            {key === 'uid' && (
+                                                                entry.status === 'online' ? (
+                                                                    <span className='w-3 h-3 inline-block rounded-full green-color-bg'></span>
+                                                                ) : (
+                                                                    <span className='w-3 h-3 inline-block rounded-full red-color-bg'></span>
+                                                                )
+                                                            )}
+                                                        </p>
+                                                        <p className='text-[18px]'>{value}</p>
+                                                    </>
+                                                ) : (
+                                                    <img src={value} alt='station image' />
+                                                )}
                                             </td>
-                                        ))
-                                    }
+                                        ))}
                                     <td className='pb-3 pt-6'>
                                         <p className='alt-light-color-text'>Ações</p>
-                                        <p className='text-[18px] cursor-pointer hover:text-[#0000FF] transition-all duration-300' onClick={onActionBtnClick}>Ver mais</p>
+                                        <p
+                                            className='text-[18px] cursor-pointer hover:text-[#0000FF] transition-all duration-300'
+                                            onClick={onActionBtnClick}
+                                        >
+                                            Ver mais
+                                        </p>
                                     </td>
-                                </tr>
-                            ))
-                        }
-					</tbody>
+                                </motion.tr>
+                            ))}
+                        </AnimatePresence>
+                    </tbody>
 				</table>
                 <Paginator pageCount={pageCount} onButtonClick={handlePageClick} />
             </div>

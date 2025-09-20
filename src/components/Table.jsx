@@ -2,10 +2,11 @@ import React from 'react'
 import InfoCard from './InfoCard'
 import Paginator from './Paginator'
 import { usePagination } from '../hooks/usePagination'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function Table({ title, tableHeadEntries, tableBodyEntries }) {
 	// TODO: mudar o número de items por página quando houver os dados vindos do back
-    const { currentItems, pageCount, handlePageClick } = usePagination(tableBodyEntries, 3)
+    const { currentItems, pageCount, handlePageClick, rowAnimation } = usePagination(tableBodyEntries, 3)
 
 	return (
 		<InfoCard>
@@ -41,20 +42,29 @@ function Table({ title, tableHeadEntries, tableBodyEntries }) {
 					</thead>
 
 					<tbody>
-						{
-							currentItems.map((row, rowIndex) => (
-								<tr key={rowIndex}>
-									{
-										tableHeadEntries.map((col, colIndex) => (
-											<td key={colIndex} className='pt-10 pb-4 border-b-1 border-[#9093B4]'>{row[col]}</td>
-										))
-									}
-									<td className='pt-10 pb-4 border-b-1 border-[#9093B4] '>
-										<span className='cursor-pointer hover:text-[#0000FF] transition-all duration-300'>Ver mais</span>
-									</td>
-								</tr>
-							))
-						}
+						<AnimatePresence>
+							{
+								currentItems.map((row) => (
+									<motion.tr
+										key={row.id || JSON.stringify(row)}
+										variants={rowAnimation}
+										initial="hidden"
+										animate="visible"
+										exit="exit"
+										transition={{ duration: 0.3 }}
+									>
+										{
+											tableHeadEntries.map((col, colIndex) => (
+												<td key={colIndex} className='pt-10 pb-4 border-b-1 border-[#9093B4]'>{row[col]}</td>
+											))
+										}
+										<td className='pt-10 pb-4 border-b-1 border-[#9093B4] '>
+											<span className='cursor-pointer hover:text-[#0000FF] transition-all duration-300'>Ver mais</span>
+										</td>
+									</motion.tr>
+								))
+							}
+						</AnimatePresence>
 					</tbody>
 				</table>
 				<Paginator pageCount={pageCount} onButtonClick={handlePageClick} />

@@ -2,7 +2,7 @@ import { React, useState } from 'react'
 import StationForm from '../../components/StationForm'
 import StationDownMap from '../../components/StationDownMap'
 import StationTable from '../../components/StationTable'
-import TabModal from '../../components/TabModal'
+import StationModal from '../../components/StationModal'
 import StationImage from '../../assets/station_image.svg'
 
 function StationPage() {
@@ -110,20 +110,7 @@ function StationPage() {
             <div>
                 {
                     modalIsOpen &&
-                    <TabModal
-                        tabName={'Estações'}
-                        onClose={closeModal} 
-                        tabContent={
-                            <div className='flex'>
-                                <div>
-
-                                </div>
-                                <div className='grid grid-cols-6'>
-
-                                </div>
-                            </div>
-                        }
-                    />
+                    <StationModal closeModal={closeModal} />
                 }
             </div>
         </div>

@@ -25,7 +25,7 @@ function TabModal({ onClose, tabName, dataTabContent, tabContent }) {
                 </div>
             </div>
 
-            <div className='border-4 border-[#262730] w-full p-8 min-h-[600px]'>
+            <div className='flex flex-col h-full border-4 border-[#262730] w-full p-8 min-h-[600px]'>
                 {activeTab === tabName && (
                     tabContent
                 )}
@@ -33,7 +33,7 @@ function TabModal({ onClose, tabName, dataTabContent, tabContent }) {
                     dataTabContent
                 )}
 
-                <div className='flex w-full justify-end mt-8 space-x-4'>
+                <div className='flex w-full justify-end mt-auto space-x-4'>
                     <button className='cancel-button'>
                         Cancelar 
                     </button>

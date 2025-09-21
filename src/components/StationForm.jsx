@@ -1,10 +1,21 @@
-import React from 'react'
+import { React, useState } from 'react'
 import Card from './Card'
+import ParamModal from './ParamModal'
 import { PlusIcon, CheckIcon } from '@phosphor-icons/react'
 
 // TODO: Adicionar zod + react hook form
 function StationForm() {
     const params = ['Umidade', 'Pluvimétrico 0.25', 'Pluviométrico 0.5', 'Vento', 'xyz', 'etc']
+
+    const [modalIsOpen, setModalisOpen] = useState(false)
+    
+    const openModal = () => {
+        setModalisOpen(true)
+    }
+
+    const closeModal = () => {
+        setModalisOpen(false)
+    }
 
     return (
         <Card title={'Cadastrar estação'}>
@@ -49,7 +60,7 @@ function StationForm() {
 
                 <div className='mt-12 flex items-center justify-between'>
                     <h2 className='text-3xl'>Parâmetros</h2>
-                    <PlusIcon size={24} className='green-color-text cursor-pointer' />
+                    <PlusIcon size={24} className='green-color-text cursor-pointer' onClick={openModal} />
                 </div>
                             
                 <div className='grid grid-cols-4 mt-4'>
@@ -80,6 +91,11 @@ function StationForm() {
                     Enviar
                 </button>
             </form>
+
+            {
+                modalIsOpen &&
+                <ParamModal closeModal={closeModal} />
+            }
         </Card>
     )
 }

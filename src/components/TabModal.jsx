@@ -34,7 +34,7 @@ function TabModal({ onClose, tabName, dataTabContent, tabContent }) {
                 )}
 
                 <div className='flex w-full justify-end mt-auto space-x-4'>
-                    <button className='cancel-button'>
+                    <button className='cancel-button' onClick={onClose}>
                         Cancelar 
                     </button>
                     <button className='submit-button'>

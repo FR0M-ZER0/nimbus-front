@@ -3,6 +3,7 @@ import Calendar from '../../components/Calendar'
 import LastAlerts from '../../components/LastAlerts'
 import AlertsTable from '../../components/AlertsTable'
 import AlertForm from '../../components/AlertForm'
+import SavedAlerts from '../../components/SavedAlerts'
 
 function AlertPage() {
     return (
@@ -21,8 +22,8 @@ function AlertPage() {
                     <AlertForm />
                 </div>
 
-                <div>
-                    
+                <div className='flex-1'>
+                    <SavedAlerts />
                 </div>
             </div>
 

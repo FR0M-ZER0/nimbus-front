@@ -1,35 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { React } from 'react'
+import { Routes, Route, } from 'react-router'
+
+// Páginas
+import AdminLayout from './pages/admin/Layout'
+import DashboardPage from './pages/admin/DashboardPage'
+import StationPage from './pages/admin/StationPage'
+import AlertPage from './pages/admin/AlertPage'
+import LogPage from './pages/admin/LogPage'
+import UsersPage from './pages/admin/UsersPage'
+import ProfilePage from './pages/admin/ProfilePage'
+import SettingsPage from './pages/admin/SettingsPage'
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	return (
+		<Routes>
+			{/* Rotas do admin */}
+			<Route path='/admin' element={<AdminLayout />} >
+				<Route index element={<DashboardPage />} />
+				<Route path='stations' element={<StationPage />} />
+				<Route path='alerts' element={<AlertPage />} />
+				<Route path='logs' element={<LogPage />} />
+				<Route path='users' element={<UsersPage />} />
+				<Route path='profile' element={<ProfilePage />} />
+				<Route path='settings' element={<SettingsPage />} />
+			</Route>
+		</Routes>
+	)
 }
 
 export default App

@@ -15,7 +15,7 @@ function SavedAlerts() {
                 <Filter />
             </div>
 
-            <div className='space-y-4 mt-8 text-lg'>
+            <div className='space-y-8 mt-12 text-lg'>
                 {
                     alerts.map((alert, index) => (
                         <div className='flex justify-between'>

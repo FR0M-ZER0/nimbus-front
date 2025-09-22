@@ -1,7 +1,7 @@
 import React from 'react'
 import InfoCard from './InfoCard'
 import Filter from './Filter'
-import { TrashIcon } from '@phosphor-icons/react'
+import { TrashIcon, PencilSimpleIcon } from '@phosphor-icons/react'
 
 function SavedAlerts() {
     const alerts = [
@@ -29,8 +29,11 @@ function SavedAlerts() {
                                     <span className='italic'>"{alert.alertMessage}"</span>
                                 </p>
                             </div>
-
-                            <TrashIcon size={32} className='text-red-600 cursor-pointer' />
+                            
+                            <div className='flex space-x-2 items-center'>
+                                <PencilSimpleIcon size={32} className='blue-color-text cursor-pointer' />
+                                <TrashIcon size={32} className='text-red-600 cursor-pointer' />
+                            </div>
                         </div>
                     ))
                 }

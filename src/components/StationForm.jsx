@@ -55,7 +55,6 @@ function StationForm() {
                         <label className='alt-light-color-text mb-2' htmlFor="">Bairro</label>
                         <input type="text" className='form-input' />
                     </div>
-                    
                 </div>
 
                 <div className='mt-12 flex items-center justify-between'>

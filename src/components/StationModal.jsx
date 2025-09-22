@@ -1,7 +1,7 @@
 import React from 'react'
 import TabModal from './TabModal'
 import StationImage from '../assets/station_image.svg'
-import { TrashIcon, PencilSimpleIcon, CheckIcon } from '@phosphor-icons/react'
+import { TrashIcon, PencilSimpleIcon, CheckIcon, CalendarDotsIcon } from '@phosphor-icons/react'
 
 function StationModal({ closeModal }) {
     return (
@@ -202,6 +202,56 @@ function StationModal({ closeModal }) {
                         </div>
                     </div>                            
                 </>
+            }
+            dataTabContent={
+                <div>
+                    <div className='flex w-full justify-between items-center mb-8'>
+                        <div className='flex items-center space-x-2'>
+                            <img src={StationImage} alt="station_image" width={54} />
+                            <div>
+                                <p className='text-xl'>abc123</p>
+                                <p className='text-red-500'>Excluir</p>
+                            </div>
+                        </div>
+
+                        <div className='flex alt-light-color-text space-x-2'>
+                            <CalendarDotsIcon size={24} />
+                            <p>01/09/2035</p>
+                        </div>
+                    </div>
+
+                    <div className='flex space-x-4'>
+                        <div className='w-[270px]'>
+                            <select className='py-2 border-b-1 border-[#D9D9D9] w-full px-1 text-xl font-semibold'>
+                                <option value="" selected className='py-1'>SP</option>
+                            </select>
+                            
+                            <table className='w-full mt-8'>
+                                <thead className='text-left alt-light-color-text'>
+                                    <th className='border-b-1 border-[#9093B4] pb-3'>Horário</th>
+                                    <th className='border-b-1 border-[#9093B4] pb-3'>Valor</th>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>09:41</td>
+                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>0.41 L</td>
+                                    </tr>
+                                    <tr>
+                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>09:41</td>
+                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>0.41 L</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className='flex-1'>
+                            {/* TODO: Colocar o chart */}
+                            <div className='main-dark-color-bg w-full h-full rounded-lg'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         />
     )

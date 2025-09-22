@@ -2,10 +2,11 @@ import React from 'react'
 import Calendar from '../../components/Calendar'
 import LastAlerts from '../../components/LastAlerts'
 import AlertsTable from '../../components/AlertsTable'
+import AlertForm from '../../components/AlertForm'
 
 function AlertPage() {
     return (
-        <div className='w-full'>
+        <div className='w-full space-y-8'>
             <div className='flex space-x-6'>
                 <div className='max-w-[1400px] w-full'>
                     <Calendar />
@@ -15,7 +16,17 @@ function AlertPage() {
                 </div>
             </div>
 
-            <div className='my-8'>
+            <div className='flex space-x-6'>
+                <div className='max-w-[720px] w-full'>
+                    <AlertForm />
+                </div>
+
+                <div>
+                    
+                </div>
+            </div>
+
+            <div className='mb-8'>
                 <AlertsTable />
             </div>
         </div>

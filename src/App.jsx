@@ -10,6 +10,8 @@ import LogPage from './pages/admin/LogPage'
 import UsersPage from './pages/admin/UsersPage'
 import ProfilePage from './pages/admin/ProfilePage'
 import SettingsPage from './pages/admin/SettingsPage'
+import LoginPage from './pages/admin/LoginPage'
+
 
 function App() {
 	return (
@@ -24,6 +26,7 @@ function App() {
 				<Route path='profile' element={<ProfilePage />} />
 				<Route path='settings' element={<SettingsPage />} />
 			</Route>
+			<Route path='/admin/login' element={<LoginPage />} />
 		</Routes>
 	)
 }

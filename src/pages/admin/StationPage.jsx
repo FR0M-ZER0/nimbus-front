@@ -47,7 +47,7 @@ function StationPage() {
     return (
         <div className='w-full'>
             <div className='flex'>
-                <div className='max-w-[680px]'>
+                <div className='max-w-[680px] min-w-[680px]'>
                     <StationForm onStationCreation={fetchStations} />
                 </div>
 

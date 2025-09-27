@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import Card from './Card'
 import ParamModal from './ParamModal'
 import { PlusIcon, CheckIcon } from '@phosphor-icons/react'
@@ -7,13 +7,14 @@ import { toast } from 'react-toastify'
 
 // TODO: Adicionar zod + react hook form
 function StationForm({ onStationCreation }) {
-    const params = ['Umidade', 'Pluvimétrico 0.25', 'Pluviométrico 0.5', 'Vento', 'xyz', 'etc']
-
     const states = [
         "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT",
         "MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO",
         "RR","SC","SP","SE","TO"
     ]
+    
+    const [params, setParams] = useState([])
+    const [selectedParams, setSelectedParams] = useState([])
 
     const [modalIsOpen, setModalisOpen] = useState(false)
 
@@ -66,6 +67,28 @@ function StationForm({ onStationCreation }) {
             console.error('Error creating station: ', err)
         }
     }
+
+    const fetchParams = async () => {
+        try {
+            const response = await api.get('/typeParameters')
+            setParams(response.data || [])
+        } catch (err) {
+            console.error("Erro ao buscar parâmetros:", err)
+            toast.error("Erro ao carregar parâmetros")
+        }
+    }
+
+    const handleCheckboxChange = (param) => {
+        setSelectedParams((prev) =>
+            prev.includes(param)
+                ? prev.filter((p) => p !== param)
+                : [...prev, param]
+        )
+    }
+
+    useEffect(() => {
+        fetchParams()
+    }, [])
 
     return (
         <Card title={'Cadastrar estação'}>
@@ -122,29 +145,37 @@ function StationForm({ onStationCreation }) {
                     <PlusIcon size={24} className='green-color-text cursor-pointer' onClick={openModal} />
                 </div>
                             
-                <div className='grid grid-cols-4 mt-4'>
-                    {params.map((param, index) => (
-                        <div key={index} className='col-span-1 flex items-center'>
+                <div className='grid grid-cols-4 mt-4 gap-y-2'>
+                    {params.map((param) => (
+                        <div key={param.id_tipo_parametro} className='col-span-1 flex items-center relative'>
                             <input
-                                id={`param-${index}`}
+                                id={`param-${param.id_tipo_parametro}`}
                                 type='checkbox'
                                 name='param'
-                                value={param}
-                                className='peer hidden'
+                                value={param.id_tipo_parametro}
+                                checked={selectedParams.includes(param.id_tipo_parametro)}
+                                onChange={() => handleCheckboxChange(param.id_tipo_parametro)}
+                                className='hidden'
                             />
-                            {/* TODO: Controlar o valor do input por controle de estado via hook */}
-                            <div className='min-h-6 min-w-6 max-h-6 max-w-6 bg-[#262730] rounded-md peer-checked:bg-[#292988] transition relative'>
+                            <div
+                            className={`min-h-6 min-w-6 max-h-6 max-w-6 rounded-md transition 
+                                flex items-center justify-center
+                                ${selectedParams.includes(param.id_tipo_parametro) ? 'bg-[#292988]' : 'bg-[#262730]'}`}
+                            >
+                                {selectedParams.includes(param.id_tipo_parametro) && (
+                                    <CheckIcon size={14} className='text-white' />
+                                )}
                             </div>
-                            <CheckIcon size={18} className='hidden peer-checked:block text-white absolute' />
                             <label
-                                htmlFor={`param-${index}`}
+                                htmlFor={`param-${param.id_tipo_parametro}`}
                                 className='cursor-pointer px-3 py-1'
                             >
-                                {param}
+                                {param.nome}
                             </label>
                         </div>
                     ))}
                 </div>
+
 
                 <button className='submit-button mt-8'>
                     Enviar

@@ -48,8 +48,23 @@ function ParamModal({ closeModal, editingParam, onUpdate }) {
         }
     }
 
+    const handleDelete = async () => {
+        const confirmDelete = window.confirm('Tem certeza que deseja excluir este parâmetro?')
+        if (!confirmDelete) return
+
+        try {
+            await api.delete(`/typeParameters/${editingParam.id_tipo_parametro}`)
+            toast.info('Parâmetro excluído com sucesso')
+            onUpdate()
+            closeModal()
+        } catch (err) {
+            console.error('Erro ao excluir parâmetro: ', err)
+            toast.error('Não foi possível excluir o parâmetro')
+        }
+    }
+
     return (
-        <Modal onClose={closeModal} needsButton={true} onSave={handleSubmit}>
+        <Modal onClose={closeModal} needsButton={true} onSave={handleSubmit} deleteBtn={editingParam ? true : false} onDelete={handleDelete}>
             <div onSubmit={handleSubmit}>
                 <h2 className='text-2xl alt-light-color-text mb-12'>
                     Parâmetro

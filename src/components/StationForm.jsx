@@ -33,6 +33,7 @@ function StationForm({ onStationCreation }) {
 
     const closeModal = () => {
         setModalisOpen(false)
+        setEditingParam(null)
     }
 
     const handleEditParam = (param) => {

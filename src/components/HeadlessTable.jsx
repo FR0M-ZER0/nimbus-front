@@ -5,7 +5,6 @@ import { usePagination } from '../hooks/usePagination'
 import { motion, AnimatePresence } from 'framer-motion'
 
 function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
-    // TODO: mudar o número de items por página quando houver os dados vindos do back
     const { currentItems, pageCount, handlePageClick, rowAnimation } = usePagination(tableEntries, 10)
 
     return (

@@ -81,7 +81,7 @@ function HeadlessTable({ title, tableEntries, onActionBtnClick }) {
                                         <p className='alt-light-color-text'>Ações</p>
                                         <p
                                             className='text-[18px] cursor-pointer hover:text-[#0000FF] transition-all duration-300'
-                                            onClick={onActionBtnClick}
+                                            onClick={() => onActionBtnClick(entry)}
                                         >
                                             Ver mais
                                         </p>

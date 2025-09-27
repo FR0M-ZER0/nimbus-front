@@ -9,13 +9,16 @@ import api from '../../api/api'
 function StationPage() {
     const [stations, setStations] = useState([])
     const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [selectedStation, setSelectedStation] = useState(null)
 
-    const openModal = () => {
+    const openModal = (station) => {
+        setSelectedStation(station)
         setModalIsOpen(true)
     }
 
     const closeModal = () => {
         setModalIsOpen(false)
+        setSelectedStation(null)
     }
 
     const fetchStations = async () => {
@@ -58,7 +61,12 @@ function StationPage() {
             </div>
 
             <div>
-                {modalIsOpen && <StationModal closeModal={closeModal} />}
+                {modalIsOpen && (
+                    <StationModal 
+                        closeModal={closeModal} 
+                        station={selectedStation}
+                    />
+                )}
             </div>
         </div>
     )

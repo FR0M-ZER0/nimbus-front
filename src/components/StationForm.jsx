@@ -15,6 +15,7 @@ function StationForm({ onStationCreation }) {
     
     const [params, setParams] = useState([])
     const [selectedParams, setSelectedParams] = useState([])
+    const [editingParam, setEditingParam] = useState(null)
 
     const [modalIsOpen, setModalisOpen] = useState(false)
 
@@ -32,6 +33,11 @@ function StationForm({ onStationCreation }) {
 
     const closeModal = () => {
         setModalisOpen(false)
+    }
+
+    const handleEditParam = (param) => {
+        setEditingParam(param)
+        setModalisOpen(true)
     }
 
     const handleSubmit = async (e) => {
@@ -181,6 +187,10 @@ function StationForm({ onStationCreation }) {
                                 <p><b>Fator:</b> {param.fator}</p>
                                 <p><b>Polinômio:</b> {param.polinomio}</p>
                                 <p><b>Offset:</b> {param.offset}</p>
+                                <p 
+                                    className='text-blue-300 cursor-pointer mt-2'
+                                    onClick={() => handleEditParam(param)}
+                                >Editar</p>
                             </div>
                         </div>
                     ))}
@@ -193,7 +203,7 @@ function StationForm({ onStationCreation }) {
 
             {
                 modalIsOpen &&
-                <ParamModal closeModal={closeModal} />
+                <ParamModal closeModal={closeModal} editingParam={editingParam} onUpdate={fetchParams} />
             }
         </Card>
     )

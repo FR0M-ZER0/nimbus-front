@@ -3,7 +3,11 @@ import HeadlessTable from './HeadlessTable'
 
 function StationTable({ stations, onActionBtnClick }) {
     return (
-        <HeadlessTable title={'Estações'} tableEntries={stations} onActionBtnClick={onActionBtnClick} />
+        <HeadlessTable 
+            title={'Estações'} 
+            tableEntries={stations} 
+            onActionBtnClick={onActionBtnClick}
+        />
     )
 }
 

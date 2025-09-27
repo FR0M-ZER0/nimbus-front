@@ -3,13 +3,13 @@ import Modal from './Modal'
 import api from '../api/api'
 import { toast } from 'react-toastify'
 
-function ParamModal({ closeModal }) {
-    const [name, setName] = useState('')
-    const [unit, setUnit] = useState('')
-    const [fator, setFator] = useState('')
-    const [offset, setOffset] = useState('')
-    const [polinomio, setPolinomio] = useState('')
-    const [jsonText, setJsonText] = useState('')
+function ParamModal({ closeModal, editingParam, onUpdate }) {
+    const [name, setName] = useState(editingParam?.nome || '')
+    const [unit, setUnit] = useState(editingParam?.unidade || '')
+    const [fator, setFator] = useState(editingParam?.fator || '')
+    const [offset, setOffset] = useState(editingParam?.offset || '')
+    const [polinomio, setPolinomio] = useState(editingParam?.polinomio || '')
+    const [jsonText, setJsonText] = useState(editingParam?.json ? JSON.stringify(editingParam.json, null, 2) : '')
 
     const handleSubmit = async () => {
         let parsedJson
@@ -30,9 +30,17 @@ function ParamModal({ closeModal }) {
         }
 
         try {
-            const response = await api.post('/typeParameters', payload)
+            let response
+            if (editingParam) {
+                response = await api.put(`/typeParameters/${editingParam.id_tipo_parametro}`, payload)
+                toast.success('Parâmetro atualizado com sucesso!')
+            } else {
+                response = await api.post('/typeParameters', payload)
+                toast.success('Parâmetro criado com sucesso!')
+            }
+
+            onUpdate()
             console.log('Tipo parâmetro criado: ', response.data)
-            toast.success('Parâmetro criado com sucesso!')
             closeModal()
         } catch (err) {
             console.error('Erro ao criar tipo parâmetro: ', err)

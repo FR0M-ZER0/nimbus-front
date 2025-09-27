@@ -36,7 +36,7 @@ function Modal({ onClose, children, needsButton=false }) {
                 exit="exit"
             >
                 <motion.div
-                    className="relative alt-dark-color-bg w-[1200px] max-w-[90%] p-12 rounded-lg max-h-[900px]"
+                    className="relative alt-dark-color-bg w-[1200px] max-w-[90%] p-12 rounded-lg max-h-[1000px]"
                     onClick={e => e.stopPropagation()}
                     variants={modalAnimation}
                 >

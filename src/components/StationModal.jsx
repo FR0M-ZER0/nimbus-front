@@ -23,7 +23,7 @@ function StationModal({ closeModal, station, onStationUpdate }) {
 
     const fetchAddress = async () => {
         try {
-            const response = await api.get(`/stations/${station.uid}`)
+            const response = await api.get(`/stations/${uuid}`)
             setAddress(response.data.endereco)
         } catch (err) {
             console.error('Não foi possível obter endereço da estação: ', err)
@@ -49,6 +49,21 @@ function StationModal({ closeModal, station, onStationUpdate }) {
         } catch (err) {
             console.error('Erro ao atualizar estação: ', err)
             toast.error('Não foi possível atualizar a estação')
+        }
+    }
+
+    const handleDelete = async () => {
+        const confirmDelete = window.confirm('Tem certeza que deseja excluir esta estação?')
+        if (!confirmDelete) return
+
+        try {
+            await api.delete(`/stations/${uuid}`)
+            toast.info('Estação excluída com sucesso')
+            onStationUpdate()
+            closeModal()
+        } catch (err) {
+            console.error('Erro ao excluir estação: ', err)
+            toast.error('Não foi possível excluir a estação')
         }
     }
 
@@ -331,6 +346,7 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                 </div>
             }
             onSave={handleUpdate}
+            onDelete={handleDelete}
         />
     )
 }

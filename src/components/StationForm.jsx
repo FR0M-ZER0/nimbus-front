@@ -6,7 +6,7 @@ import api from '../api/api'
 import { toast } from 'react-toastify'
 
 // TODO: Adicionar zod + react hook form
-function StationForm() {
+function StationForm({ onStationCreation }) {
     const params = ['Umidade', 'Pluvimétrico 0.25', 'Pluviométrico 0.5', 'Vento', 'xyz', 'etc']
 
     const [modalIsOpen, setModalisOpen] = useState(false)
@@ -54,6 +54,7 @@ function StationForm() {
             setNeighborhood('')
 
             toast.success('Estação cadastrada com sucesso')
+            onStationCreation()
         } catch (err) {
             toast.error(`Erro ao cadastrar estação`)
             console.error('Error creating station: ', err)

@@ -27,7 +27,7 @@ function StationPage() {
             // TODO: Adiciona imagens e o status
             const stationsWithImage = response.data.data.map(station => ({
                 image: StationImage,
-                UUID: station.id_estacao,
+                uid: station.id_estacao,
                 Nome: station.nome,
                 Lat: parseFloat(station.latitude),
                 Long: parseFloat(station.longitude),
@@ -65,6 +65,7 @@ function StationPage() {
                     <StationModal 
                         closeModal={closeModal} 
                         station={selectedStation}
+                        onStationUpdate={fetchStations}
                     />
                 )}
             </div>

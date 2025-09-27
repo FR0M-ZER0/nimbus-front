@@ -3,14 +3,19 @@ import TabModal from './TabModal'
 import StationImage from '../assets/station_image.svg'
 import { TrashIcon, PencilSimpleIcon, CheckIcon, CalendarDotsIcon } from '@phosphor-icons/react'
 import api from '../api/api'
+import { toast } from 'react-toastify'
 
-function StationModal({ closeModal, station }) {
+function StationModal({ closeModal, station, onStationUpdate }) {
     const states = [
         "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT",
         "MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO",
         "RR","SC","SP","SE","TO"
     ]
 
+    const [uuid, setUuid] = useState(station.uid);
+    const [name, setName] = useState(station.Nome);
+    const [lat, setLat] = useState(station.Lat);
+    const [long, setLong] = useState(station.Long);
     const [state, setState] = useState('')
     const [city, setCity] = useState('')
     const [neighborhood, setNeighborhood] = useState('')
@@ -18,10 +23,32 @@ function StationModal({ closeModal, station }) {
 
     const fetchAddress = async () => {
         try {
-            const response = await api.get(`/stations/${station.UUID}`)
+            const response = await api.get(`/stations/${station.uid}`)
             setAddress(response.data.endereco)
         } catch (err) {
-            console.error('Não foi possível obter endereço da estação')
+            console.error('Não foi possível obter endereço da estação: ', err)
+        }
+    }
+
+    const handleUpdate = async () => {
+        const address = `${neighborhood} - ${city}/${state}`;
+        const payload = {
+            id_estacao: uuid,
+            nome: name,
+            endereco: address,
+            latitude: lat ? parseFloat(lat) : null,
+            longitude: long ? parseFloat(long) : null,
+            id_usuario: 1
+        }
+
+        try {
+            await api.put(`/stations/${uuid}`, payload)
+            toast.info('Estação atualizada com sucesso')
+            onStationUpdate()
+            closeModal()
+        } catch (err) {
+            console.error('Erro ao atualizar estação: ', err)
+            toast.error('Não foi possível atualizar a estação')
         }
     }
 
@@ -56,19 +83,19 @@ function StationModal({ closeModal, station }) {
                         <div className='grid grid-cols-7 flex-1 gap-x-10'>
                             <div className='col-span-1'>
                                 <label htmlFor="" className='mb-2'>UID</label>
-                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={station.UUID} />
+                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={uuid} onChange={e => setUuid(e.target.value)} />
                             </div>
                             <div className='col-span-2'>
                                 <label htmlFor="" className='mb-2'>Nome</label>
-                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={station.Nome} />
+                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={name} onChange={e => setName(e.target.value)} />
                             </div>
                             <div className='col-span-2'>
                                 <label htmlFor="" className='mb-2'>Lat</label>
-                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={station.Lat} />
+                                <input type="number" step="any" min="-90" max="90" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={lat} onChange={e => setLat(e.target.value)} />
                             </div>
                             <div className='col-span-2'>
                                 <label htmlFor="" className='mb-2'>Long</label>
-                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={station.Long} />
+                                <input type="number" step="any" min="-90" max="90" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={long} onChange={e => setLong(e.target.value)} />
                             </div>
                             <div className='col-span-1'>
                                 <label htmlFor="" className='mb-4'>Estado</label>
@@ -84,12 +111,12 @@ function StationModal({ closeModal, station }) {
                                 </select>
                             </div>
                             <div className='col-span-3'>
-                                <label htmlFor="" className='mb-2'>Cidade</label>
-                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={city} />
+                                <label htmlFor="city" className='mb-2'>Cidade</label>
+                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={city} onChange={e => setCity(e.target.value)} />
                             </div>
                             <div className='col-span-3'>
-                                <label htmlFor="" className='mb-2'>Bairro</label>
-                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={neighborhood} />
+                                <label htmlFor="neighborhood" className='mb-2'>Bairro</label>
+                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={neighborhood} onChange={e => setNeighborhood(e.target.value)} />
                             </div>
                         </div>
                     </div>
@@ -303,6 +330,7 @@ function StationModal({ closeModal, station }) {
                     </div>
                 </div>
             }
+            onSave={handleUpdate}
         />
     )
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Modal from './Modal'
 
-function TabModal({ onClose, tabName, dataTabContent, tabContent }) {
+function TabModal({ onClose, tabName, dataTabContent, tabContent, onSave }) {
     const [activeTab, setActiveTab] = useState(tabName)
 
     return (
@@ -37,7 +37,7 @@ function TabModal({ onClose, tabName, dataTabContent, tabContent }) {
                     <button className='cancel-button' onClick={onClose}>
                         Cancelar 
                     </button>
-                    <button className='submit-button'>
+                    <button className='submit-button' onClick={onSave}>
                         Salvar
                     </button>
                 </div>

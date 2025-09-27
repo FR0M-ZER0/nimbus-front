@@ -59,6 +59,10 @@ button {
     cursor: pointer;
 }
 
+option {
+  background-color: var(--alt-dark-color-3);
+}
+
 a {
     text-decoration: none;
 }

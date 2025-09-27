@@ -57,7 +57,16 @@ function StationForm({ onStationCreation }) {
 
         try {
             const response = await api.post('/stations', payload)
-            console.log('station created: ', response.data)
+            const createdStationId = response.data.id_estacao
+
+            await Promise.all(
+                selectedParams.map((tipoParametroId) =>
+                        api.post('/parameters', {
+                        id_estacao: createdStationId,
+                        id_tipo_parametro: tipoParametroId
+                    })
+                )
+            )
 
             setUuid('')
             setName('')
@@ -66,6 +75,7 @@ function StationForm({ onStationCreation }) {
             setState('')
             setCity('')
             setNeighborhood('')
+            setSelectedParams([])
 
             toast.success('Estação cadastrada com sucesso')
             onStationCreation()

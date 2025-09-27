@@ -2,7 +2,7 @@ import React from 'react'
 import { XIcon } from '@phosphor-icons/react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-function Modal({ onClose, children, needsButton=false }) {
+function Modal({ onClose, children, needsButton=false, onSave }) {
     // Animação do fundo escuro
     const backdropAnimation = {
         hidden: { opacity: 0 },
@@ -53,7 +53,7 @@ function Modal({ onClose, children, needsButton=false }) {
                             <button className='cancel-button' onClick={onClose}>
                                 Cancelar 
                             </button>
-                            <button className='submit-button'>
+                            <button className='submit-button' onClick={onSave}>
                                 Salvar
                             </button>
                         </div>

@@ -9,6 +9,12 @@ import { toast } from 'react-toastify'
 function StationForm({ onStationCreation }) {
     const params = ['Umidade', 'Pluvimétrico 0.25', 'Pluviométrico 0.5', 'Vento', 'xyz', 'etc']
 
+    const states = [
+        "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT",
+        "MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO",
+        "RR","SC","SP","SE","TO"
+    ]
+
     const [modalIsOpen, setModalisOpen] = useState(false)
 
     const [uuid, setUuid] = useState('')
@@ -87,7 +93,16 @@ function StationForm({ onStationCreation }) {
                     
                     <div className="col-span-2">
                         <label className='alt-light-color-text mb-2' htmlFor="">Estado</label>
-                        <input type="text" className='form-input' value={state} onChange={(e) => setState(e.target.value)} />
+                        <select
+                            id="estado"
+                            className='form-input'
+                            value={state}
+                            onChange={(e) => setState(e.target.value)}
+                        >
+                            {states.map((uf) => (
+                                <option key={uf} value={uf} className='alt-dark-color-3-bg'>{uf}</option>
+                            ))}
+                        </select>
                     </div>
                     
                     <div className="col-span-4">

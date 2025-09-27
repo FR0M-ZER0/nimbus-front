@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Modal from './Modal'
 
-function TabModal({ onClose, tabName, dataTabContent, tabContent, onSave }) {
+function TabModal({ onClose, tabName, dataTabContent, tabContent, onSave, onDelete }) {
     const [activeTab, setActiveTab] = useState(tabName)
 
     return (
@@ -33,13 +33,18 @@ function TabModal({ onClose, tabName, dataTabContent, tabContent, onSave }) {
                     dataTabContent
                 )}
 
-                <div className='flex w-full justify-end mt-auto space-x-4'>
-                    <button className='cancel-button' onClick={onClose}>
-                        Cancelar 
-                    </button>
-                    <button className='submit-button' onClick={onSave}>
-                        Salvar
-                    </button>
+                <div className='flex w-full justify-between items-center mt-auto'>
+                    <p className='text-red-400 cursor-pointer' onClick={onDelete}>
+                        Excluir
+                    </p>
+                    <div className='space-x-4'>
+                        <button className='cancel-button' onClick={onClose}>
+                            Cancelar 
+                        </button>
+                        <button className='submit-button' onClick={onSave}>
+                            Salvar
+                        </button>
+                    </div>
                 </div>
             </div>
         </Modal>

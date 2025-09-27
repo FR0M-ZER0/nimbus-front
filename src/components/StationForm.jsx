@@ -147,7 +147,10 @@ function StationForm({ onStationCreation }) {
                             
                 <div className='grid grid-cols-4 mt-4 gap-y-2'>
                     {params.map((param) => (
-                        <div key={param.id_tipo_parametro} className='col-span-1 flex items-center relative'>
+                        <div 
+                        key={param.id_tipo_parametro} 
+                        className='col-span-1 flex items-center relative group'
+                            >
                             <input
                                 id={`param-${param.id_tipo_parametro}`}
                                 type='checkbox'
@@ -158,12 +161,12 @@ function StationForm({ onStationCreation }) {
                                 className='hidden'
                             />
                             <div
-                            className={`min-h-6 min-w-6 max-h-6 max-w-6 rounded-md transition 
+                                className={`h-6 w-6 rounded-md transition 
                                 flex items-center justify-center
                                 ${selectedParams.includes(param.id_tipo_parametro) ? 'bg-[#292988]' : 'bg-[#262730]'}`}
                             >
                                 {selectedParams.includes(param.id_tipo_parametro) && (
-                                    <CheckIcon size={14} className='text-white' />
+                                <CheckIcon size={14} className='text-white' />
                                 )}
                             </div>
                             <label
@@ -172,10 +175,16 @@ function StationForm({ onStationCreation }) {
                             >
                                 {param.nome}
                             </label>
+
+                            <div className="absolute left-0 top-full mt-2 w-max max-w-xs bg-black text-white text-xs rounded-lg p-2 opacity-0 group-hover:opacity-100 transition z-10">
+                                <p><b>Unidade:</b> {param.unidade || '-'}</p>
+                                <p><b>Fator:</b> {param.fator}</p>
+                                <p><b>Polinômio:</b> {param.polinomio}</p>
+                                <p><b>Offset:</b> {param.offset}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
-
 
                 <button className='submit-button mt-8'>
                     Enviar

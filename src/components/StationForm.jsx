@@ -36,8 +36,8 @@ function StationForm() {
             id_estacao: uuid,
             nome: name,
             endereco: address,
-            latitude: parseInt(lat),
-            longitude: parseInt(long),
+            latitude: lat ? parseFloat(lat) : null,
+            longitude: long ? parseFloat(long) : null,
             id_usuario: 1
         }
 
@@ -76,12 +76,12 @@ function StationForm() {
                     
                     <div className='col-span-3'>
                         <label className='alt-light-color-text mb-2' htmlFor="">Latitude</label>
-                        <input type="number" className='form-input' value={lat} onChange={(e) => setLat(e.target.value)} />
+                        <input type="number" step={"any"}  min="-90" max="90" className='form-input' value={lat} onChange={(e) => setLat(e.target.value)} />
                     </div>
                     
                     <div className='col-span-3'>
                         <label className='alt-light-color-text mb-2' htmlFor="">Longitude</label>
-                        <input type="number" className='form-input' value={long} onChange={(e) => setLong(e.target.value)} />
+                        <input type="number" step={"any"}  min="-90" max="90" className='form-input' value={long} onChange={(e) => setLong(e.target.value)} />
                     </div>
                     
                     <div className="col-span-2">

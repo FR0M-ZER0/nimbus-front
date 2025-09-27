@@ -1,9 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TabModal from './TabModal'
 import StationImage from '../assets/station_image.svg'
 import { TrashIcon, PencilSimpleIcon, CheckIcon, CalendarDotsIcon } from '@phosphor-icons/react'
+import api from '../api/api'
 
-function StationModal({ closeModal }) {
+function StationModal({ closeModal, station }) {
+    const states = [
+        "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT",
+        "MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO",
+        "RR","SC","SP","SE","TO"
+    ]
+
+    const [state, setState] = useState('')
+    const [city, setCity] = useState('')
+    const [neighborhood, setNeighborhood] = useState('')
+    const [address , setAddress] = useState('')
+
+    const fetchAddress = async () => {
+        try {
+            const response = await api.get(`/stations/${station.UUID}`)
+            setAddress(response.data.endereco)
+        } catch (err) {
+            console.error('Não foi possível obter endereço da estação')
+        }
+    }
+
+    useEffect(() => {
+        if (address) {
+            const [n, rest] = address.split(' - ')
+            const [c, s] = (rest || '').split('/')
+            setNeighborhood(n || '')
+            setCity(c || '')
+            setState(s || '')
+        }
+    }, [address])
+
+    useEffect(() => {
+        fetchAddress()
+    }, [station])
+
     return (
         <TabModal
             tabName={'Estações'}
@@ -12,34 +47,49 @@ function StationModal({ closeModal }) {
                 <>
                     <div className='flex'>
                         <div className='mr-4'>
-                            <img src={StationImage} alt="" width={120} />
+                            <img src={station.image} alt="" width={120} />
                             <div className='flex justify-center space-x-6'>
                                 <PencilSimpleIcon size={20} className='cursor-pointer' />
                                 <TrashIcon size={20} className='cursor-pointer' />
                             </div>
                         </div>
                         <div className='grid grid-cols-7 flex-1 gap-x-10'>
-                            <div className='col-span-3'>
+                            <div className='col-span-1'>
                                 <label htmlFor="" className='mb-2'>UID</label>
-                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' />
+                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={station.UUID} />
                             </div>
-                            <div className='col-span-4'>
+                            <div className='col-span-2'>
                                 <label htmlFor="" className='mb-2'>Nome</label>
-                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' />
+                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={station.Nome} />
+                            </div>
+                            <div className='col-span-2'>
+                                <label htmlFor="" className='mb-2'>Lat</label>
+                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={station.Lat} />
+                            </div>
+                            <div className='col-span-2'>
+                                <label htmlFor="" className='mb-2'>Long</label>
+                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={station.Long} />
                             </div>
                             <div className='col-span-1'>
-                                <label htmlFor="" className='mb-2'>Estado</label>
-                                <select className='py-2 border-b-1 border-[#D9D9D9] w-full px-1'>
-                                    <option value="" selected className='py-1'>SP</option>
+                                <label htmlFor="" className='mb-4'>Estado</label>
+                                <select
+                                    id="estado"
+                                    className='py-2 border-b-1 border-[#D9D9D9] w-full px-1'
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                >
+                                    {states.map((uf) => (
+                                        <option key={uf} value={uf} className='alt-dark-color-3-bg'>{uf}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div className='col-span-3'>
                                 <label htmlFor="" className='mb-2'>Cidade</label>
-                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' />
+                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={city} />
                             </div>
                             <div className='col-span-3'>
                                 <label htmlFor="" className='mb-2'>Bairro</label>
-                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' />
+                                <input type="text" className='py-2 border-b-1 border-[#D9D9D9] w-full px-1' value={neighborhood} />
                             </div>
                         </div>
                     </div>

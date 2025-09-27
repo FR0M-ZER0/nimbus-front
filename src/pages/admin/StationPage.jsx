@@ -18,26 +18,26 @@ function StationPage() {
         setModalIsOpen(false)
     }
 
-    useEffect(() => {
-        const fetchStations = async () => {
-            try {
-                const response = await api.get('/stations')
-                // TODO: Adiciona imagens e o status
-                const stationsWithImage = response.data.data.map(station => ({
-                    image: StationImage,
-                    UUID: station.id_estacao,
-                    Nome: station.nome,
-                    Lat: parseFloat(station.latitude),
-                    Long: parseFloat(station.longitude),
-                    Params: station.descricao || "Sem descrição",
-                    status: "online",
-                }))
-                setStations(stationsWithImage)
-            } catch (error) {
-                console.error("Erro ao buscar estações:", error)
-            }
+    const fetchStations = async () => {
+        try {
+            const response = await api.get('/stations')
+            // TODO: Adiciona imagens e o status
+            const stationsWithImage = response.data.data.map(station => ({
+                image: StationImage,
+                UUID: station.id_estacao,
+                Nome: station.nome,
+                Lat: parseFloat(station.latitude),
+                Long: parseFloat(station.longitude),
+                Params: station.descricao || "Sem descrição",
+                status: "online",
+            }))
+            setStations(stationsWithImage)
+        } catch (error) {
+            console.error("Erro ao buscar estações:", error)
         }
+    }
 
+    useEffect(() => {
         fetchStations()
     }, [])
 
@@ -45,7 +45,7 @@ function StationPage() {
         <div className='w-full'>
             <div className='flex'>
                 <div className='max-w-[680px]'>
-                    <StationForm />
+                    <StationForm onStationCreation={fetchStations} />
                 </div>
 
                 <div className='flex-1'>

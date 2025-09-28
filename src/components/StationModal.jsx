@@ -19,21 +19,48 @@ function StationModal({ closeModal, station, onStationUpdate }) {
     const [state, setState] = useState('')
     const [city, setCity] = useState('')
     const [neighborhood, setNeighborhood] = useState('')
-    const [address , setAddress] = useState('')
 
-    const fetchAddress = async () => {
+    const [params, setParams] = useState([])
+    const [selectedParamTypeIds, setSelectedParamTypeIds] = useState([])
+    const [existingParamRecords, setExistingParamRecords] = useState([])
+
+    const fetchStationDetails = async () => {
         try {
-            const response = await api.get(`/stations/${uuid}`)
-            setAddress(response.data.endereco)
+            const stationRes = await api.get(`/stations/${station.uid}`)
+            const fullStation = stationRes.data
+
+            const existingParams = fullStation.parametros || []
+            const existingTipoIds = existingParams.map(p => p.id_tipo_parametro)
+            
+            setExistingParamRecords(existingParams)
+            setSelectedParamTypeIds(existingTipoIds)
+
+            if (fullStation.endereco) {
+                const [n, rest] = fullStation.endereco.split(' - ')
+                const [c, s] = (rest || '').split('/')
+                setNeighborhood(n || '')
+                setCity(c || '')
+                setState(s || '')
+            }
         } catch (err) {
-            console.error('Não foi possível obter endereço da estação: ', err)
+            console.error('Erro ao carregar detalhes da estação:', err)
+            toast.error('Erro ao carregar dados da estação')
+        }
+    }
+
+    const fetchAllTypeParameters = async () => {
+        try {
+            const res = await api.get('/typeParameters');
+            setParams(res.data || []);
+        } catch (err) {
+            console.error('Erro ao carregar tipos de parâmetro:', err);
+            toast.error('Erro ao carregar parâmetros disponíveis');
         }
     }
 
     const handleUpdate = async () => {
-        const address = `${neighborhood} - ${city}/${state}`;
+        const address = `${neighborhood} - ${city}/${state}`
         const payload = {
-            id_estacao: uuid,
             nome: name,
             endereco: address,
             latitude: lat ? parseFloat(lat) : null,
@@ -43,11 +70,36 @@ function StationModal({ closeModal, station, onStationUpdate }) {
 
         try {
             await api.put(`/stations/${uuid}`, payload)
+
+            const existingTipoIds = existingParamRecords.map(p => p.id_tipo_parametro)
+            const currentSelection = selectedParamTypeIds
+
+            const toDelete = existingParamRecords.filter(
+                param => !currentSelection.includes(param.id_tipo_parametro)
+            )
+
+            const toCreate = currentSelection.filter(
+                tipoId => !existingTipoIds.includes(tipoId)
+            )
+
+            await Promise.all(
+                toDelete.map(param => api.delete(`/parameters/${param.id_parametro}`))
+            )
+
+            await Promise.all(
+                toCreate.map(tipoId =>
+                    api.post('/parameters', {
+                    id_estacao: uuid,
+                    id_tipo_parametro: tipoId,
+                    })
+                )
+            )
+
             toast.info('Estação atualizada com sucesso')
             onStationUpdate()
             closeModal()
         } catch (err) {
-            console.error('Erro ao atualizar estação: ', err)
+            console.error('Erro ao atualizar estação:', err)
             toast.error('Não foi possível atualizar a estação')
         }
     }
@@ -67,18 +119,19 @@ function StationModal({ closeModal, station, onStationUpdate }) {
         }
     }
 
-    useEffect(() => {
-        if (address) {
-            const [n, rest] = address.split(' - ')
-            const [c, s] = (rest || '').split('/')
-            setNeighborhood(n || '')
-            setCity(c || '')
-            setState(s || '')
-        }
-    }, [address])
+    const handleCheckboxChange = (tipoParametroId) => {
+        setSelectedParamTypeIds(prev =>
+            prev.includes(tipoParametroId)
+            ? prev.filter(id => id !== tipoParametroId)
+            : [...prev, tipoParametroId]
+        )
+    }
 
     useEffect(() => {
-        fetchAddress()
+        if (station?.uid) {
+            fetchStationDetails()
+            fetchAllTypeParameters()
+        }
     }, [station])
 
     return (
@@ -138,159 +191,36 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                     <div className='mt-12 ml-[136px]'>
                         <h2 className='text-2xl alt-light-color-text mb-8'>Parâmetros</h2>
                         <div className='grid grid-cols-7 gap-y-10'>
-                            <div className='col-span-1 flex items-center'>
-                                {/* TODO: Trocar este conteúdo mockado */}
-                                <input
-                                    id='param-1'
-                                    type='checkbox'
-                                    name='param'
-                                    value='abc123'
-                                    className='peer hidden'
-                                />
-                                {/* TODO: Controlar o valor do input por controle de estado via hook */}
-                                <div className='min-h-6 min-w-6 max-h-6 max-w-6 bg-[#262730] rounded-md peer-checked:bg-[#292988] transition relative'>
-                                </div>
-                                <CheckIcon size={18} className='hidden peer-checked:block text-white absolute' />
-                                <label
-                                    htmlFor='param-1'
-                                    className='cursor-pointer px-3 py-1'
-                                >
-                                    abc123
-                                </label>
-                            </div>
-                            <div className='col-span-1 flex items-center'>
-                                <input
-                                    id='param-1'
-                                    type='checkbox'
-                                    name='param'
-                                    value='abc123'
-                                    className='peer hidden'
-                                />
-                                {/* TODO: Controlar o valor do input por controle de estado via hook */}
-                                <div className='min-h-6 min-w-6 max-h-6 max-w-6 bg-[#262730] rounded-md peer-checked:bg-[#292988] transition relative'>
-                                </div>
-                                <CheckIcon size={18} className='hidden peer-checked:block text-white absolute' />
-                                <label
-                                    htmlFor='param-1'
-                                    className='cursor-pointer px-3 py-1'
-                                >
-                                    abc123
-                                </label>
-                            </div>
-                            <div className='col-span-1 flex items-center'>
-                                <input
-                                    id='param-1'
-                                    type='checkbox'
-                                    name='param'
-                                    value='abc123'
-                                    className='peer hidden'
-                                />
-                                {/* TODO: Controlar o valor do input por controle de estado via hook */}
-                                <div className='min-h-6 min-w-6 max-h-6 max-w-6 bg-[#262730] rounded-md peer-checked:bg-[#292988] transition relative'>
-                                </div>
-                                <CheckIcon size={18} className='hidden peer-checked:block text-white absolute' />
-                                <label
-                                    htmlFor='param-1'
-                                    className='cursor-pointer px-3 py-1'
-                                >
-                                    abc123
-                                </label>
-                            </div>
-                            <div className='col-span-1 flex items-center'>
-                                <input
-                                    id='param-1'
-                                    type='checkbox'
-                                    name='param'
-                                    value='abc123'
-                                    className='peer hidden'
-                                />
-                                {/* TODO: Controlar o valor do input por controle de estado via hook */}
-                                <div className='min-h-6 min-w-6 max-h-6 max-w-6 bg-[#262730] rounded-md peer-checked:bg-[#292988] transition relative'>
-                                </div>
-                                <CheckIcon size={18} className='hidden peer-checked:block text-white absolute' />
-                                <label
-                                    htmlFor='param-1'
-                                    className='cursor-pointer px-3 py-1'
-                                >
-                                    abc123
-                                </label>
-                            </div>
-                            <div className='col-span-1 flex items-center'>
-                                <input
-                                    id='param-1'
-                                    type='checkbox'
-                                    name='param'
-                                    value='abc123'
-                                    className='peer hidden'
-                                />
-                                {/* TODO: Controlar o valor do input por controle de estado via hook */}
-                                <div className='min-h-6 min-w-6 max-h-6 max-w-6 bg-[#262730] rounded-md peer-checked:bg-[#292988] transition relative'>
-                                </div>
-                                <CheckIcon size={18} className='hidden peer-checked:block text-white absolute' />
-                                <label
-                                    htmlFor='param-1'
-                                    className='cursor-pointer px-3 py-1'
-                                >
-                                    abc123
-                                </label>
-                            </div>
-                            <div className='col-span-1 flex items-center'>
-                                <input
-                                    id='param-1'
-                                    type='checkbox'
-                                    name='param'
-                                    value='abc123'
-                                    className='peer hidden'
-                                />
-                                {/* TODO: Controlar o valor do input por controle de estado via hook */}
-                                <div className='min-h-6 min-w-6 max-h-6 max-w-6 bg-[#262730] rounded-md peer-checked:bg-[#292988] transition relative'>
-                                </div>
-                                <CheckIcon size={18} className='hidden peer-checked:block text-white absolute' />
-                                <label
-                                    htmlFor='param-1'
-                                    className='cursor-pointer px-3 py-1'
-                                >
-                                    abc123
-                                </label>
-                            </div>
-                            <div className='col-span-1 flex items-center'>
-                                <input
-                                    id='param-1'
-                                    type='checkbox'
-                                    name='param'
-                                    value='abc123'
-                                    className='peer hidden'
-                                />
-                                {/* TODO: Controlar o valor do input por controle de estado via hook */}
-                                <div className='min-h-6 min-w-6 max-h-6 max-w-6 bg-[#262730] rounded-md peer-checked:bg-[#292988] transition relative'>
-                                </div>
-                                <CheckIcon size={18} className='hidden peer-checked:block text-white absolute' />
-                                <label
-                                    htmlFor='param-1'
-                                    className='cursor-pointer px-3 py-1'
-                                >
-                                    abc123
-                                </label>
-                            </div>
-                            <div className='col-span-1 flex items-center'>
-                                <input
-                                    id='param-1'
-                                    type='checkbox'
-                                    name='param'
-                                    value='abc123'
-                                    className='peer hidden'
-                                />
-                                {/* TODO: Controlar o valor do input por controle de estado via hook */}
-                                <div className='min-h-6 min-w-6 max-h-6 max-w-6 bg-[#262730] rounded-md peer-checked:bg-[#292988] transition relative'>
-                                </div>
-                                <CheckIcon size={18} className='hidden peer-checked:block text-white absolute' />
-                                <label
-                                    htmlFor='param-1'
-                                    className='cursor-pointer px-3 py-1'
-                                >
-                                    abc123
-                                </label>
-                            </div>
+                            {params.map((param) => {
+                                const isChecked = selectedParamTypeIds.includes(param.id_tipo_parametro)
+                                return (
+                                    <div 
+                                        key={param.id_tipo_parametro} 
+                                        className="col-span-1 flex items-center relative group cursor-pointer"
+                                        onClick={() => handleCheckboxChange(param.id_tipo_parametro)}
+                                    >
+                                        <div
+                                            className={`h-6 w-6 rounded-md transition flex items-center justify-center
+                                            ${selectedParamTypeIds.includes(param.id_tipo_parametro) ? 'bg-[#292988]' : 'bg-[#262730]'}`}
+                                        >
+                                            {selectedParamTypeIds.includes(param.id_tipo_parametro) && (
+                                            <CheckIcon size={14} className="text-white" />
+                                            )}
+                                        </div>
+                                        
+                                        <span className="px-3 py-1">
+                                            {param.nome}
+                                        </span>
+
+                                        <div className="absolute left-0 top-full mt-2 w-max max-w-xs bg-black text-white text-xs rounded-lg p-2 opacity-0 group-hover:opacity-100 transition z-10">
+                                            <p><b>Unidade:</b> {param.unidade || '-'}</p>
+                                            <p><b>Fator:</b> {param.fator}</p>
+                                            <p><b>Polinômio:</b> {param.polinomio}</p>
+                                            <p><b>Offset:</b> {param.offset}</p>
+                                        </div>
+                                    </div>
+                                )
+                            })}
                         </div>
                     </div>                            
                 </>

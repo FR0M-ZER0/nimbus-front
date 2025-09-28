@@ -11,6 +11,7 @@ import UsersPage from './pages/admin/UsersPage'
 import ProfilePage from './pages/admin/ProfilePage'
 import SettingsPage from './pages/admin/SettingsPage'
 import LoginPage from './pages/admin/LoginPage'
+import SignInPage from './pages/admin/SignInPage'
 
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
 				<Route path='settings' element={<SettingsPage />} />
 			</Route>
 			<Route path='/admin/login' element={<LoginPage />} />
+			<Route path='/admin/signin' element={<SignInPage />} />
+
 		</Routes>
 	)
 }

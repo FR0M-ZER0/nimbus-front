@@ -2,7 +2,7 @@ import React from 'react'
 import { XIcon } from '@phosphor-icons/react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-function Modal({ onClose, children, needsButton=false }) {
+function Modal({ onClose, children, needsButton=false, onSave, deleteBtn=false, onDelete }) {
     // Animação do fundo escuro
     const backdropAnimation = {
         hidden: { opacity: 0 },
@@ -49,13 +49,21 @@ function Modal({ onClose, children, needsButton=false }) {
 
                     {
                         needsButton &&
-                        <div className='flex w-full justify-end mt-auto space-x-4'>
-                            <button className='cancel-button' onClick={onClose}>
-                                Cancelar 
-                            </button>
-                            <button className='submit-button'>
-                                Salvar
-                            </button>
+                        <div className={`flex w-full ${deleteBtn ? 'justify-between' : 'justify-end'} items-center mt-auto`}>
+                            {
+                                deleteBtn &&
+                                <p className='text-red-400 cursor-pointer' onClick={onDelete}>
+                                    Excluir
+                                </p>
+                            }
+                            <div className='space-x-4'>
+                                <button className='cancel-button' onClick={onClose}>
+                                    Cancelar 
+                                </button>
+                                <button className='submit-button' onClick={onSave}>
+                                    Salvar
+                                </button>
+                            </div>
                         </div>
                     }
                 </motion.div>

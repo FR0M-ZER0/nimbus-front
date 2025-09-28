@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import Card from './Card'
 import ParamModal from './ParamModal'
 import { PlusIcon, CheckIcon } from '@phosphor-icons/react'
@@ -7,13 +7,15 @@ import { toast } from 'react-toastify'
 
 // TODO: Adicionar zod + react hook form
 function StationForm({ onStationCreation }) {
-    const params = ['Umidade', 'Pluvimétrico 0.25', 'Pluviométrico 0.5', 'Vento', 'xyz', 'etc']
-
     const states = [
         "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT",
         "MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO",
         "RR","SC","SP","SE","TO"
     ]
+    
+    const [params, setParams] = useState([])
+    const [selectedParams, setSelectedParams] = useState([])
+    const [editingParam, setEditingParam] = useState(null)
 
     const [modalIsOpen, setModalisOpen] = useState(false)
 
@@ -31,6 +33,12 @@ function StationForm({ onStationCreation }) {
 
     const closeModal = () => {
         setModalisOpen(false)
+        setEditingParam(null)
+    }
+
+    const handleEditParam = (param) => {
+        setEditingParam(param)
+        setModalisOpen(true)
     }
 
     const handleSubmit = async (e) => {
@@ -49,7 +57,16 @@ function StationForm({ onStationCreation }) {
 
         try {
             const response = await api.post('/stations', payload)
-            console.log('station created: ', response.data)
+            const createdStationId = response.data.id_estacao
+
+            await Promise.all(
+                selectedParams.map((tipoParametroId) =>
+                        api.post('/parameters', {
+                        id_estacao: createdStationId,
+                        id_tipo_parametro: tipoParametroId
+                    })
+                )
+            )
 
             setUuid('')
             setName('')
@@ -58,6 +75,7 @@ function StationForm({ onStationCreation }) {
             setState('')
             setCity('')
             setNeighborhood('')
+            setSelectedParams([])
 
             toast.success('Estação cadastrada com sucesso')
             onStationCreation()
@@ -66,6 +84,28 @@ function StationForm({ onStationCreation }) {
             console.error('Error creating station: ', err)
         }
     }
+
+    const fetchParams = async () => {
+        try {
+            const response = await api.get('/typeParameters')
+            setParams(response.data || [])
+        } catch (err) {
+            console.error("Erro ao buscar parâmetros:", err)
+            toast.error("Erro ao carregar parâmetros")
+        }
+    }
+
+    const handleCheckboxChange = (param) => {
+        setSelectedParams((prev) =>
+            prev.includes(param)
+                ? prev.filter((p) => p !== param)
+                : [...prev, param]
+        )
+    }
+
+    useEffect(() => {
+        fetchParams()
+    }, [])
 
     return (
         <Card title={'Cadastrar estação'}>
@@ -122,26 +162,47 @@ function StationForm({ onStationCreation }) {
                     <PlusIcon size={24} className='green-color-text cursor-pointer' onClick={openModal} />
                 </div>
                             
-                <div className='grid grid-cols-4 mt-4'>
-                    {params.map((param, index) => (
-                        <div key={index} className='col-span-1 flex items-center'>
+                <div className='grid grid-cols-4 mt-4 gap-y-2'>
+                    {params.map((param) => (
+                        <div 
+                        key={param.id_tipo_parametro} 
+                        className='col-span-1 flex items-center relative group'
+                            >
                             <input
-                                id={`param-${index}`}
+                                id={`param-${param.id_tipo_parametro}`}
                                 type='checkbox'
                                 name='param'
-                                value={param}
-                                className='peer hidden'
+                                value={param.id_tipo_parametro}
+                                checked={selectedParams.includes(param.id_tipo_parametro)}
+                                onChange={() => handleCheckboxChange(param.id_tipo_parametro)}
+                                className='hidden'
                             />
-                            {/* TODO: Controlar o valor do input por controle de estado via hook */}
-                            <div className='min-h-6 min-w-6 max-h-6 max-w-6 bg-[#262730] rounded-md peer-checked:bg-[#292988] transition relative'>
+                            <div
+                                className={`h-6 w-6 rounded-md transition 
+                                flex items-center justify-center
+                                ${selectedParams.includes(param.id_tipo_parametro) ? 'bg-[#292988]' : 'bg-[#262730]'}`}
+                            >
+                                {selectedParams.includes(param.id_tipo_parametro) && (
+                                <CheckIcon size={14} className='text-white' />
+                                )}
                             </div>
-                            <CheckIcon size={18} className='hidden peer-checked:block text-white absolute' />
                             <label
-                                htmlFor={`param-${index}`}
+                                htmlFor={`param-${param.id_tipo_parametro}`}
                                 className='cursor-pointer px-3 py-1'
                             >
-                                {param}
+                                {param.nome}
                             </label>
+
+                            <div className="absolute left-0 top-full mt-2 w-max max-w-xs bg-black text-white text-xs rounded-lg p-2 opacity-0 group-hover:opacity-100 transition z-10">
+                                <p><b>Unidade:</b> {param.unidade || '-'}</p>
+                                <p><b>Fator:</b> {param.fator}</p>
+                                <p><b>Polinômio:</b> {param.polinomio}</p>
+                                <p><b>Offset:</b> {param.offset}</p>
+                                <p 
+                                    className='text-blue-300 cursor-pointer mt-2'
+                                    onClick={() => handleEditParam(param)}
+                                >Editar</p>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -153,7 +214,7 @@ function StationForm({ onStationCreation }) {
 
             {
                 modalIsOpen &&
-                <ParamModal closeModal={closeModal} />
+                <ParamModal closeModal={closeModal} editingParam={editingParam} onUpdate={fetchParams} />
             }
         </Card>
     )

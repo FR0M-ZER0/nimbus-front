@@ -3,78 +3,142 @@
 
 /********************************************** Cores padrão do projeto **********************************************/
 :root {
-    --main-light-color: #FBFBFB;
-    --alt-light-color: #9093B4;
-    --main-dark-color: #262730;
-    --alt-dark-color: #14141D;
-    --alt-dark-color-2: #17172B;
-    --alt-dark-color-3: #292988;
-    --green-color: #0DFF00;
-    --red-color: #BA1200;
-    --blue-color: #0000FF;
-    --orange-color: #BA4700;
-    --yellow-color: #E1F00D;
-    --sb-track-color: #14141d;
-    --sb-thumb-color: #0000ff;
-    --sb-size: 8px;
+  --main-light-color: #FBFBFB;
+  --alt-light-color: #9093B4;
+  --main-dark-color: #262730;
+  --alt-dark-color: #14141D;
+  --alt-dark-color-2: #17172B;
+  --alt-dark-color-3: #292988;
+  --green-color: #0DFF00;
+  --red-color: #BA1200;
+  --blue-color: #0000FF;
+  --orange-color: #BA4700;
+  --yellow-color: #E1F00D;
+  --sb-track-color: #14141d;
+  --sb-thumb-color: #0000ff;
+  --sb-size: 8px;
 }
 
 /* Texto */
-.main-light-color-text { color: var(--main-light-color); }
-.alt-light-color-text { color: var(--alt-light-color); }
-.main-dark-color-text { color: var(--main-dark-color); }
-.alt-dark-color-text { color: var(--alt-dark-color); }
-.alt-dark-color-2-text { color: var(--alt-dark-color-2); }
-.alt-dark-color-3-text { color: var(--alt-dark-color-3); }
-.green-color-text { color: var(--green-color); }
-.red-color-text { color: var(--red-color); }
-.blue-color-text { color: var(--blue-color); }
-.orange-color-text { color: var(--orange-color); }
-.yellow-color-text { color: var(--yellow-color); }
+.main-light-color-text {
+  color: var(--main-light-color);
+}
+
+.alt-light-color-text {
+  color: var(--alt-light-color);
+}
+
+.main-dark-color-text {
+  color: var(--main-dark-color);
+}
+
+.alt-dark-color-text {
+  color: var(--alt-dark-color);
+}
+
+.alt-dark-color-2-text {
+  color: var(--alt-dark-color-2);
+}
+
+.alt-dark-color-3-text {
+  color: var(--alt-dark-color-3);
+}
+
+.green-color-text {
+  color: var(--green-color);
+}
+
+.red-color-text {
+  color: var(--red-color);
+}
+
+.blue-color-text {
+  color: var(--blue-color);
+}
+
+.orange-color-text {
+  color: var(--orange-color);
+}
+
+.yellow-color-text {
+  color: var(--yellow-color);
+}
 
 /* Background */
-.main-light-color-bg { background-color: var(--main-light-color); }
-.alt-light-color-bg { background-color: var(--alt-light-color); }
-.main-dark-color-bg { background-color: var(--main-dark-color); }
-.alt-dark-color-bg { background-color: var(--alt-dark-color); }
-.alt-dark-color-2-bg { background-color: var(--alt-dark-color-2); }
-.alt-dark-color-3-bg { background-color: var(--alt-dark-color-3); }
-.green-color-bg { background-color: var(--green-color); }
-.red-color-bg { background-color: var(--red-color); }
-.blue-color-bg { background-color: var(--blue-color); }
-.orange-color-bg { background-color: var(--orange-color); }
-.yellow-color-bg { background-color: var(--yellow-color); }
+.main-light-color-bg {
+  background-color: var(--main-light-color);
+}
+
+.alt-light-color-bg {
+  background-color: var(--alt-light-color);
+}
+
+.main-dark-color-bg {
+  background-color: var(--main-dark-color);
+}
+
+.alt-dark-color-bg {
+  background-color: var(--alt-dark-color);
+}
+
+.alt-dark-color-2-bg {
+  background-color: var(--alt-dark-color-2);
+}
+
+.alt-dark-color-3-bg {
+  background-color: var(--alt-dark-color-3);
+}
+
+.green-color-bg {
+  background-color: var(--green-color);
+}
+
+.red-color-bg {
+  background-color: var(--red-color);
+}
+
+.blue-color-bg {
+  background-color: var(--blue-color);
+}
+
+.orange-color-bg {
+  background-color: var(--orange-color);
+}
+
+.yellow-color-bg {
+  background-color: var(--yellow-color);
+}
 
 
 /********************************************** Outros padrões **********************************************/
 body {
-    font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 label {
-    display: block;
+  display: block;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 /********************************************** Padrões específicos **********************************************/
 .gradient-dark-bg {
-  background: radial-gradient(circle, rgba(12, 12, 12, 0) -80%, #070230 360%) /* Deixar ou 260% ou 360% */,
+  background: radial-gradient(circle, rgba(12, 12, 12, 0) -80%, #070230 360%)
+    /* Deixar ou 260% ou 360% */
+    ,
     var(--main-dark-color);
 }
 
 .dark-gradient {
-    background: linear-gradient(
-        to bottom, 
-        #14141D 20%,
-        rgba(23, 23, 29, 0.3) 90%
-    );
+  background: linear-gradient(to bottom,
+      #14141D 20%,
+      rgba(23, 23, 29, 0.3) 90%);
 }
 
 .form-input {
@@ -84,14 +148,15 @@ a {
   background-color: var(--main-dark-color);
 }
 
-.submit-button, .cancel-button {
+.submit-button,
+.cancel-button {
   padding: 12px 36px;
   border-radius: 8px;
   font-weight: 600;
 }
 
 .submit-button {
-    background-color: var(--alt-dark-color-3);
+  background-color: var(--alt-dark-color-3);
 }
 
 .cancel-button {
@@ -118,5 +183,353 @@ a {
   * {
     scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
     scrollbar-width: thin;
+  }
+}
+
+/* Alguns componentes das pages */
+
+.users-page-container {
+  padding: 2rem;
+  color: var(--main-light-color);
+
+  max-width: 1280px;
+  /* Define uma largura máxima maior */
+  margin: 0 auto;
+  /* Centraliza o container na página */
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.actions-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.actions-container .search-container {
+  margin-right: auto;
+}
+
+.search-container {
+  position: relative;
+  width: 300px;
+}
+
+.search-input {
+  padding: 12px 12px 12px 40px;
+  border-radius: 8px;
+  width: 100%;
+  background-color: var(--main-dark-color);
+  border: 1px solid var(--alt-dark-color-2);
+  color: var(--main-light-color);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--blue-color);
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: var(--alt-light-color);
+}
+
+.message-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.success-message,
+.error-message {
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  color: var(--main-light-color);
+}
+
+.success-message {
+  background-color: #1a4d2e;
+}
+
+.error-message {
+  background-color: var(--red-color);
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--alt-dark-color);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.users-table th,
+.users-table td {
+  padding: 1.2rem 1.5rem;
+  text-align: left;
+}
+
+.users-table thead {
+  background-color: var(--alt-dark-color-2);
+}
+
+.users-table tbody tr {
+  border-bottom: 1px solid var(--main-dark-color);
+}
+
+.users-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.users-table tbody tr:hover {
+  background-color: var(--main-dark-color);
+}
+
+.actions-cell {
+  display: flex;
+  gap: 1rem;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--alt-light-color);
+}
+
+.action-button:hover {
+  color: var(--main-light-color);
+}
+
+.action-button.delete:hover {
+  color: var(--red-color);
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--alt-light-color);
+  border-bottom-color: var(--blue-color);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.modal-content {
+  padding: 2rem;
+  border-radius: 10px;
+  width: 450px;
+}
+
+.modal-title {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--alt-light-color);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.log-page-container {
+  padding: 2rem;
+  color: var(--main-light-color);
+}
+
+.log-header {
+  margin-bottom: 2rem;
+}
+
+.log-header h1 {
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.filters-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Estilos da barra de pesquisa (reaproveitados) */
+.search-container {
+  position: relative;
+  width: 300px;
+}
+
+.search-input {
+  padding: 12px 12px 12px 40px;
+  border-radius: 8px;
+  width: 100%;
+  background-color: var(--main-dark-color);
+  border: 1px solid var(--alt-dark-color-2);
+  color: var(--main-light-color);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--blue-color);
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: var(--alt-light-color);
+}
+
+/* Estilo para o filtro de Nível */
+.level-filter {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--main-dark-color);
+  border: 1px solid var(--alt-dark-color-2);
+  color: var(--main-light-color);
+}
+
+.level-filter:focus {
+  outline: none;
+  border-color: var(--blue-color);
+}
+
+/* Estilos da Tabela de Logs (reaproveitados) */
+.logs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--alt-dark-color);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.logs-table th,
+.logs-table td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+}
+
+.logs-table thead {
+  background-color: var(--alt-dark-color-2);
+}
+
+.logs-table tbody tr {
+  border-bottom: 1px solid var(--main-dark-color);
+}
+
+.logs-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.logs-table tbody tr:hover {
+  background-color: var(--main-dark-color);
+}
+
+/* Estilos para o LogLevelBadge */
+.log-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--main-dark-color)
+}
+
+.log-badge.info {
+  background-color: var(--green-color);
+}
+
+.log-badge.alert {
+  background-color: var(--yellow-color);
+}
+
+.log-badge.error {
+  background-color: var(--red-color);
+  color: var(--main-light-color);
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--alt-light-color);
+  border-bottom-color: var(--blue-color);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }

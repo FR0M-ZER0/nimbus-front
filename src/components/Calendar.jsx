@@ -25,7 +25,7 @@ function Calendar() {
         daysArray.push(day)
     }
 
-    const weeks = [];
+    const weeks = []
     for (let i = 0; i < daysArray.length; i += 7) {
         weeks.push(daysArray.slice(i, i + 7))
     }

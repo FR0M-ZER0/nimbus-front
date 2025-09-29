@@ -1,6 +1,7 @@
 import React from 'react'
 import InfoCard from './InfoCard'
 import Paginator from './Paginator'
+import Filter from './Filter'
 import { usePagination } from '../hooks/usePagination'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -16,19 +17,7 @@ function Table({ title, tableHeadEntries, tableBodyEntries }) {
 						{ title }
 					</p>
 
-					<div className='grid grid-cols-8 gap-x-6 w-full ml-4'>
-						<input type="text" placeholder='Digite o nome' className="form-input col-span-2" />
-						<select className="form-input col-span-2">
-							<option disabled value='' selected>
-								Ordenar por
-							</option>
-						</select>
-						<select className="form-input col-span-2">
-							<option disabled value='' selected>
-								Filtrar por
-							</option>
-						</select>
-					</div>
+					<Filter />
 				</div>
 
 				<table className='w-full'>

@@ -154,7 +154,6 @@ function StationForm({ onStationCreation }) {
                         <label className='alt-light-color-text mb-2' htmlFor="">Bairro</label>
                         <input type="text" className='form-input' value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} />
                     </div>
-                    
                 </div>
 
                 <div className='mt-12 flex items-center justify-between'>

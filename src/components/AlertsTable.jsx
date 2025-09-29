@@ -54,7 +54,7 @@ function AlertsTable() {
     ]
     return (
         <Table 
-            title={'Alertas'} 
+            title={'Histórico'} 
             tableHeadEntries={Object.keys(entries[0])} 
             tableBodyEntries={entries} 
         />

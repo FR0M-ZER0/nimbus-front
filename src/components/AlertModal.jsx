@@ -83,12 +83,12 @@ function AlertModal({ closeModal, alertEditing, onUpdate }) {
 
     useEffect(() => {
         if (alertEditing) {
-            setStationId(alertEditing.id_estacao || '')
+            setStationId(alertEditing.parametro?.estacao?.id_estacao || '')
             setTitle(alertEditing.titulo || '')
             setMessage(alertEditing.texto || '')
             setAlertTypeId(alertEditing.id_tipo_alerta || '')
-            setParamId(alertEditing.id_tipo_parametro || '')
-            setSelectedUsers(alertEditing.usuarios || [])
+            setParamId(alertEditing.parametro?.id_tipo_parametro || '')
+            setSelectedUsers(alertEditing.alertaUsuarios?.map(u => u.usuario.id_usuario) || [])
             setOperator(alertEditing.tipo_alerta?.operador || '>')
             setValue(alertEditing.tipo_alerta?.valor || '')
         }
@@ -167,19 +167,32 @@ function AlertModal({ closeModal, alertEditing, onUpdate }) {
                 </div>
 
                 <div className='col-span-6'>
-                    <label className='mb-2'>Usuários</label>
-                    <select
-                        className='form-input w-full'
-                        multiple
-                        value={selectedUsers}
-                        onChange={(e) => setSelectedUsers(Array.from(e.target.selectedOptions).map(opt => parseInt(opt.value)))}
-                    >
+                    <div className="rounded-lg p-2 space-y-1 max-h-48 overflow-y-auto main-dark-color-bg">
                         {users.map(user => (
-                            <option key={user.id_usuario} value={user.id_usuario}>
+                            <label
+                                key={user.id_usuario}
+                                className={`flex items-center p-2 rounded-lg cursor-pointer transition-colors ${
+                                    selectedUsers.includes(user.id_usuario)
+                                    ? 'bg-[#292988]'
+                                    : ''
+                                }`}
+                            >
+                                <input
+                                    type="checkbox"
+                                    className="hidden"
+                                    checked={selectedUsers.includes(user.id_usuario)}
+                                    onChange={() => {
+                                        if (selectedUsers.includes(user.id_usuario)) {
+                                            setSelectedUsers(selectedUsers.filter(id => id !== user.id_usuario))
+                                        } else {
+                                            setSelectedUsers([...selectedUsers, user.id_usuario])
+                                        }
+                                    }}
+                                />
                                 {user.nome} ({user.email})
-                            </option>
+                            </label>
                         ))}
-                    </select>
+                    </div>
                 </div>
 
                 <div className='col-span-6'>

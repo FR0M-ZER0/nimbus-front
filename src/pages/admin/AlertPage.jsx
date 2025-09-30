@@ -8,6 +8,7 @@ import api from '../../api/api'
 
 function AlertPage() {
     const [alerts, setAlerts] = useState([])
+    const [savedAlerts, setSavedAlerts] = useState([])
 
     const fetchAlerts = async () => {
         try {
@@ -33,8 +34,28 @@ function AlertPage() {
         }
     }
 
+    const fetchSavedAlerts = async () => {
+        try {
+            const { data } = await api.get('/alerts')
+
+            const formatted = data.map(item => ({
+                alertName: item.parametro.id_estacao,
+                alertDetail: item.titulo,
+                alertOperator: item.tipo_alerta.operador,
+                alertValue: item.tipo_alerta.valor,
+                alertParam: item.parametro.descricao,
+                alertMessage: item.texto
+            }))
+
+            setSavedAlerts(formatted)
+        } catch (error) {
+            console.error('Erro ao buscar saved alerts:', error)
+        }
+    }
+
     useEffect(() => {
         fetchAlerts()
+        fetchSavedAlerts()
     }, [])
     return (
         <div className='w-full space-y-8'>
@@ -53,7 +74,7 @@ function AlertPage() {
                 </div>
 
                 <div className='flex-1'>
-                    <SavedAlerts />
+                    <SavedAlerts alerts={savedAlerts} />
                 </div>
             </div>
 

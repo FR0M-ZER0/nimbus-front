@@ -70,7 +70,7 @@ function AlertPage() {
 
             <div className='flex space-x-6'>
                 <div className='max-w-[720px] w-full'>
-                    <AlertForm />
+                    <AlertForm onAdd={fetchSavedAlerts} />
                 </div>
 
                 <div className='flex-1'>

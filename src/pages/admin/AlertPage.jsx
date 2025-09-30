@@ -39,6 +39,7 @@ function AlertPage() {
             const { data } = await api.get('/alerts')
 
             const formatted = data.map(item => ({
+                alertId: item.id_alerta,
                 alertName: item.parametro.id_estacao,
                 alertDetail: item.titulo,
                 alertOperator: item.tipo_alerta.operador,
@@ -74,7 +75,7 @@ function AlertPage() {
                 </div>
 
                 <div className='flex-1'>
-                    <SavedAlerts alerts={savedAlerts} />
+                    <SavedAlerts alerts={savedAlerts} onDelete={fetchSavedAlerts} />
                 </div>
             </div>
 

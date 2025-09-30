@@ -9,8 +9,11 @@ import api from '../../api/api'
 function AlertPage() {
     const [alerts, setAlerts] = useState([])
     const [savedAlerts, setSavedAlerts] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [savedAlertsLoading, setSavedAlertsLoading] = useState(false)
 
     const fetchAlerts = async () => {
+        setLoading(true)
         try {
             const { data } = await api.get('/alarms')
 
@@ -31,15 +34,20 @@ function AlertPage() {
             setAlerts(formatted)
         } catch (error) {
             console.error('Erro ao buscar alertas:', error)
+        } finally {
+            setLoading(false)
         }
     }
 
     const fetchSavedAlerts = async () => {
+        setSavedAlertsLoading(true)
         try {
             const { data } = await api.get('/alerts')
             setSavedAlerts(data)
         } catch (error) {
             console.error('Erro ao buscar saved alerts:', error)
+        } finally {
+            setSavedAlertsLoading(false)
         }
     }
 
@@ -64,12 +72,12 @@ function AlertPage() {
                 </div>
 
                 <div className='flex-1'>
-                    <SavedAlerts alerts={savedAlerts} onDelete={fetchSavedAlerts} onUpdate={fetchSavedAlerts} />
+                    <SavedAlerts alerts={savedAlerts} onDelete={fetchSavedAlerts} onUpdate={fetchSavedAlerts} onLoading={savedAlertsLoading} />
                 </div>
             </div>
 
             <div className='mb-8'>
-                <AlertsTable alerts={alerts} />
+                <AlertsTable alerts={alerts} onLoading={loading} />
             </div>
         </div>
     )

@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DateTimeWatcher from '../../components/DateTimeWatcher'
 import DashboardCard from '../../components/DashboardCard'
 import { CircuitryIcon, WifiHighIcon, DownloadIcon } from '@phosphor-icons/react'
 import InfoCard from '../../components/InfoCard'
 import Card from '../../components/Card'
+import api from '../../api/api'
 
 function DashboardPage() {
+    const [todaysAlarms, setTodaysAlarms] = useState([])
+    const [stations, setStations] = useState([])
     const activities = [
         { date: "01/03/2034 - 09:31", station: "abc123", event: "Enviou dados não processados" },
         { date: "01/03/2034 - 09:34", station: "abc123", event: "Conexão perdida" },
@@ -30,6 +33,31 @@ function DashboardPage() {
         { date: "06/03/2034 - 17:35", station: "def456", event: "Retomou conexão" },
     ]
 
+    const fetchTodaysAlarms = async () => {
+        try {
+            const response = await api.get('/alarms/today')
+            setTodaysAlarms(response.data.length)
+            console.log(response.data)
+        } catch (err) {
+            console.error('Ocorreu um erro ao obter alarmes: ', err)
+        }
+    }
+
+    const fetchStations = async () => {
+        try {
+            const response = await api.get('/stations')
+            setStations(response.data.data.length)
+            console.log(response.data)
+        } catch(err) {
+            console.error('Ocorreu um erro ao obter estações: ', err)
+        }
+    }
+
+    useEffect(() => {
+        fetchTodaysAlarms()
+        fetchStations()
+    }, [])
+
     return (
         <div className='w-full'>
             <DateTimeWatcher />
@@ -38,7 +66,7 @@ function DashboardPage() {
                 <div className='lg:col-span-2'>
                     <DashboardCard
                         title={'Estações conectadas'}
-                        dataValue={24}
+                        dataValue={stations}
                         updateDate={'02/04/2035 às 20:30'}
                         icon={<CircuitryIcon size={46} />}
                     />
@@ -72,7 +100,7 @@ function DashboardPage() {
 
                             <div className='flex items-center justify-center max-h-84 max-w-84 h-84 w-84 lg:h-full lg:w-full my-8 rounded-full border-28 border-[#BA1200]'>
                                 <p className='text-7xl font-semibold red-color-text'>
-                                    48
+                                    { todaysAlarms }
                                 </p>
                             </div>
 

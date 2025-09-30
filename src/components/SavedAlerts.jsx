@@ -2,8 +2,10 @@ import React from 'react'
 import InfoCard from './InfoCard'
 import Filter from './Filter'
 import { TrashIcon, PencilSimpleIcon } from '@phosphor-icons/react'
+import api from '../api/api'
+import { toast } from 'react-toastify'
 
-function SavedAlerts({ alerts }) {
+function SavedAlerts({ alerts, onDelete }) {
     if (!alerts || alerts.length === 0) {
         return (
             <InfoCard>
@@ -11,6 +13,20 @@ function SavedAlerts({ alerts }) {
                 <p className='text-gray-500'>Nenhum alerta salvo.</p>
             </InfoCard>
         )
+    }
+
+     const handleDelete = async (alertId) => {
+        const confirm = window.confirm("Deseja realmente deletar este alerta?")
+        if (!confirm) return;
+
+        try {
+            await api.delete(`/alerts/${alertId}`)
+            toast.success("Alerta deletado com sucesso!")
+            if (onDelete) onDelete()
+        } catch (error) {
+            console.error("Erro ao deletar alerta:", error)
+            toast.error("Erro ao deletar alerta")
+        }
     }
     return (
         <InfoCard>
@@ -36,7 +52,11 @@ function SavedAlerts({ alerts }) {
                             
                             <div className='flex space-x-2 items-center'>
                                 <PencilSimpleIcon size={32} className='blue-color-text cursor-pointer' />
-                                <TrashIcon size={32} className='text-red-600 cursor-pointer' />
+                                <TrashIcon 
+                                    size={32} 
+                                    className='text-red-600 cursor-pointer'
+                                    onClick={() => handleDelete(alert.alertId)}
+                                />
                             </div>
                         </div>
                     ))

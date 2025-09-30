@@ -1,7 +1,7 @@
 import React from 'react'
 import Table from './Table'
 
-function AlertsTable({ alerts }) {
+function AlertsTable({ alerts, onLoading }) {
     if (!alerts || alerts.length === 0) {
         return <p className="text-gray-500">Nenhum alerta encontrado.</p>
     }
@@ -10,7 +10,8 @@ function AlertsTable({ alerts }) {
         <Table 
             title={'Alarmes emitidos'} 
             tableHeadEntries={Object.keys(alerts[0])} 
-            tableBodyEntries={alerts} 
+            tableBodyEntries={alerts}
+            onLoading={onLoading}
         />
     )
 }

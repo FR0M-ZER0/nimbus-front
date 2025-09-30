@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react'
 import Card from './Card'
 import ParamModal from './ParamModal'
+import loadingAnimation from '../assets/loading.gif'
 import { PlusIcon, CheckIcon } from '@phosphor-icons/react'
 import api from '../api/api'
 import { toast } from 'react-toastify'
@@ -16,6 +17,7 @@ function StationForm({ onStationCreation }) {
     const [params, setParams] = useState([])
     const [selectedParams, setSelectedParams] = useState([])
     const [editingParam, setEditingParam] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const [modalIsOpen, setModalisOpen] = useState(false)
 
@@ -86,12 +88,14 @@ function StationForm({ onStationCreation }) {
     }
 
     const fetchParams = async () => {
+        setLoading(true)
         try {
             const response = await api.get('/typeParameters')
             setParams(response.data || [])
         } catch (err) {
             console.error("Erro ao buscar parâmetros:", err)
-            toast.error("Erro ao carregar parâmetros")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -162,48 +166,57 @@ function StationForm({ onStationCreation }) {
                 </div>
                             
                 <div className='grid grid-cols-4 mt-4 gap-y-2'>
-                    {params.map((param) => (
-                        <div 
-                        key={param.id_tipo_parametro} 
-                        className='col-span-1 flex items-center relative group'
-                            >
-                            <input
-                                id={`param-${param.id_tipo_parametro}`}
-                                type='checkbox'
-                                name='param'
-                                value={param.id_tipo_parametro}
-                                checked={selectedParams.includes(param.id_tipo_parametro)}
-                                onChange={() => handleCheckboxChange(param.id_tipo_parametro)}
-                                className='hidden'
-                            />
-                            <div
-                                className={`h-6 w-6 rounded-md transition 
-                                flex items-center justify-center
-                                ${selectedParams.includes(param.id_tipo_parametro) ? 'bg-[#292988]' : 'bg-[#262730]'}`}
-                            >
-                                {selectedParams.includes(param.id_tipo_parametro) && (
-                                <CheckIcon size={14} className='text-white' />
-                                )}
+                    {
+                        loading ? (
+                            <div className='w-full flex justify-center'>
+                                <img src={loadingAnimation} alt="loading" width={104} />
                             </div>
-                            <label
-                                htmlFor={`param-${param.id_tipo_parametro}`}
-                                className='cursor-pointer px-3 py-1'
-                            >
-                                {param.nome}
-                            </label>
+                        ) :
+                        (
+                            params.map((param) => (
+                                <div 
+                                key={param.id_tipo_parametro} 
+                                className='col-span-1 flex items-center relative group'
+                                    >
+                                    <input
+                                        id={`param-${param.id_tipo_parametro}`}
+                                        type='checkbox'
+                                        name='param'
+                                        value={param.id_tipo_parametro}
+                                        checked={selectedParams.includes(param.id_tipo_parametro)}
+                                        onChange={() => handleCheckboxChange(param.id_tipo_parametro)}
+                                        className='hidden'
+                                    />
+                                    <div
+                                        className={`h-6 w-6 rounded-md transition 
+                                        flex items-center justify-center
+                                        ${selectedParams.includes(param.id_tipo_parametro) ? 'bg-[#292988]' : 'bg-[#262730]'}`}
+                                    >
+                                        {selectedParams.includes(param.id_tipo_parametro) && (
+                                        <CheckIcon size={14} className='text-white' />
+                                        )}
+                                    </div>
+                                    <label
+                                        htmlFor={`param-${param.id_tipo_parametro}`}
+                                        className='cursor-pointer px-3 py-1'
+                                    >
+                                        {param.nome}
+                                    </label>
 
-                            <div className="absolute left-0 top-full mt-2 w-max max-w-xs bg-black text-white text-xs rounded-lg p-2 opacity-0 group-hover:opacity-100 transition z-10">
-                                <p><b>Unidade:</b> {param.unidade || '-'}</p>
-                                <p><b>Fator:</b> {param.fator}</p>
-                                <p><b>Polinômio:</b> {param.polinomio}</p>
-                                <p><b>Offset:</b> {param.offset}</p>
-                                <p 
-                                    className='text-blue-300 cursor-pointer mt-2'
-                                    onClick={() => handleEditParam(param)}
-                                >Editar</p>
-                            </div>
-                        </div>
-                    ))}
+                                    <div className="absolute left-0 top-full mt-2 w-max max-w-xs bg-black text-white text-xs rounded-lg p-2 opacity-0 group-hover:opacity-100 transition z-10">
+                                        <p><b>Unidade:</b> {param.unidade || '-'}</p>
+                                        <p><b>Fator:</b> {param.fator}</p>
+                                        <p><b>Polinômio:</b> {param.polinomio}</p>
+                                        <p><b>Offset:</b> {param.offset}</p>
+                                        <p 
+                                            className='text-blue-300 cursor-pointer mt-2'
+                                            onClick={() => handleEditParam(param)}
+                                        >Editar</p>
+                                    </div>
+                                </div>
+                            ))
+                        )
+                    }
                 </div>
 
                 <button className='submit-button mt-8'>

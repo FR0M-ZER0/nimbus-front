@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import Card from './Card'
 import api from '../api/api'
+import { toast } from 'react-toastify'
 
-function AlertForm() {
+function AlertForm({ onAdd }) {
     const [stations, setStations] = useState([])
     const [selectedStation, setSelectedStation] = useState('')
     const [parametros, setParametros] = useState([])
+    const [users, setUsers] = useState([])
+    const [selectedUsers, setSelectedUsers] = useState([])
+    const [formData, setFormData] = useState({
+        titulo: '',
+        texto: '',
+        operador: '>',
+        valor: '',
+        id_tipo_parametro: '',
+    })
 
     const fetchStations = async () => {
         try {
@@ -13,6 +23,15 @@ function AlertForm() {
             setStations(response.data.data)
         } catch (error) {
             console.error("Erro ao carregar estações:", error)
+        }
+    }
+
+    const fetchUsers = async () => {
+        try {
+            const response = await api.get('/user')
+            setUsers(response.data.usuarios)
+        } catch (error) {
+            console.error("Erro ao carregar usuários:", error)
         }
     }
 
@@ -26,22 +45,71 @@ function AlertForm() {
         }
     }
 
+    const handleInputChange = (e) => {
+        const { id, value } = e.target
+        setFormData(prev => ({ ...prev, [id]: value }))
+    }
+
+    const handleUserSelection = (e) => {
+        const options = Array.from(e.target.selectedOptions)
+        const ids = options.map(opt => parseInt(opt.value))
+        setSelectedUsers(ids)
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const tipoAlertaPayload = {
+                operador: formData.operador,
+                valor: parseFloat(formData.valor),
+            }
+            const tipoAlertaResponse = await api.post('/alert-type', tipoAlertaPayload)
+            const id_tipo_alerta = tipoAlertaResponse.data.id
+
+            const alertaPayload = {
+                id_estacao: selectedStation,
+                titulo: formData.titulo,
+                texto: formData.texto,
+                id_tipo_alerta: id_tipo_alerta,
+                id_tipo_parametro: parseInt(formData.id_tipo_parametro),
+                usuarios: selectedUsers,
+            }
+            const alertaResponse = await api.post('/alerts', alertaPayload)
+
+            console.log('Alerta criado com sucesso:', alertaResponse.data)
+            toast.success('Alerta criado com sucesso!')
+
+            setFormData({
+                titulo: '',
+                texto: '',
+                operador: '>',
+                valor: '',
+                id_tipo_parametro: '',
+            })
+            setSelectedStation('')
+            setSelectedUsers([])
+            onAdd()
+        } catch (error) {
+            console.error('Erro ao criar alerta:', error)
+            toast.error('Erro ao criar alerta')
+        }
+    }
+
     useEffect(() => {
         fetchStations()
+        fetchUsers()
     }, [])
 
     useEffect(() => {
         fetchParametros()
     }, [selectedStation])
 
-    return (
+return (
         <Card title={'Cadastrar alerta'}>
-            <form className='w-full'>
+            <form className='w-full' onSubmit={handleSubmit}>
                 <div className='grid grid-cols-6 gap-x-4 gap-y-8'>
                     <div className='col-span-2'>
-                        <label className='alt-light-color-text mb-2' htmlFor="station">
-                            Estação
-                        </label>
+                        <label className='alt-light-color-text mb-2' htmlFor="station">Estação</label>
                         <select
                             id="station"
                             className='form-input'
@@ -59,44 +127,89 @@ function AlertForm() {
 
                     <div className='col-span-4'>
                         <label className='alt-light-color-text mb-2' htmlFor="titulo">Título</label>
-                        <input type="text" className='form-input' id="titulo" />
+                        <input
+                            type="text"
+                            className='form-input'
+                            id="titulo"
+                            value={formData.titulo}
+                            onChange={handleInputChange}
+                        />
                     </div>
-                    
+
                     <div className='col-span-3'>
-                        <label className='alt-light-color-text mb-2' htmlFor="condicao">Condição</label>
-						<select className="form-input col-span-2" id="condicao">
-							<option value={">"}>Maior que</option>
-							<option value={"<"}>Menor que</option>
-							<option value={"="}>Igual</option>
-							<option value={">="}>Maior igual que</option>
-							<option value={"<="}>Menor igual que</option>
-						</select>
+                        <label className='alt-light-color-text mb-2' htmlFor="operador">Condição</label>
+                        <select
+                            className="form-input col-span-2"
+                            id="operador"
+                            value={formData.operador}
+                            onChange={handleInputChange}
+                        >
+                            <option value={">"}>Maior que</option>
+                            <option value={"<"}>Menor que</option>
+                            <option value={"="}>Igual</option>
+                            <option value={">="}>Maior igual que</option>
+                            <option value={"<="}>Menor igual que</option>
+                        </select>
                     </div>
-                    
+
                     <div className='col-span-3'>
                         <label className='alt-light-color-text mb-2' htmlFor="valor">Valor</label>
-                        <input type="text" className='form-input' id="valor" />
+                        <input
+                            type="text"
+                            className='form-input'
+                            id="valor"
+                            value={formData.valor}
+                            onChange={handleInputChange}
+                        />
                     </div>
-                    
+
                     <div className="col-span-6">
-                        <label className='alt-light-color-text mb-2' htmlFor="parametro">Parâmetro</label>
-						<select className="form-input col-span-2" id="parametro">
+                        <label className='alt-light-color-text mb-2' htmlFor="id_tipo_parametro">Parâmetro</label>
+                        <select
+                            className="form-input col-span-2"
+                            id="id_tipo_parametro"
+                            value={formData.id_tipo_parametro}
+                            onChange={handleInputChange}
+                        >
                             <option value="">Selecione um parâmetro</option>
                             {parametros.map(param => (
                                 <option key={param.id_tipo_parametro} value={param.id_tipo_parametro}>
                                     {param.nome} ({param.unidade})
                                 </option>
                             ))}
-						</select>
+                        </select>
                     </div>
-                    
+
                     <div className='col-span-6'>
-                        <label className='alt-light-color-text mb-2' htmlFor="mensagem">Mensagem</label>
-                        <textarea className='form-input' id="mensagem" rows={10} />
+                        <label className='alt-light-color-text mb-2' htmlFor="usuarios">Usuários</label>
+                        <select
+                            className="form-input"
+                            id="usuarios"
+                            multiple
+                            value={selectedUsers}
+                            onChange={handleUserSelection}
+                        >
+                            {users.map(user => (
+                                <option key={user.id_usuario} value={user.id_usuario}>
+                                    {user.nome} ({user.email})
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className='col-span-6'>
+                        <label className='alt-light-color-text mb-2' htmlFor="texto">Mensagem</label>
+                        <textarea
+                            className='form-input'
+                            id="texto"
+                            rows={10}
+                            value={formData.texto}
+                            onChange={handleInputChange}
+                        />
                     </div>
                 </div>
 
-                <button className='submit-button mt-8'>
+                <button className='submit-button mt-8' type="submit">
                     Enviar
                 </button>
             </form>

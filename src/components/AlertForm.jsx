@@ -50,12 +50,6 @@ function AlertForm({ onAdd }) {
         setFormData(prev => ({ ...prev, [id]: value }))
     }
 
-    const handleUserSelection = (e) => {
-        const options = Array.from(e.target.selectedOptions)
-        const ids = options.map(opt => parseInt(opt.value))
-        setSelectedUsers(ids)
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
@@ -181,20 +175,30 @@ return (
                     </div>
 
                     <div className='col-span-6'>
-                        <label className='alt-light-color-text mb-2' htmlFor="usuarios">Usuários</label>
-                        <select
-                            className="form-input"
-                            id="usuarios"
-                            multiple
-                            value={selectedUsers}
-                            onChange={handleUserSelection}
-                        >
+                        <div className="rounded-lg p-2 space-y-1 max-h-48 overflow-y-auto main-dark-color-bg">
                             {users.map(user => (
-                                <option key={user.id_usuario} value={user.id_usuario}>
+                                <label
+                                    key={user.id_usuario}
+                                    className={`flex items-center p-2 rounded-lg cursor-pointer transition-colors ${
+                                        selectedUsers.includes(user.id_usuario) ? 'bg-[#292988]' : ''
+                                    }`}
+                                >
+                                    <input
+                                        type="checkbox"
+                                        className="hidden"
+                                        checked={selectedUsers.includes(user.id_usuario)}
+                                        onChange={() => {
+                                            if (selectedUsers.includes(user.id_usuario)) {
+                                                setSelectedUsers(selectedUsers.filter(id => id !== user.id_usuario))
+                                            } else {
+                                                setSelectedUsers([...selectedUsers, user.id_usuario])
+                                            }
+                                        }}
+                                    />
                                     {user.nome} ({user.email})
-                                </option>
+                                </label>
                             ))}
-                        </select>
+                        </div>
                     </div>
 
                     <div className='col-span-6'>

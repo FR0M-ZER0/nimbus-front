@@ -6,8 +6,7 @@ import { usePagination } from '../hooks/usePagination'
 import { motion, AnimatePresence } from 'framer-motion'
 
 function Table({ title, tableHeadEntries, tableBodyEntries }) {
-	// TODO: mudar o número de items por página quando houver os dados vindos do back
-    const { currentItems, pageCount, handlePageClick, rowAnimation } = usePagination(tableBodyEntries, 3)
+    const { currentItems, pageCount, handlePageClick, rowAnimation } = usePagination(tableBodyEntries, 10)
 
 	return (
 		<InfoCard>

@@ -3,11 +3,15 @@ import InfoCard from './InfoCard'
 import Filter from './Filter'
 import { TrashIcon, PencilSimpleIcon } from '@phosphor-icons/react'
 
-function SavedAlerts() {
-    const alerts = [
-        { alertName: "abc123", alertDetail: "Chuva", alertOperator: ">", alertValue: "0.5 L", alertParam: "param123", alertMessage: "Tá chovendo muito mais que normal, perigo de enchente" },
-        { alertName: "xyz661", alertDetail: "Chuva", alertOperator: ">", alertValue: "0.5 L", alertParam: "param123", alertMessage: "Ventos rápidos perigo iminente de tufões" },
-    ]
+function SavedAlerts({ alerts }) {
+    if (!alerts || alerts.length === 0) {
+        return (
+            <InfoCard>
+                <h2 className='text-3xl mb-4'>Alertas</h2>
+                <p className='text-gray-500'>Nenhum alerta salvo.</p>
+            </InfoCard>
+        )
+    }
     return (
         <InfoCard>
             <div className='flex items-center space-x-2 mb-2'>

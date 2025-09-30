@@ -37,18 +37,7 @@ function AlertPage() {
     const fetchSavedAlerts = async () => {
         try {
             const { data } = await api.get('/alerts')
-
-            const formatted = data.map(item => ({
-                alertId: item.id_alerta,
-                alertName: item.parametro.id_estacao,
-                alertDetail: item.titulo,
-                alertOperator: item.tipo_alerta.operador,
-                alertValue: item.tipo_alerta.valor,
-                alertParam: item.parametro.descricao,
-                alertMessage: item.texto
-            }))
-
-            setSavedAlerts(formatted)
+            setSavedAlerts(data)
         } catch (error) {
             console.error('Erro ao buscar saved alerts:', error)
         }
@@ -75,7 +64,7 @@ function AlertPage() {
                 </div>
 
                 <div className='flex-1'>
-                    <SavedAlerts alerts={savedAlerts} onDelete={fetchSavedAlerts} />
+                    <SavedAlerts alerts={savedAlerts} onDelete={fetchSavedAlerts} onUpdate={fetchSavedAlerts} />
                 </div>
             </div>
 

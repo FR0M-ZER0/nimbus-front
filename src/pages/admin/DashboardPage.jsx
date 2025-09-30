@@ -74,8 +74,8 @@ function DashboardPage() {
                 <div className='lg:col-span-3'>
                     <DashboardCard
                         title={'Estações disponíveis'}
-                        dataValue={24}
-                        altData={'/2'}
+                        dataValue={22}
+                        altData={'/24'}
                         additionMessage={'Estação abc123 - 09:30'}
                         updateDate={'02/04/2035 às 20:30'}
                         icon={<WifiHighIcon size={46} />}

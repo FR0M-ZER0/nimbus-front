@@ -10,6 +10,7 @@ function StationPage() {
     const [stations, setStations] = useState([])
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [selectedStation, setSelectedStation] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const openModal = (station) => {
         setSelectedStation(station)
@@ -22,6 +23,7 @@ function StationPage() {
     }
 
     const fetchStations = async () => {
+        setLoading(true)
         try {
             const response = await api.get('/stations')
             // TODO: Adiciona imagens e o status
@@ -37,6 +39,8 @@ function StationPage() {
             setStations(stationsWithImage)
         } catch (error) {
             console.error("Erro ao buscar estações:", error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -57,7 +61,7 @@ function StationPage() {
             </div>
 
             <div className='my-8'>
-                <StationTable stations={stations} onActionBtnClick={openModal} />
+                <StationTable stations={stations} onActionBtnClick={openModal} onLoading={loading} />
             </div>
 
             <div>

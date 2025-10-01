@@ -1,62 +1,17 @@
 import React from 'react'
 import Table from './Table'
 
-function AlertsTable() {
-    const entries = [
-        {
-            UID: 'xyz178',
-            Nome: 'Pluviométrico 0.25',
-            Lat: '-23.123923',
-            Lon: '46.123123',
-            Aviso: 'Chuva > 0.5',
-            Data: '09/20/2035 - 17:51'
-        },
-        {
-            UID: 'abc123',
-            Nome: 'Pluviométrico 0.25',
-            Lat: '-23.123923',
-            Lon: '46.123123',
-            Aviso: 'Chuva > 0.5',
-            Data: '09/20/2035 - 17:51'
-        },
-        {
-            UID: 'lsa012',
-            Nome: 'Pluviométrico 0.25',
-            Lat: '-23.123923',
-            Lon: '46.123123',
-            Aviso: 'Chuva > 0.5',
-            Data: '09/20/2035 - 17:51'
-        },
-        {
-            UID: 'moa102',
-            Nome: 'Pluviométrico 0.25',
-            Lat: '-23.123923',
-            Lon: '46.123123',
-            Aviso: 'Chuva > 0.5',
-            Data: '09/20/2035 - 17:51'
-        },
-        {
-            UID: 'npa129',
-            Nome: 'Pluviométrico 0.25',
-            Lat: '-23.123923',
-            Lon: '46.123123',
-            Aviso: 'Chuva > 0.5',
-            Data: '09/20/2035 - 17:51'
-        },
-        {
-            UID: 'nmz125',
-            Nome: 'Pluviométrico 0.25',
-            Lat: '-23.123923',
-            Lon: '46.123123',
-            Aviso: 'Chuva > 0.5',
-            Data: '09/20/2035 - 17:51'
-        },
-    ]
+function AlertsTable({ alerts, onLoading }) {
+    if (!alerts || alerts.length === 0) {
+        return <p className="text-gray-500">Nenhum alerta encontrado.</p>
+    }
+
     return (
         <Table 
-            title={'Alertas'} 
-            tableHeadEntries={Object.keys(entries[0])} 
-            tableBodyEntries={entries} 
+            title={'Alarmes emitidos'} 
+            tableHeadEntries={Object.keys(alerts[0])} 
+            tableBodyEntries={alerts}
+            onLoading={onLoading}
         />
     )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { registerFirstUser } from '../../services/api'; // Importa a função de registro real
 
 // Mantendo o nome original do seu componente

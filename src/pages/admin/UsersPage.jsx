@@ -160,7 +160,7 @@ function UsersPage() {
     }
 
     return (
-        <div className="users-page-container">
+        <div className="users-page-container w-full">
             <div className="page-header">
                 <h1>Gerenciamento de Usuários</h1>
             </div>

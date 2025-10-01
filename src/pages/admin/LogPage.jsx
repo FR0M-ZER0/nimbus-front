@@ -63,11 +63,7 @@ function LogPage() {
 
     return (
         <>
-            <style>{`
-                index.css
-            `}</style>
-
-            <div className="log-page-container">
+            <div className="log-page-container w-full">
                 <div className="log-header">
                     <h1>Histórico de Atividades</h1>
                 </div>

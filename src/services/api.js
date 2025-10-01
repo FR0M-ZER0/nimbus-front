@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-// Configura a URL base para todas as chamadas.
-// Agora, em vez de escrever "http://localhost:3001/api/login",
-// podemos apenas usar "/auth/login".
 const apiClient = axios.create({
     baseURL: 'http://localhost:3001/api',
     headers: {
@@ -10,25 +7,45 @@ const apiClient = axios.create({
     }
 });
 
-// Função para fazer login
+apiClient.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+// --- Funções de Autenticação ---
+
+// FUNÇÃO CORRIGIDA
 export const login = async (email, password) => {
     try {
-        const response = await apiClient.post('/auth/login', { email, password });
-        // O backend deve retornar um objeto com a propriedade "token"
+        // O ERRO ESTAVA AQUI: Faltava enviar a senha e usar o nome "senha" que o backend espera.
+        const response = await apiClient.post('/login', { email, senha: password });
         return response.data;
     } catch (error) {
-        // Se o backend retornar um erro (ex: 401 Unauthorized), ele será capturado aqui.
-        // Lançamos o erro para que o componente de UI possa tratá-lo.
         throw new Error(error.response?.data?.message || 'Erro ao tentar fazer login.');
     }
 };
 
-// Função para cadastrar o primeiro usuário
 export const registerFirstUser = async (userData) => {
     try {
-        const response = await apiClient.post('/users/primeiro-acesso', userData);
+        const response = await apiClient.post('/user', userData);
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'Erro ao cadastrar usuário.');
     }
 };
+
+// --- Funções para o CRUD de Usuários ---
+const USER_ENDPOINT = '/user';
+
+export const getUsers = async () => { /* ...código sem alterações... */ try { const response = await apiClient.get(USER_ENDPOINT); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao buscar usuários.'); } };
+export const createUser = async (userData) => { /* ...código sem alterações... */ try { const response = await apiClient.post(USER_ENDPOINT, userData); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao criar usuário.'); } };
+export const updateUser = async (userId, userData) => { /* ...código sem alterações... */ try { const response = await apiClient.put(`${USER_ENDPOINT}/${userId}`, userData); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao atualizar usuário.'); } };
+export const deleteUser = async (userId) => { /* ...código sem alterações... */ try { const response = await apiClient.delete(`${USER_ENDPOINT}/${userId}`); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao deletar usuário.'); } };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { login } from '../../services/api'; 
+import { login } from '../../services/api';
+
 function SignInPage() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -14,11 +15,9 @@ function SignInPage() {
         setError('');
 
         try {
-            // USA A FUNÇÃO REAL DA API
             const { token } = await login(email, password);
-
             localStorage.setItem('authToken', token);
-            navigate('/dashboard');
+            navigate('/admin');
 
         } catch (err) {
             setError(err.message);
@@ -51,7 +50,7 @@ function SignInPage() {
                             type='email'
                             id='email'
                             className='form-input main-light-color-text border border-transparent focus:border-blue-500'
-                            placeholder='nome@tecsus.com.br'
+                            placeholder='nome@exemple.com'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -65,6 +64,7 @@ function SignInPage() {
                             type='password'
                             id='password'
                             className='form-input main-light-color-text border border-transparent focus:border-blue-500'
+                            placeholder='******'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required

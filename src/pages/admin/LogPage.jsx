@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import loadingAnimation from '../../assets/loading.gif'
+
 
 const mockLogs = [
     { id: 1, timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), level: 'INFO', source: 'Usuário: admin@tecsus.com.br', message: 'Login realizado com sucesso.' },
@@ -12,14 +14,12 @@ const mockLogs = [
 
 const api = {
     getLogs: async () => {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simula delay de rede
+        await new Promise(resolve => setTimeout(resolve, 1000)); 
         return [...mockLogs];
     },
 };
 
-const SearchIcon = () => ( <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/> </svg> );
-const LoadingSpinner = () => ( <div className="spinner-container"><div className="spinner"></div></div> );
-
+const SearchIcon = () => (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" /> </svg>);
 const LogLevelBadge = ({ level }) => {
     const levelClass = `log-badge ${level.toLowerCase()}`;
     return <span className={levelClass}>{level}</span>;
@@ -29,7 +29,7 @@ function LogPage() {
     const [logs, setLogs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
-    
+
     const [searchTerm, setSearchTerm] = useState('');
     const [logLevelFilter, setLogLevelFilter] = useState('todos'); // 'todos', 'info', 'alert', 'error'
 
@@ -49,14 +49,14 @@ function LogPage() {
     useEffect(() => {
         fetchLogs();
     }, []);
-    
+
     // Lógica para filtrar os logs com base nos filtros selecionados
     const filteredLogs = logs
         .filter(log => {
             if (logLevelFilter === 'todos') return true;
             return log.level.toLowerCase() === logLevelFilter;
         })
-        .filter(log => 
+        .filter(log =>
             log.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
             log.source.toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -80,7 +80,7 @@ function LogPage() {
                         />
                     </div>
 
-                    <select 
+                    <select
                         className="level-filter"
                         value={logLevelFilter}
                         onChange={(e) => setLogLevelFilter(e.target.value)}
@@ -95,8 +95,9 @@ function LogPage() {
                 {error && <div className="error-message">{error}</div>}
 
                 {isLoading ? (
-                    <LoadingSpinner />
-                ) : (
+                    <div className='w-full flex justify-center'>
+                        <img src={loadingAnimation} alt="loading" width={160} />
+                    </div>) : (
                     <div className="table-container">
                         <table className="logs-table">
                             <thead>

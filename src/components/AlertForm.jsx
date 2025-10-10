@@ -175,6 +175,7 @@ return (
                     </div>
 
                     <div className='col-span-6'>
+                        <label className='alt-light-color-text mb-2' htmlFor="">Usuários</label>
                         <div className="rounded-lg p-2 space-y-1 max-h-48 overflow-y-auto main-dark-color-bg">
                             {users.map(user => (
                                 <label

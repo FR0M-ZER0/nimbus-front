@@ -34,6 +34,7 @@ function StationPage() {
                 Lat: parseFloat(station.latitude),
                 Long: parseFloat(station.longitude),
                 Params: station.descricao || "Sem descrição",
+                address: station.endereco,
                 status: "online",
             }))
             setStations(stationsWithImage)
@@ -56,7 +57,7 @@ function StationPage() {
                 </div>
 
                 <div className='flex-1'>
-                    <StationDownMap />
+                    <StationDownMap stations={stations} />
                 </div>
             </div>
 

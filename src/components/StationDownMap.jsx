@@ -30,22 +30,23 @@ function StationDownMap({ stations = [] }) {
         svg.querySelectorAll('circle').forEach(c => c.setAttribute('fill', '#ccc'))
 
         stations.forEach(station => {
-        const rawAddress = station.address || ''
-        const match = rawAddress.match(/\/([a-zA-Z]{2})$/)
-        const uf = match ? match[1].toLowerCase() : null
-        const stateClass = uf && stateMap[uf]
+            const rawAddress = station.address || ''
+            const match = rawAddress.match(/\/([a-zA-Z]{2})$/)
+            const uf = match ? match[1].toLowerCase() : null
+            const stateClass = uf && stateMap[uf]
 
-        if (!stateClass) return
+            if (!stateClass) return
 
-        try {
-            const circles = svg.querySelectorAll(`.${stateClass}`)
-            if (circles.length > 0) {
-            const circle = circles[Math.floor(Math.random() * circles.length)]
-            circle.setAttribute('fill', station.status === 'online' ? '#0DFF00' : '#BA1200')
+            try {
+                const circles = svg.querySelectorAll(`.${stateClass}`)
+                if (circles.length > 0) {
+                    const circle = circles[Math.floor(Math.random() * circles.length)]
+                    circle.setAttribute('fill', station.status === 'online' ? '#0DFF00' : '#BA1200')
+                    circle.style.cursor = 'pointer'
+                }
+            } catch (e) {
+                console.warn('Classe de estado inválida:', stateClass, e)
             }
-        } catch (e) {
-            console.warn('Classe de estado inválida:', stateClass, e)
-        }
         })
     }, [stations, svgContent])
     return (

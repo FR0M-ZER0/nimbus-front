@@ -5,39 +5,18 @@ import { CircuitryIcon, WifiHighIcon, DownloadIcon } from '@phosphor-icons/react
 import InfoCard from '../../components/InfoCard'
 import Card from '../../components/Card'
 import api from '../../api/api'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { activityFetched } from '../../store/slices/activitySlice'
 
 function DashboardPage() {
+    const dispatch = useDispatch()
     const summary = useSelector((state) => state.summary.last)
 
     const [onlineStations, setOnlineStations] = useState(0)
     const [totalStations, setTotalStations] = useState(0)
     const [dataSent, setDataSent] = useState(0)
     const [updateDate, setUpdateDate] = useState('Carregando...')
-
-    const activities = [
-        { date: "01/03/2034 - 09:31", station: "abc123", event: "Enviou dados não processados" },
-        { date: "01/03/2034 - 09:34", station: "abc123", event: "Conexão perdida" },
-        { date: "01/03/2034 - 09:30", station: "abc123", event: "Retomou conexão" },
-        { date: "02/03/2034 - 22:58", station: "xyz899", event: "Dados processados" },
-        { date: "01/03/2034 - 09:31", station: "abc123", event: "Enviou um alerta" },
-        { date: "01/03/2034 - 09:31", station: "abc123", event: "Enviou dados não processados" },
-        { date: "03/03/2034 - 08:15", station: "def456", event: "Enviou dados não processados" },
-        { date: "03/03/2034 - 08:20", station: "def456", event: "Conexão perdida" },
-        { date: "03/03/2034 - 08:25", station: "def456", event: "Retomou conexão" },
-        { date: "03/03/2034 - 12:45", station: "xyz899", event: "Dados processados" },
-        { date: "04/03/2034 - 07:20", station: "klm777", event: "Enviou um alerta" },
-        { date: "04/03/2034 - 07:25", station: "klm777", event: "Enviou dados não processados" },
-        { date: "04/03/2034 - 18:10", station: "def456", event: "Conexão perdida" },
-        { date: "04/03/2034 - 18:15", station: "def456", event: "Retomou conexão" },
-        { date: "05/03/2034 - 09:00", station: "abc123", event: "Dados processados" },
-        { date: "05/03/2034 - 09:05", station: "abc123", event: "Enviou um alerta" },
-        { date: "05/03/2034 - 14:22", station: "xyz899", event: "Enviou dados não processados" },
-        { date: "06/03/2034 - 11:45", station: "klm777", event: "Dados processados" },
-        { date: "06/03/2034 - 11:50", station: "klm777", event: "Enviou um alerta" },
-        { date: "06/03/2034 - 17:30", station: "def456", event: "Conexão perdida" },
-        { date: "06/03/2034 - 17:35", station: "def456", event: "Retomou conexão" },
-    ]
+    const activities = useSelector((state) => state.activity.history)
 
     // TODO: Adicionar webSocket para os alarmes também
     const [todaysAlarms, setTodaysAlarms] = useState([])
@@ -85,6 +64,19 @@ function DashboardPage() {
             setUpdateDate(summary.dataHora)
         }
     }, [summary])
+
+    useEffect(() => {
+        const fetchInitialActivity = async () => {
+            try {
+                const response = await api.get('/logs/activity')
+                dispatch(activityFetched(response.data.history))
+            } catch (err) {
+                console.error('Erro ao buscar histórico inicial: ', err)
+            }
+        }
+
+        fetchInitialActivity()
+    }, [dispatch])
 
     return (
         <div className='w-full'>

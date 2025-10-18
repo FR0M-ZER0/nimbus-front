@@ -5,10 +5,16 @@ import { CircuitryIcon, WifiHighIcon, DownloadIcon } from '@phosphor-icons/react
 import InfoCard from '../../components/InfoCard'
 import Card from '../../components/Card'
 import api from '../../api/api'
+import { useSelector } from 'react-redux'
 
 function DashboardPage() {
-    const [todaysAlarms, setTodaysAlarms] = useState([])
-    const [stations, setStations] = useState([])
+    const summary = useSelector((state) => state.summary.last)
+
+    const [onlineStations, setOnlineStations] = useState(0)
+    const [totalStations, setTotalStations] = useState(0)
+    const [dataSent, setDataSent] = useState(0)
+    const [updateDate, setUpdateDate] = useState('Carregando...')
+
     const activities = [
         { date: "01/03/2034 - 09:31", station: "abc123", event: "Enviou dados não processados" },
         { date: "01/03/2034 - 09:34", station: "abc123", event: "Conexão perdida" },
@@ -33,11 +39,13 @@ function DashboardPage() {
         { date: "06/03/2034 - 17:35", station: "def456", event: "Retomou conexão" },
     ]
 
+    // TODO: Adicionar webSocket para os alarmes também
+    const [todaysAlarms, setTodaysAlarms] = useState([])
+
     const fetchTodaysAlarms = async () => {
         try {
             const response = await api.get('/alarms/today')
             setTodaysAlarms(response.data.length)
-            console.log(response.data)
         } catch (err) {
             console.error('Ocorreu um erro ao obter alarmes: ', err)
         }
@@ -45,18 +53,38 @@ function DashboardPage() {
 
     const fetchStations = async () => {
         try {
-            const response = await api.get('/stations')
-            setStations(response.data.data.length)
-            console.log(response.data)
+            const response = await api.get('/station-status/summary')
+            setOnlineStations(response.data.online)
+            setTotalStations(response.data.total)
+            setUpdateDate(response.data.current_date)
         } catch(err) {
-            console.error('Ocorreu um erro ao obter estações: ', err)
+            console.error(err)
+        }
+    }
+
+    const fetchData = async () => {
+        try {
+            const response = await api.get('/station-log/data-sent')
+            setDataSent(response.data.data.total_data_sent_mb)
+        } catch(err) {
+            console.error(err)
         }
     }
 
     useEffect(() => {
         fetchTodaysAlarms()
         fetchStations()
+        fetchData()
     }, [])
+
+    useEffect(() => {
+        if (summary) {
+            setOnlineStations(summary.online)
+            setTotalStations(summary.total)
+            setDataSent(summary.dadosHojeMB)
+            setUpdateDate(summary.dataHora)
+        }
+    }, [summary])
 
     return (
         <div className='w-full'>
@@ -66,27 +94,27 @@ function DashboardPage() {
                 <div className='lg:col-span-2'>
                     <DashboardCard
                         title={'Estações conectadas'}
-                        dataValue={stations}
-                        updateDate={'02/04/2035 às 20:30'}
+                        dataValue={totalStations}
+                        updateDate={updateDate}
                         icon={<CircuitryIcon size={46} />}
                     />
                 </div>
                 <div className='lg:col-span-3'>
                     <DashboardCard
                         title={'Estações disponíveis'}
-                        dataValue={22}
-                        altData={'/24'}
+                        dataValue={onlineStations}
+                        altData={`/${totalStations}`}
                         additionMessage={'Estação abc123 - 09:30'}
-                        updateDate={'02/04/2035 às 20:30'}
+                        updateDate={updateDate}
                         icon={<WifiHighIcon size={46} />}
                     />
                 </div>
                 <div className='lg:col-span-2'>
                     <DashboardCard
-                        title={'Estações conectadas'}
-                        dataValue={46}
+                        title={'Dados enviados hoje'}
+                        dataValue={dataSent}
                         altData={'Mb'}
-                        updateDate={'02/04/2035 às 20:30'}
+                        updateDate={updateDate}
                         icon={<DownloadIcon size={46} />}
                     />
                 </div>

@@ -139,7 +139,7 @@ function DashboardPage() {
                 <div className='lg:col-span-5'>
                     <Card title={'Última atividades'}>
                         <div className='flex items-center h-full p-6 alt-dark-color-2-bg max-h-[400px] overflow-y-auto'>
-                            <table className="w-full border-collapse text-lg">
+                            <table className="w-full border-collapse text-lg mt-16">
                                 <tbody>
                                     {activities.map((item, index) => (
                                     <tr key={index}>

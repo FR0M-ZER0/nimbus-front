@@ -17,7 +17,9 @@ function HeadlessTable({ title, tableEntries, onActionBtnClick, onLoading }) {
 						{ title }
 					</p>
 
-                    <Filter />
+                    <div className='ml-4'>
+                        <Filter />
+                    </div>
 				</div>
 
                 {onLoading ? (

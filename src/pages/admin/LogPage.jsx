@@ -80,7 +80,7 @@ function LogPage() {
                 ) : (
                     <div className="overflow-hidden rounded-xl mt-8">
                         <table className="min-w-full border-collapse text-left">
-                            <thead className="alt-dark-color-2-bg">
+                            <thead>
                                 <tr>
                                 <th className="py-3 px-4">Data / Hora</th>
                                 <th className="py-3 px-4">Nível</th>

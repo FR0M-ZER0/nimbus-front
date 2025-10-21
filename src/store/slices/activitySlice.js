@@ -13,7 +13,7 @@ const activitySlice = createSlice({
     },
     reducers: {
         activityFetched: (state, action) => {
-            state.history = action.payload.slice(0, 30)
+            state.history = action.payload.slice(0, MAX_HISTORY)
         }
     },
     extraReducers: (builder) => {
@@ -25,17 +25,24 @@ const activitySlice = createSlice({
                 const formattedDate = `${timestamp.toLocaleDateString('pt-BR')} - ${timestamp.toLocaleTimeString('pt-BR', { hour12: false })}`
 
                 let event = null
+                let eventStatus = 'Info'
 
                 if (previousStatus && previousStatus !== status) {
-                    if (status === 'OFFLINE') event = 'Conexão perdida'
-                    else if (status === 'ONLINE') event = 'Retomou conexão'
+                    if (status === 'OFFLINE') {
+                        event = 'Conexão perdida'
+                        eventStatus = 'Erro'
+                    } else if (status === 'ONLINE') {
+                        event = 'Retomou conexão'
+                        eventStatus = 'Info'
+                    }
                 }
 
                 if (event) {
                     state.history.unshift({
                         date: formattedDate,
                         station: id_estacao,
-                        event
+                        event,
+                        status: eventStatus
                     })
                 }
 
@@ -53,7 +60,8 @@ const activitySlice = createSlice({
                 state.history.unshift({
                     date: formattedDate,
                     station: id_estacao,
-                    event: 'Enviou dados não processados'
+                    event: 'Enviou dados não processados',
+                    status: 'Info'
                 })
 
                 if (state.history.length > MAX_HISTORY) {
@@ -67,8 +75,9 @@ const activitySlice = createSlice({
 
                 state.history.unshift({
                     date: formattedDate,
-                    station: id_estacao,
-                    event: 'Dados processados'
+                    station: id_estacao || 'Data Processing Service',
+                    event: 'Dados processados',
+                    status: 'Info'
                 })
 
                 if (state.history.length > MAX_HISTORY) {

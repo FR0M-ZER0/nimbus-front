@@ -23,7 +23,7 @@ jobs:
           cache: 'npm'
 
       - name: Instalar Dependências
-        run: npm ci
+        run: npm install
 
       - name: Verificar Qualidade do Código (Linting)
 

@@ -1,10 +1,10 @@
-import { React, useState, useEffect } from 'react'
 import StationForm from '../../components/StationForm'
 import StationDownMap from '../../components/StationDownMap'
 import StationTable from '../../components/StationTable'
 import StationModal from '../../components/StationModal'
 import StationImage from '../../assets/station_image.svg'
 import api from '../../api/api'
+import { useState, useEffect } from 'react';
 
 function StationPage() {
     const [stations, setStations] = useState([])

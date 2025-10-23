@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import Calendar from '../../components/Calendar'
 import LastAlerts from '../../components/LastAlerts'
 import AlertsTable from '../../components/AlertsTable'

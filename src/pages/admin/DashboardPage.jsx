@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import DateTimeWatcher from '../../components/DateTimeWatcher'
 import DashboardCard from '../../components/DashboardCard'
 import { CircuitryIcon, WifiHighIcon, DownloadIcon } from '@phosphor-icons/react'
@@ -104,7 +103,7 @@ function DashboardPage() {
                                 </p>
                             </div>
 
-                            <p className='text-center'>Estação abc123 - Chuva > 0.5</p>
+                            <p className='text-center'>Estação abc123 - Chuva {'>'} 0.5</p>
                         </div>
                     </InfoCard>
                 </div>

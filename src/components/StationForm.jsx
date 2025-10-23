@@ -1,4 +1,3 @@
-import { React, useEffect, useState } from 'react'
 import Card from './Card'
 import ParamModal from './ParamModal'
 import loadingAnimation from '../assets/loading.gif'

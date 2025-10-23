@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { getUsers, createUser, updateUser, deleteUser } from '../../services/api';
 import loadingAnimation from '../../assets/loading.gif';
 

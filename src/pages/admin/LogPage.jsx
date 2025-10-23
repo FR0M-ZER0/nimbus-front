@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import loadingAnimation from '../../assets/loading.gif'
 
 

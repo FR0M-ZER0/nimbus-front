@@ -1,4 +1,3 @@
-import React from 'react'
 import InfoCard from './InfoCard'
 
 function Card({ title, children }) {

@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import Modal from './Modal'
 
 function TabModal({ onClose, tabName, dataTabContent, tabContent, onSave, onDelete }) {

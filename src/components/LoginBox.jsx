@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 
 function LoginBox() {
 	const [nome, setNome] = useState('')

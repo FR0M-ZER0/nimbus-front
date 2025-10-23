@@ -1,4 +1,3 @@
-import React from 'react'
 import InfoCard from './InfoCard'
 import Paginator from './Paginator'
 import Filter from './Filter'

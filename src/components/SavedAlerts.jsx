@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import InfoCard from './InfoCard'
 import Filter from './Filter'
 import AlertModal from './AlertModal'

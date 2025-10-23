@@ -1,4 +1,3 @@
-import { React, useState } from 'react'
 import { ListIcon, XIcon } from '@phosphor-icons/react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router'

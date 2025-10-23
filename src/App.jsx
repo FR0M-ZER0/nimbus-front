@@ -1,5 +1,4 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Páginas
 import AdminLayout from './pages/admin/Layout';
@@ -61,3 +60,4 @@ function App() {
 }
 
 export default App;
+

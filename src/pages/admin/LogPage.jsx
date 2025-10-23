@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import loadingAnimation from '../../assets/loading.gif'
+import { useState, useEffect } from 'react';
 
 
 const mockLogs = [
@@ -39,7 +39,7 @@ function LogPage() {
         try {
             const data = await api.getLogs();
             setLogs(data);
-        } catch (err) {
+        } catch  {
             setError('Falha ao carregar o histórico. Tente novamente.');
         } finally {
             setIsLoading(false);

@@ -1,4 +1,5 @@
 import loadingAnimation from '../../assets/loading.gif'
+import { useState, useEffect } from 'react';
 
 
 const mockLogs = [

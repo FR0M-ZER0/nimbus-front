@@ -1,5 +1,6 @@
 import { XIcon } from '@phosphor-icons/react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from 'react';
 
 function Modal({ onClose, children, needsButton=false, onSave, deleteBtn=false, onDelete }) {
     // Animação do fundo escuro

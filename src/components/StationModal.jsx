@@ -3,6 +3,7 @@ import StationImage from '../assets/station_image.svg'
 import { TrashIcon, PencilSimpleIcon, CheckIcon, CalendarDotsIcon } from '@phosphor-icons/react'
 import api from '../api/api'
 import { toast } from 'react-toastify'
+import { useState, useEffect } from 'react';
 
 function StationModal({ closeModal, station, onStationUpdate }) {
     const states = [

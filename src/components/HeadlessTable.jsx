@@ -5,6 +5,7 @@ import { usePagination } from '../hooks/usePagination'
 import loadingAnimation from '../assets/loading.gif'
 import { motion, AnimatePresence } from 'framer-motion'
 
+
 function HeadlessTable({ title, tableEntries, onActionBtnClick, onLoading }) {
     const { currentItems, pageCount, handlePageClick, rowAnimation } = usePagination(tableEntries, 10)
 

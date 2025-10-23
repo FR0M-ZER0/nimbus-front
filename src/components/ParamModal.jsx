@@ -15,7 +15,8 @@ function ParamModal({ closeModal, editingParam, onUpdate }) {
         let parsedJson
         try {
             parsedJson = JSON.parse(jsonText)
-        } catch (err) {
+        } catch (_err) {
+            
             toast.error('JSON inválido')
             return
         }
@@ -42,8 +43,8 @@ function ParamModal({ closeModal, editingParam, onUpdate }) {
             onUpdate()
             console.log('Tipo parâmetro criado: ', response.data)
             closeModal()
-        } catch (err) {
-            console.error('Erro ao criar tipo parâmetro: ', err)
+        } catch (_err) {
+            console.error('Erro ao criar tipo parâmetro: ', _err)
             toast.error('Erro ao criar parâmetro')
         }
     }
@@ -57,8 +58,8 @@ function ParamModal({ closeModal, editingParam, onUpdate }) {
             toast.info('Parâmetro excluído com sucesso')
             onUpdate()
             closeModal()
-        } catch (err) {
-            console.error('Erro ao excluir parâmetro: ', err)
+        } catch (_err) {
+            console.error('Erro ao excluir parâmetro: ', _err)
             toast.error('Não foi possível excluir o parâmetro')
         }
     }

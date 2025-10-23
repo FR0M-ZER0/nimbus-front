@@ -1,5 +1,5 @@
 import { ListIcon, XIcon } from '@phosphor-icons/react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router'
 import { useState } from 'react';
 

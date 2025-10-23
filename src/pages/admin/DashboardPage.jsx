@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import DateTimeWatcher from '../../components/DateTimeWatcher'
 import DashboardCard from '../../components/DashboardCard'
 import { CircuitryIcon, WifiHighIcon, DownloadIcon } from '@phosphor-icons/react'
 import InfoCard from '../../components/InfoCard'
 import Card from '../../components/Card'
 import api from '../../api/api'
+import { useState, useEffect } from 'react';
 
 function DashboardPage() {
     const [todaysAlarms, setTodaysAlarms] = useState([])
@@ -104,7 +104,7 @@ function DashboardPage() {
                                 </p>
                             </div>
 
-                            <p className='text-center'>Estação abc123 - Chuva > 0.5</p>
+                            <p className='text-center'>Estação abc123 - Chuva {'>'} 0.5</p>
                         </div>
                     </InfoCard>
                 </div>

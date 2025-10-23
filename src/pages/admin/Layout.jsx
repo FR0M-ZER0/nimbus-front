@@ -1,4 +1,3 @@
-import React from 'react'
 import { Outlet, useLocation } from 'react-router'
 import Sidebar from '../../components/Sidebar'
 import Topbar from '../../components/Topbar'

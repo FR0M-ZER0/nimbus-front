@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import TabModal from './TabModal'
 import StationImage from '../assets/station_image.svg'
 import { TrashIcon, PencilSimpleIcon, CheckIcon, CalendarDotsIcon } from '@phosphor-icons/react'

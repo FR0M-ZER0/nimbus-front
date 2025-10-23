@@ -1,4 +1,3 @@
-import React from 'react'
 import { XIcon } from '@phosphor-icons/react'
 import { motion, AnimatePresence } from 'framer-motion'
 

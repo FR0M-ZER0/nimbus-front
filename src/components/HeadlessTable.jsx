@@ -3,7 +3,7 @@ import Paginator from './Paginator'
 import Filter from './Filter'
 import { usePagination } from '../hooks/usePagination'
 import loadingAnimation from '../assets/loading.gif'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 
 
 function HeadlessTable({ title, tableEntries, onActionBtnClick, onLoading }) {

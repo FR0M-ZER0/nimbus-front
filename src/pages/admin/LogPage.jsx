@@ -39,7 +39,7 @@ function LogPage() {
         try {
             const data = await api.getLogs();
             setLogs(data);
-        } catch (_err) {
+        } catch  {
             setError('Falha ao carregar o histórico. Tente novamente.');
         } finally {
             setIsLoading(false);

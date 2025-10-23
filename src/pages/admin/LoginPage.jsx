@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router';
 import { registerFirstUser } from '../../services/api';
+import { useState } from 'react';
 
 function LoginPage() {
     const navigate = useNavigate();

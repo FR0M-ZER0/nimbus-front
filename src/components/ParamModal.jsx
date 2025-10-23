@@ -1,6 +1,7 @@
 import Modal from './Modal'
 import api from '../api/api'
 import { toast } from 'react-toastify'
+import { useState } from 'react';
 
 function ParamModal({ closeModal, editingParam, onUpdate }) {
     const [name, setName] = useState(editingParam?.nome || '')

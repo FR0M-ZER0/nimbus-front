@@ -4,6 +4,7 @@ import { CircuitryIcon, WifiHighIcon, DownloadIcon } from '@phosphor-icons/react
 import InfoCard from '../../components/InfoCard'
 import Card from '../../components/Card'
 import api from '../../api/api'
+import { useState, useEffect } from 'react';
 
 function DashboardPage() {
     const [todaysAlarms, setTodaysAlarms] = useState([])

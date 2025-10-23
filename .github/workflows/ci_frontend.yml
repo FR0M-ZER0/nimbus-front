@@ -26,8 +26,13 @@ jobs:
         run: npm install
 
       - name: Verificar Qualidade do Código (Linting)
-
         run: npm run lint
+
+      - name: Clean and Reinstall Node Modules
+        run: |
+         rm -rf node_modules package-lock.json
+         npm cache clean --force
+         npm install
 
 
       - name: Fazer Build da Aplicação (Vite)

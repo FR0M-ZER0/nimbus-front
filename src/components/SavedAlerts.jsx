@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import InfoCard from './InfoCard'
 import Filter from './Filter'
 import AlertModal from './AlertModal'
@@ -6,6 +5,7 @@ import { TrashIcon, PencilSimpleIcon } from '@phosphor-icons/react'
 import api from '../api/api'
 import { toast } from 'react-toastify'
 import loadingAnimation from '../assets/loading.gif'
+import { useState } from 'react';
 
 function SavedAlerts({ alerts, onDelete, onUpdate, onLoading }) {
     const [alertEditing, setAlertEditing] = useState(null)

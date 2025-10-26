@@ -37,7 +37,7 @@ jobs:
         uses: lekterable/branchlint-action@2.1.0
         with:
           allowed: |
-            feat/^[A-Z]+-[0-9]+-[a-z0-9-]+$/
+            /feat/[A-Z]+-[0-9]+-[a-z0-9-]+/
           
 
           errorMessage: "O nome da branch não segue o padrão 'feat/TASK-ID-descricao-em-kebab-case'. Ex: feat/NIMB-42-ajustar-ci"

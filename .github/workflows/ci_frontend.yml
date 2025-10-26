@@ -28,7 +28,7 @@ jobs:
           subjectPattern: '^[A-Z]+-[0-9]+ - .+'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          ## teste
   validate-branch-name:
     name: 'Validate Branch Name'
     runs-on: ubuntu-latest

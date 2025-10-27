@@ -55,6 +55,8 @@ jobs:
     name: 'Build and Test'
     runs-on: ubuntu-latest
 
+    if: github.event_name == 'push' || success()
+
     needs: [validate-pr-title, validate-branch-name, validate-commits]
     
     steps:

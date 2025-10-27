@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import TabModal from './TabModal'
 import StationImage from '../assets/station_image.svg'
 import { TrashIcon, PencilSimpleIcon, CheckIcon, CalendarDotsIcon } from '@phosphor-icons/react'
@@ -27,6 +27,14 @@ function StationModal({ closeModal, station, onStationUpdate }) {
     const [stationParams, setStationParams] = useState([])
     const [measures, setMeasures] = useState([])
     const [paramId, setParamId] = useState(1)
+    const [selectedDate, setSelectedDate] = useState(() => {
+        const today = new Date()
+        const day = String(today.getDate()).padStart(2, '0')
+        const month = String(today.getMonth() + 1).padStart(2, '0')
+        const year = today.getFullYear()
+        return `${day}/${month}/${year}`
+    })
+    const dateInputRef = useRef(null)
 
     const fetchStationDetails = async () => {
         try {
@@ -71,9 +79,11 @@ function StationModal({ closeModal, station, onStationUpdate }) {
         }
     }
 
-    const fetchMeasures = async (paramId) => {
+    const fetchMeasures = async (paramId, date) => {
         try {
-            const response = await api.get(`/measure/params/${paramId}`)
+            const response = await api.get(`/measure/params/${paramId}`, {
+                params: { date }
+            })
             setMeasures(response.data)
         } catch(err) {
             console.error(err)
@@ -158,10 +168,10 @@ function StationModal({ closeModal, station, onStationUpdate }) {
     }, [station])
 
     useEffect(() => {
-        if (paramId) {
-            fetchMeasures(paramId)
+        if (paramId && selectedDate) {
+            fetchMeasures(paramId, selectedDate)
         }
-    }, [paramId])
+    }, [paramId, selectedDate])
 
     return (
         <TabModal
@@ -264,10 +274,23 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                             </div>
                         </div>
 
-                        <div className='flex alt-light-color-text space-x-2'>
+                        <div className='flex alt-light-color-text space-x-2 cursor-pointer' onClick={() => dateInputRef.current.showPicker()}>
                             <CalendarDotsIcon size={24} />
-                            <p>01/09/2035</p>
+                            <p>{selectedDate}</p>
                         </div>
+                        <input
+                            type="date"
+                            ref={dateInputRef}
+                            value={(() => {
+                                const [dd, mm, yyyy] = selectedDate.split('/');
+                                return `${yyyy}-${mm}-${dd}`;
+                            })()}
+                            onChange={(e) => {
+                                const [yyyy, mm, dd] = e.target.value.split('-');
+                                setSelectedDate(`${dd}/${mm}/${yyyy}`);
+                            }}
+                            style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', right: 0 }}
+                        />
                     </div>
 
                     <div className='flex space-x-4'>

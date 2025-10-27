@@ -24,6 +24,10 @@ function StationModal({ closeModal, station, onStationUpdate }) {
     const [selectedParamTypeIds, setSelectedParamTypeIds] = useState([])
     const [existingParamRecords, setExistingParamRecords] = useState([])
 
+    const [stationParams, setStationParams] = useState([])
+    const [measures, setMeasures] = useState([])
+    const [paramId, setParamId] = useState(1)
+
     const fetchStationDetails = async () => {
         try {
             const stationRes = await api.get(`/stations/${station.uid}`)
@@ -51,10 +55,28 @@ function StationModal({ closeModal, station, onStationUpdate }) {
     const fetchAllTypeParameters = async () => {
         try {
             const res = await api.get('/typeParameters');
-            setParams(res.data || []);
+            setParams(res.data || [])
         } catch (err) {
-            console.error('Erro ao carregar tipos de parâmetro:', err);
-            toast.error('Erro ao carregar parâmetros disponíveis');
+            console.error('Erro ao carregar tipos de parâmetro:', err)
+            toast.error('Erro ao carregar parâmetros disponíveis')
+        }
+    }
+
+    const fetchStationParams = async () => {
+        try {
+            const response = await api.get(`/parameters/station/${station.uid}`)
+            setStationParams(response.data)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const fetchMeasures = async (paramId) => {
+        try {
+            const response = await api.get(`/measure/params/${paramId}`)
+            setMeasures(response.data)
+        } catch(err) {
+            console.error(err)
         }
     }
 
@@ -131,8 +153,15 @@ function StationModal({ closeModal, station, onStationUpdate }) {
         if (station?.uid) {
             fetchStationDetails()
             fetchAllTypeParameters()
+            fetchStationParams()
         }
     }, [station])
+
+    useEffect(() => {
+        if (paramId) {
+            fetchMeasures(paramId)
+        }
+    }, [paramId])
 
     return (
         <TabModal
@@ -232,7 +261,6 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                             <img src={StationImage} alt="station_image" width={54} />
                             <div>
                                 <p className='text-xl'>abc123</p>
-                                <p className='text-red-500'>Excluir</p>
                             </div>
                         </div>
 
@@ -244,8 +272,18 @@ function StationModal({ closeModal, station, onStationUpdate }) {
 
                     <div className='flex space-x-4'>
                         <div className='w-[270px]'>
-                            <select className='py-2 border-b-1 border-[#D9D9D9] w-full px-1 text-xl font-semibold'>
-                                <option value="" selected className='py-1'>SP</option>
+                            <select
+                                className='py-2 border-b-1 border-[#D9D9D9] w-full px-1 text-xl font-semibold'
+                                value={paramId}
+                                onChange={e => setParamId(e.target.value)}
+                            >
+                                {stationParams
+                                    .map((param) => (
+                                        <option key={param.id_parametro} value={param.id_parametro} className='alt-dark-color-3-bg'>
+                                            {param.tipo_parametro.nome}
+                                        </option>
+                                    ))
+                                }
                             </select>
                             
                             <table className='w-full mt-8'>
@@ -255,14 +293,20 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>09:41</td>
-                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>0.41 L</td>
-                                    </tr>
-                                    <tr>
-                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>09:41</td>
-                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>0.41 L</td>
-                                    </tr>
+                                    {measures.data && measures.data.length > 0 ? (
+                                        measures.data.map((measure) => (
+                                            <tr key={measure.id_medida}>
+                                                <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>{measure.data_hora}</td>
+                                                <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>{measure.valor}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan={2} className='pt-8 pb-3 text-center border-b-1 border-[#9093B4]'>
+                                                Nenhuma medida encontrada
+                                            </td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import Calendar from '../../components/Calendar'
 import LastAlerts from '../../components/LastAlerts'
 import AlertsTable from '../../components/AlertsTable'
 import AlertForm from '../../components/AlertForm'
 import SavedAlerts from '../../components/SavedAlerts'
 import api from '../../api/api'
+import { useState, useEffect } from 'react';
 
 function AlertPage() {
     const [alerts, setAlerts] = useState([])

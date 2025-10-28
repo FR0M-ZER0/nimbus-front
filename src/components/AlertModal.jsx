@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
 import Modal from './Modal'
 import api from '../api/api'
 import { toast } from 'react-toastify'
+import { useState, useEffect } from 'react';
 
 function AlertModal({ closeModal, alertEditing, onUpdate }) {
     const [stations, setStations] = useState([])

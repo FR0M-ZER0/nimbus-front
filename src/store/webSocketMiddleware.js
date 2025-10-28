@@ -5,6 +5,7 @@ import {
 import { statusReceived } from './slices/statusSlice.js'
 import { logReceived } from './slices/logSlice.js'
 import { processingReceived } from './slices/processingSlice.js'
+import { summaryReceived } from './slices/summarySlice.js'
 
 let socket = null
 
@@ -33,6 +34,9 @@ export const websocketMiddleware = (url) => (store) => (next) => (action) => {
                     break
                 case 'PROCESSING_LOG':
                     store.dispatch(processingReceived(data.dataProcessingLog))
+                    break
+                case 'LOG_SUMMARY':
+                    store.dispatch(summaryReceived(data.data))
                     break
                 default:
                     console.warn('Tipo de mensagem desconhecido:', data.type)

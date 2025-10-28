@@ -1,4 +1,3 @@
-import React from 'react'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 
 function SystemSearchbar({ inputValue, onChange }) {

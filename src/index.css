@@ -169,6 +169,19 @@ a {
   zoom: 0.8;
 }
 
+.log-badge.info {
+  background-color: var(--green-color);
+}
+
+.log-badge.alert {
+  background-color: var(--yellow-color);
+}
+
+.log-badge.erro {
+  background-color: var(--red-color);
+  color: var(--main-light-color);
+}
+
 /* Scrollbar */
 *::-webkit-scrollbar {
   width: var(--sb-size);
@@ -484,28 +497,6 @@ a {
 
 .logs-table tbody tr:hover {
   background-color: var(--main-dark-color);
-}
-
-/* Estilos para o LogLevelBadge */
-.log-badge {
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--main-dark-color)
-}
-
-.log-badge.info {
-  background-color: var(--green-color);
-}
-
-.log-badge.alert {
-  background-color: var(--yellow-color);
-}
-
-.log-badge.error {
-  background-color: var(--red-color);
-  color: var(--main-light-color);
 }
 
 .spinner-container {

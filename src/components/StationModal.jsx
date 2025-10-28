@@ -265,7 +265,7 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                 </>
             }
             dataTabContent={
-                <div>
+                <div className='mb-6'>
                     <div className='flex w-full justify-between items-center mb-8'>
                         <div className='flex items-center space-x-2'>
                             <img src={StationImage} alt="station_image" width={54} />
@@ -294,7 +294,7 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                     </div>
 
                     <div className='flex space-x-4'>
-                        <div className='w-[270px]'>
+                        <div className='w-[270px] max-h-[400px] overflow-y-auto'>
                             <select
                                 className='py-2 border-b-1 border-[#D9D9D9] w-full px-1 text-xl font-semibold'
                                 value={paramId}
@@ -309,7 +309,7 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                                 }
                             </select>
                             
-                            <table className='w-full mt-8'>
+                            <table className='w-full mt-8 overflow-y-auto max-h-[300px]'>
                                 <thead className='text-left alt-light-color-text'>
                                     <th className='border-b-1 border-[#9093B4] pb-3'>Horário</th>
                                     <th className='border-b-1 border-[#9093B4] pb-3'>Valor</th>

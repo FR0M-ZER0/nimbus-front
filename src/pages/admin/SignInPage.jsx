@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { login } from '../../services/api';
-
+import { useState} from 'react';
 function SignInPage() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');

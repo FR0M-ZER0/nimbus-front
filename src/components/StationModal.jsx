@@ -271,7 +271,7 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                         <div className='flex items-center space-x-2'>
                             <img src={StationImage} alt="station_image" width={54} />
                             <div>
-                                <p className='text-xl'>abc123</p>
+                                <p className='text-xl'>{uuid}</p>
                             </div>
                         </div>
 

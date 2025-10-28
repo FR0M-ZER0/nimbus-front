@@ -4,6 +4,7 @@ import StationImage from '../assets/station_image.svg'
 import { TrashIcon, PencilSimpleIcon, CheckIcon, CalendarDotsIcon } from '@phosphor-icons/react'
 import api from '../api/api'
 import { toast } from 'react-toastify'
+import MeasureChart from './MeasureChart'
 
 function StationModal({ closeModal, station, onStationUpdate }) {
     const states = [
@@ -335,8 +336,18 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                         </div>
 
                         <div className='flex-1'>
-                            {/* TODO: Colocar o chart */}
                             <div className='main-dark-color-bg w-full h-full rounded-lg'>
+                                <MeasureChart
+                                    data={[
+                                        {
+                                        id: 'Valor',
+                                        color: 'hsl(210, 70%, 50%)',
+                                        data: (measures.data?.slice() || [])
+                                            .sort((a, b) => a.data_hora.localeCompare(b.data_hora))
+                                            .map(m => ({ x: m.data_hora, y: m.valor })),
+                                        },
+                                    ]}
+                                />
                             </div>
                         </div>
                     </div>

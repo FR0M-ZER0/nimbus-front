@@ -1,4 +1,3 @@
-import React from 'react'
 import SystemSearchbar from './SystemSearchbar'
 import { UserIcon, BellIcon, GearIcon } from '@phosphor-icons/react'
 import HamburguerMenu from './HamburguerMenu'

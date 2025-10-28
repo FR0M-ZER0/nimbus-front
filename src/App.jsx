@@ -1,4 +1,6 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router'
+import { useDispatch } from 'react-redux'
 
 // Páginas
 import AdminLayout from './pages/admin/Layout';
@@ -33,6 +35,13 @@ const InitialRedirect = () => {
 };
 
 function App() {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch({ type: 'WS_CONNECT' })
+        return () => dispatch({ type: 'WS_DISCONNECT' })
+    }, [dispatch])
+
     return (
         <Routes>
             {/* ROTA PRINCIPAL: Agora aponta para nosso componente inteligente */}

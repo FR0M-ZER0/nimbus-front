@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import Modal from './Modal'
+import { useState } from 'react';
 
 function TabModal({ onClose, tabName, dataTabContent, tabContent, onSave, onDelete }) {
     const [activeTab, setActiveTab] = useState(tabName)

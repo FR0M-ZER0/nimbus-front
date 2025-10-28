@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
 import TabModal from './TabModal'
 import StationImage from '../assets/station_image.svg'
 import { TrashIcon, PencilSimpleIcon, CheckIcon, CalendarDotsIcon } from '@phosphor-icons/react'
 import api from '../api/api'
 import { toast } from 'react-toastify'
+import { useState, useEffect } from 'react';
 
 function StationModal({ closeModal, station, onStationUpdate }) {
     const states = [
@@ -192,7 +192,7 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                         <h2 className='text-2xl alt-light-color-text mb-8'>Parâmetros</h2>
                         <div className='grid grid-cols-7 gap-y-10'>
                             {params.map((param) => {
-                                const isChecked = selectedParamTypeIds.includes(param.id_tipo_parametro)
+                                const _ischecked = selectedParamTypeIds.includes(param.id_tipo_parametro)
                                 return (
                                     <div 
                                         key={param.id_tipo_parametro} 

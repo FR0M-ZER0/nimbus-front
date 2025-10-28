@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
 import Modal from './Modal'
 import api from '../api/api'
 import { toast } from 'react-toastify'
+import { useState } from 'react';
 
 function ParamModal({ closeModal, editingParam, onUpdate }) {
     const [name, setName] = useState(editingParam?.nome || '')
@@ -15,7 +15,8 @@ function ParamModal({ closeModal, editingParam, onUpdate }) {
         let parsedJson
         try {
             parsedJson = JSON.parse(jsonText)
-        } catch (err) {
+        } catch {
+            
             toast.error('JSON inválido')
             return
         }
@@ -42,8 +43,8 @@ function ParamModal({ closeModal, editingParam, onUpdate }) {
             onUpdate()
             console.log('Tipo parâmetro criado: ', response.data)
             closeModal()
-        } catch (err) {
-            console.error('Erro ao criar tipo parâmetro: ', err)
+        } catch {
+            console.error('Erro ao criar tipo parâmetro: ')
             toast.error('Erro ao criar parâmetro')
         }
     }
@@ -57,8 +58,8 @@ function ParamModal({ closeModal, editingParam, onUpdate }) {
             toast.info('Parâmetro excluído com sucesso')
             onUpdate()
             closeModal()
-        } catch (err) {
-            console.error('Erro ao excluir parâmetro: ', err)
+        } catch  {
+            console.error('Erro ao excluir parâmetro: ',)
             toast.error('Não foi possível excluir o parâmetro')
         }
     }

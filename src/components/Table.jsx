@@ -17,7 +17,9 @@ function Table({ title, tableHeadEntries, tableBodyEntries, onLoading }) {
 						{ title }
 					</p>
 
-					<Filter />
+					<div className='ml-4 w-full'>
+						<Filter />
+					</div>
 				</div>
 
 				{onLoading ? (

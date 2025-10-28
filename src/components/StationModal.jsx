@@ -232,7 +232,7 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                         <h2 className='text-2xl alt-light-color-text mb-8'>Parâmetros</h2>
                         <div className='grid grid-cols-7 gap-y-10'>
                             {params.map((param) => {
-                                const isChecked = selectedParamTypeIds.includes(param.id_tipo_parametro)
+                                const _ischecked = selectedParamTypeIds.includes(param.id_tipo_parametro)
                                 return (
                                     <div 
                                         key={param.id_tipo_parametro} 

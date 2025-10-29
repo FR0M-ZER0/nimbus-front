@@ -22,6 +22,13 @@ jobs:
       - name: Instalar Dependências
         run: npm install
 
+      - name: Limpar e reinstalar modulos Node
+        run: |
+         rm -rf node_modules package-lock.json
+         npm cache clean --force
+         npm install
+
+
       - name: Fazer Build da Aplicação (Vite)
         run: npm run build
 

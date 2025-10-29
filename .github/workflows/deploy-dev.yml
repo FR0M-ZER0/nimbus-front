@@ -2,7 +2,7 @@ name: Deploy to AWS (Dev)
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "hml" ]
 
 jobs:
   deploy:

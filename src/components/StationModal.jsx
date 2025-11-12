@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import TabModal from './TabModal'
 import StationImage from '../assets/station_image.svg'
 import { TrashIcon, PencilSimpleIcon, CheckIcon, CalendarDotsIcon } from '@phosphor-icons/react'
 import api from '../api/api'
 import { toast } from 'react-toastify'
+import MeasureChart from './MeasureChart'
 
 function StationModal({ closeModal, station, onStationUpdate }) {
     const states = [
@@ -23,6 +24,18 @@ function StationModal({ closeModal, station, onStationUpdate }) {
     const [params, setParams] = useState([])
     const [selectedParamTypeIds, setSelectedParamTypeIds] = useState([])
     const [existingParamRecords, setExistingParamRecords] = useState([])
+
+    const [stationParams, setStationParams] = useState([])
+    const [measures, setMeasures] = useState([])
+    const [paramId, setParamId] = useState(1)
+    const [selectedDate, setSelectedDate] = useState(() => {
+        const today = new Date()
+        const day = String(today.getDate()).padStart(2, '0')
+        const month = String(today.getMonth() + 1).padStart(2, '0')
+        const year = today.getFullYear()
+        return `${day}/${month}/${year}`
+    })
+    const dateInputRef = useRef(null)
 
     const fetchStationDetails = async () => {
         try {
@@ -51,10 +64,30 @@ function StationModal({ closeModal, station, onStationUpdate }) {
     const fetchAllTypeParameters = async () => {
         try {
             const res = await api.get('/typeParameters');
-            setParams(res.data || []);
+            setParams(res.data || [])
         } catch (err) {
-            console.error('Erro ao carregar tipos de parâmetro:', err);
-            toast.error('Erro ao carregar parâmetros disponíveis');
+            console.error('Erro ao carregar tipos de parâmetro:', err)
+            toast.error('Erro ao carregar parâmetros disponíveis')
+        }
+    }
+
+    const fetchStationParams = async () => {
+        try {
+            const response = await api.get(`/parameters/station/${station.uid}`)
+            setStationParams(response.data)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const fetchMeasures = async (paramId, date) => {
+        try {
+            const response = await api.get(`/measure/params/${paramId}`, {
+                params: { date }
+            })
+            setMeasures(response.data)
+        } catch(err) {
+            console.error(err)
         }
     }
 
@@ -131,8 +164,15 @@ function StationModal({ closeModal, station, onStationUpdate }) {
         if (station?.uid) {
             fetchStationDetails()
             fetchAllTypeParameters()
+            fetchStationParams()
         }
     }, [station])
+
+    useEffect(() => {
+        if (paramId && selectedDate) {
+            fetchMeasures(paramId, selectedDate)
+        }
+    }, [paramId, selectedDate])
 
     return (
         <TabModal
@@ -192,7 +232,7 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                         <h2 className='text-2xl alt-light-color-text mb-8'>Parâmetros</h2>
                         <div className='grid grid-cols-7 gap-y-10'>
                             {params.map((param) => {
-                                const isChecked = selectedParamTypeIds.includes(param.id_tipo_parametro)
+                                const _ischecked = selectedParamTypeIds.includes(param.id_tipo_parametro)
                                 return (
                                     <div 
                                         key={param.id_tipo_parametro} 
@@ -226,50 +266,88 @@ function StationModal({ closeModal, station, onStationUpdate }) {
                 </>
             }
             dataTabContent={
-                <div>
+                <div className='mb-6'>
                     <div className='flex w-full justify-between items-center mb-8'>
                         <div className='flex items-center space-x-2'>
                             <img src={StationImage} alt="station_image" width={54} />
                             <div>
-                                <p className='text-xl'>abc123</p>
-                                <p className='text-red-500'>Excluir</p>
+                                <p className='text-xl'>{uuid}</p>
                             </div>
                         </div>
 
-                        <div className='flex alt-light-color-text space-x-2'>
+                        <div className='flex alt-light-color-text space-x-2 cursor-pointer' onClick={() => dateInputRef.current.showPicker()}>
                             <CalendarDotsIcon size={24} />
-                            <p>01/09/2035</p>
+                            <p>{selectedDate}</p>
                         </div>
+                        <input
+                            type="date"
+                            ref={dateInputRef}
+                            value={(() => {
+                                const [dd, mm, yyyy] = selectedDate.split('/');
+                                return `${yyyy}-${mm}-${dd}`;
+                            })()}
+                            onChange={(e) => {
+                                const [yyyy, mm, dd] = e.target.value.split('-');
+                                setSelectedDate(`${dd}/${mm}/${yyyy}`);
+                            }}
+                            style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', right: 0 }}
+                        />
                     </div>
 
                     <div className='flex space-x-4'>
-                        <div className='w-[270px]'>
-                            <select className='py-2 border-b-1 border-[#D9D9D9] w-full px-1 text-xl font-semibold'>
-                                <option value="" selected className='py-1'>SP</option>
+                        <div className='w-[270px] max-h-[400px] overflow-y-auto'>
+                            <select
+                                className='py-2 border-b-1 border-[#D9D9D9] w-full px-1 text-xl font-semibold'
+                                value={paramId}
+                                onChange={e => setParamId(e.target.value)}
+                            >
+                                {stationParams
+                                    .map((param) => (
+                                        <option key={param.id_parametro} value={param.id_parametro} className='alt-dark-color-3-bg'>
+                                            {param.tipo_parametro.nome}
+                                        </option>
+                                    ))
+                                }
                             </select>
                             
-                            <table className='w-full mt-8'>
+                            <table className='w-full mt-8 overflow-y-auto max-h-[300px]'>
                                 <thead className='text-left alt-light-color-text'>
                                     <th className='border-b-1 border-[#9093B4] pb-3'>Horário</th>
                                     <th className='border-b-1 border-[#9093B4] pb-3'>Valor</th>
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>09:41</td>
-                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>0.41 L</td>
-                                    </tr>
-                                    <tr>
-                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>09:41</td>
-                                        <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>0.41 L</td>
-                                    </tr>
+                                    {measures.data && measures.data.length > 0 ? (
+                                        measures.data.map((measure) => (
+                                            <tr key={measure.id_medida}>
+                                                <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>{measure.data_hora}</td>
+                                                <td className='pt-8 pb-3 border-b-1 border-[#9093B4]'>{measure.valor}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan={2} className='pt-8 pb-3 text-center border-b-1 border-[#9093B4]'>
+                                                Nenhuma medida encontrada
+                                            </td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
 
                         <div className='flex-1'>
-                            {/* TODO: Colocar o chart */}
                             <div className='main-dark-color-bg w-full h-full rounded-lg'>
+                                <MeasureChart
+                                    data={[
+                                        {
+                                        id: 'Valor',
+                                        color: 'hsl(210, 70%, 50%)',
+                                        data: (measures.data?.slice() || [])
+                                            .sort((a, b) => a.data_hora.localeCompare(b.data_hora))
+                                            .map(m => ({ x: m.data_hora, y: m.valor })),
+                                        },
+                                    ]}
+                                />
                             </div>
                         </div>
                     </div>

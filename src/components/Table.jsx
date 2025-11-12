@@ -1,10 +1,10 @@
-import React from 'react'
 import InfoCard from './InfoCard'
 import Paginator from './Paginator'
 import Filter from './Filter'
 import loadingAnimation from '../assets/loading.gif'
 import { usePagination } from '../hooks/usePagination'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
+
 
 function Table({ title, tableHeadEntries, tableBodyEntries, onLoading }) {
     const { currentItems, pageCount, handlePageClick, rowAnimation } = usePagination(tableBodyEntries, 10)
@@ -17,7 +17,9 @@ function Table({ title, tableHeadEntries, tableBodyEntries, onLoading }) {
 						{ title }
 					</p>
 
-					<Filter />
+					<div className='ml-4 w-full'>
+						<Filter />
+					</div>
 				</div>
 
 				{onLoading ? (

@@ -1,4 +1,3 @@
-import React from 'react'
 import HeadlessTable from './HeadlessTable'
 
 function StationTable({ stations, onActionBtnClick, onLoading }) {

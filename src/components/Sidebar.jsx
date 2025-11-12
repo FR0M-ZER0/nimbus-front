@@ -1,4 +1,3 @@
-import React from "react"
 import { Link, useLocation } from "react-router"
 import {
 	HouseIcon,
@@ -42,7 +41,7 @@ function Sidebar() {
 	const isActive = (path) => location.pathname === path
 
 	return (
-		<nav className="p-[20px] md:flex flex-col min-h-screen w-[300px] dark-gradient hidden">
+		<nav className="p-[20px] md:flex flex-col min-h-screen w-[300px] dark-gradient hidden zoom-08">
 			<div className="flex w-full justify-center">
 				<img src="/nimbus_logo.svg" alt="logo" width={140} />
 			</div>

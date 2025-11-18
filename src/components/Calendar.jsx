@@ -1,3 +1,4 @@
+import React from 'react'
 import { CalendarDotsIcon, CaretLeftIcon } from '@phosphor-icons/react'
 
 function Calendar() {

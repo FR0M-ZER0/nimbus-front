@@ -1,8 +1,8 @@
-import React from 'react'
 import { Outlet, useLocation } from 'react-router'
 import Sidebar from '../../components/Sidebar'
 import Topbar from '../../components/Topbar'
 import { ToastContainer, Zoom } from 'react-toastify'
+
 
 function Layout() {
     const location = useLocation()
@@ -22,7 +22,7 @@ function Layout() {
     return (
         <div className='flex min-h-screen max-w-screen gradient-dark-bg main-light-color-text'>
             <Sidebar />
-            <div className='flex-1 px-[20px]'>
+            <div className='flex-1 px-[20px] zoom-08'>
                 <Topbar title={title} />
                 <div className='flex flex-col items-center mt-[40px]'>
                     <Outlet />

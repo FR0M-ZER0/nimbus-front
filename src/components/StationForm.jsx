@@ -1,10 +1,10 @@
-import { React, useEffect, useState } from 'react'
 import Card from './Card'
 import ParamModal from './ParamModal'
 import loadingAnimation from '../assets/loading.gif'
 import { PlusIcon, CheckIcon } from '@phosphor-icons/react'
 import api from '../api/api'
 import { toast } from 'react-toastify'
+import { useState, useEffect } from 'react';
 
 // TODO: Adicionar zod + react hook form
 function StationForm({ onStationCreation }) {

@@ -1,0 +1,31 @@
+name: Deploy Frontend Local Windows
+
+on:
+  push:
+    branches: [ "hml" ] 
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Criar arquivo .env
+
+        run: |
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
+
+      - name: Build e Deploy (Docker Compose)
+        run: |
+
+          docker-compose down
+          
+          docker-compose build --no-cache
+          
+          docker-compose up -d
+          
+      - name: Limpeza
+        if: always()
+        run: docker image prune -f

@@ -1,0 +1,44 @@
+name: Deploy to AWS (Dev)
+
+on:
+  push:
+    branches: [ "hml" ]
+
+jobs:
+  deploy:
+    name: 'Build and Deploy to S3'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Instalar Dependências
+        run: npm install
+
+      - name: Limpar e reinstalar modulos Node
+        run: |
+         rm -rf node_modules package-lock.json
+         npm cache clean --force
+         npm install
+
+
+      - name: Fazer Build da Aplicação (Vite)
+        run: npm run build
+
+      - name: Configurar Credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Enviar arquivos para o S3
+        run: |
+          aws s3 sync ./dist s3://nimbus-front-dev --delete

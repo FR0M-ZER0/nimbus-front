@@ -5,8 +5,8 @@ import PasswordInput from "./PasswordInput"
 function UserEditForm() {
     return (
         <Card title={'Dados pessoais'}>
-            <form action="">
-				<div className="mb-12">
+            <form>
+				<div className="mb-24">
 					<div className="grid grid-cols-6 gap-x-4 gap-y-8">
 						<div className='col-span-3'>
 							<label className='alt-light-color-text mb-2' htmlFor="">Nome</label>
@@ -49,7 +49,7 @@ function UserEditForm() {
 					</div>
 
 					<button className='submit-button mt-8'>
-						Salvar
+						Atualizar
 					</button>
 				</div>
             </form>

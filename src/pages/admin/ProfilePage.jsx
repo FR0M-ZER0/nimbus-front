@@ -3,7 +3,7 @@ import UserEditForm from "../../components/UserEditForm"
 
 function ProfilePage() {
     return (
-        <div className="w-full">
+        <div className="w-full pb-8">
             <div className="flex flex-col items-center mb-8">
                 <ProfileIcon />
                 <h1 className="text-3xl">Fulano da Silva</h1>

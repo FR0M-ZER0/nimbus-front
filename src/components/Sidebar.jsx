@@ -8,6 +8,7 @@ import {
 	UserIcon,
 	GearIcon,
 	SignOutIcon,
+	ChartBarIcon
 } from "@phosphor-icons/react"
 
 function Sidebar() {
@@ -27,6 +28,7 @@ function Sidebar() {
 		icon: <NewspaperIcon size={28} />,
 		},
 		{ to: "/admin/users", label: "Usuários", icon: <UsersIcon size={28} /> },
+		{ to: "/admin/reports", label: "Relatórios", icon: <ChartBarIcon size={28} /> },
 	]
 
 	const accountLinks = [

@@ -113,6 +113,7 @@
 /********************************************** Outros padrões **********************************************/
 body {
   font-family: "Roboto", sans-serif;
+  color: var(--main-light-color);
 }
 
 label {

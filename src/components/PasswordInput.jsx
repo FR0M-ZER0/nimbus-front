@@ -12,19 +12,15 @@ function PasswordInput({ ...props }) {
                 {...props}
             />
 
-            {visible ? (
-                <EyeClosedIcon
-                    size={20}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-                    onClick={() => setVisible(false)}
-                />
-            ) : (
-                <EyeIcon
-                    size={20}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-                    onClick={() => setVisible(true)}
-                />
-            )}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2">
+                <button
+                    className="alt-dark-color-3-bg text-white py-3.5 px-6 rounded-r-[10px]"
+                    onClick={() => setVisible(!visible)}
+                    type="button"
+                >
+                    {visible ? <EyeClosedIcon size={20} /> : <EyeIcon size={20} />}
+                </button>
+            </div>
         </div>
     )
 }

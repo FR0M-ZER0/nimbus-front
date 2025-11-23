@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router'
+// MUDANÇA: Importar de 'react-router-dom' em vez de 'react-router'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 // Páginas
@@ -11,26 +12,19 @@ import LogPage from './pages/admin/LogPage';
 import UsersPage from './pages/admin/UsersPage';
 import ProfilePage from './pages/admin/ProfilePage';
 import SettingsPage from './pages/admin/SettingsPage';
-import LoginPage from './pages/admin/LoginPage';   // Sua página de Cadastro
-import SignInPage from './pages/admin/SignInPage'; // Sua página de Login
+import LoginPage from './pages/admin/LoginPage';   
+import SignInPage from './pages/admin/SignInPage'; 
 
 // --- COMPONENTES DE LÓGICA DE ROTA ---
 
-// Componente para proteger rotas. Se não estiver logado, manda para o login.
 const ProtectedRoute = () => {
     const isAuthenticated = localStorage.getItem('authToken');
     return isAuthenticated ? <AdminLayout /> : <Navigate to="/signin" />;
 };
 
-// NOVO COMPONENTE: Decide a página inicial
 const InitialRedirect = () => {
-    // Verifica se a flag do primeiro acesso já existe
     const isSetupComplete = localStorage.getItem('hasAdminBeenCreated');
-
-    // Se a flag existe, o destino é a página de login.
-    // Se não existe, é o primeiro acesso, então o destino é a página de cadastro.
     const destination = isSetupComplete ? '/signin' : '/login';
-    
     return <Navigate to={destination} />;
 };
 
@@ -44,14 +38,10 @@ function App() {
 
     return (
         <Routes>
-            {/* ROTA PRINCIPAL: Agora aponta para nosso componente inteligente */}
             <Route path='/' element={<InitialRedirect />} />
-            
-            {/* Suas rotas públicas de cadastro e login */}
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signin' element={<SignInPage />} />
 
-            {/* Rotas Protegidas do Admin */}
             <Route path='/admin' element={<ProtectedRoute />}>
                 <Route index element={<DashboardPage />} />
                 <Route path='stations' element={<StationPage />} />
@@ -62,11 +52,9 @@ function App() {
                 <Route path='settings' element={<SettingsPage />} />
             </Route>
 
-            {/* Redirecionamento para qualquer rota não encontrada */}
             <Route path='*' element={<Navigate to="/" />} />
         </Routes>
     );
 }
 
 export default App;
-

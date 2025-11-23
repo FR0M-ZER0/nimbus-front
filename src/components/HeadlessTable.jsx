@@ -3,8 +3,8 @@ import Paginator from './Paginator'
 import Filter from './Filter'
 import { usePagination } from '../hooks/usePagination'
 import loadingAnimation from '../assets/loading.gif'
-import { AnimatePresence } from 'framer-motion'
-
+// CORREÇÃO: Re-adicionando motion na importação
+import { motion, AnimatePresence } from 'framer-motion'
 
 function HeadlessTable({ title, tableEntries, onActionBtnClick, onLoading }) {
     const { currentItems, pageCount, handlePageClick, rowAnimation } = usePagination(tableEntries, 10)

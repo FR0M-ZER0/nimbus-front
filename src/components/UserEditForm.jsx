@@ -77,7 +77,7 @@ function UserEditForm({ user }) {
 						</div>
 					</div>
 
-					<button className='submit-button mt-8' onclick={handleProfileUpdate}>
+					<button className='submit-button mt-8' onClick={handleProfileUpdate}>
 						Salvar
 					</button>
 				</div>

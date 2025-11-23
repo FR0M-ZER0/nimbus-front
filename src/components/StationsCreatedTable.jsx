@@ -1,4 +1,5 @@
 import Card from "./Card"
+import StationImage from "../assets/station_image.svg"
 
 function StationsCreatedTable({ stations }) {
     return (
@@ -8,19 +9,19 @@ function StationsCreatedTable({ stations }) {
                     {stations.map(station => (
                         <tr key={station.uid}>
                             <td className="p-2">
-                                <img src={station.image} />
+                                <img src={StationImage} />
                             </td>
                             <td className="p-2">
                                 <p className="alt-light-color-text">UID</p>
-                                <p>{station.uid}</p>
+                                <p>{station.id_estacao}</p>
                             </td>
                             <td className="p-2">
                                 <p className="alt-light-color-text">Nome</p>
-                                <p>{station.name}</p>
+                                <p>{station.nome}</p>
                             </td>
                             <td className="p-2">
-                                <p className="alt-light-color-text">Params</p>
-                                <p>{station.params}</p>
+                                <p className="alt-light-color-text">Descrição</p>
+                                <p>{station.descricao}</p>
                             </td>
                         </tr>
                     ))}

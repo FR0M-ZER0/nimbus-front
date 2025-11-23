@@ -21,11 +21,8 @@ apiClient.interceptors.request.use(
 );
 
 // --- Funções de Autenticação ---
-
-// FUNÇÃO CORRIGIDA
 export const login = async (email, password) => {
     try {
-        // O ERRO ESTAVA AQUI: Faltava enviar a senha e usar o nome "senha" que o backend espera.
         const response = await apiClient.post('/login', { email, senha: password });
         return response.data;
     } catch (error) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 
 const stateMap = {
     ac: 'acre', al: 'alagoas', ap: 'amapa', am: 'amazonas',

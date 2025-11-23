@@ -16,16 +16,14 @@ describe('LoginPage', () => {
                 <LoginPage />
             </MemoryRouter>
         );
-        // Verifica se os campos existem pelo texto da etiqueta (Label)
-        expect(screen.getByLabelText(/Nome Completo/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/E-mail/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/Senha/i)).toBeInTheDocument();
+        // Busca infalível pelo ID de teste
+        expect(screen.getByTestId('input-name')).toBeInTheDocument();
+        expect(screen.getByTestId('input-email')).toBeInTheDocument();
+        expect(screen.getByTestId('input-password')).toBeInTheDocument();
     });
 
     it('Deve chamar a API de registro ao enviar o formulário', async () => {
-        // Mock da API
         vi.spyOn(apiService, 'registerFirstUser').mockResolvedValue({});
-        // Mock do alert para não travar o teste (jsdom não implementa window.alert)
         vi.spyOn(window, 'alert').mockImplementation(() => {});
 
         render(
@@ -34,16 +32,14 @@ describe('LoginPage', () => {
             </MemoryRouter>
         );
 
-        // Preenche formulário buscando pelos Labels exatos do seu componente
-        fireEvent.change(screen.getByLabelText(/Nome Completo/i), { target: { value: 'Admin' } });
-        fireEvent.change(screen.getByLabelText(/E-mail/i), { target: { value: 'admin@nimbus.com' } });
-        fireEvent.change(screen.getByLabelText(/Senha/i), { target: { value: '123456' } });
+        // Preenche usando os IDs (garante que vai achar o elemento certo)
+        fireEvent.change(screen.getByTestId('input-name'), { target: { value: 'Admin' } });
+        fireEvent.change(screen.getByTestId('input-email'), { target: { value: 'admin@nimbus.com' } });
+        fireEvent.change(screen.getByTestId('input-password'), { target: { value: '123456' } });
 
-        // Envia
         const btn = screen.getByRole('button', { name: /Criar Administrador/i });
         fireEvent.click(btn);
 
-        // Verifica chamada da API
         await waitFor(() => {
             expect(apiService.registerFirstUser).toHaveBeenCalledWith(expect.objectContaining({
                 email: 'admin@nimbus.com'

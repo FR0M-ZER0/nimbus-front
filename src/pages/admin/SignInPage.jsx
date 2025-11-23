@@ -1,22 +1,34 @@
 import { useNavigate } from 'react-router';
 import { login } from '../../services/api';
 import { useState} from 'react';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../store/slices/authSlice';
+
 function SignInPage() {
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleLogin = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setError('');
+        e.preventDefault()
+
+        setIsLoading(true)
+        setError('')
 
         try {
-            const { token } = await login(email, password);
-            localStorage.setItem('authToken', token);
-            navigate('/admin');
+            const { token, user } = await login(email, password)
+            localStorage.setItem('authToken', token)
+
+            dispatch(loginSuccess({
+                user,
+                token
+            }))
+
+            navigate('/admin')
 
         } catch (err) {
             setError(err.message);

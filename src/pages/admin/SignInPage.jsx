@@ -1,6 +1,8 @@
-import { useNavigate } from 'react-router';
+// MUDANÇA: Importar de 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/api';
-import { useState} from 'react';
+import { useState } from 'react';
+
 function SignInPage() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');

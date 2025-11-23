@@ -3,7 +3,7 @@ import Paginator from './Paginator'
 import Filter from './Filter'
 import { usePagination } from '../hooks/usePagination'
 import loadingAnimation from '../assets/loading.gif'
-// CORREÇÃO: Re-adicionando motion na importação
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion'
 
 function HeadlessTable({ title, tableEntries, onActionBtnClick, onLoading }) {

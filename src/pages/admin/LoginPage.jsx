@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router';
+// MUDANÇA: Importar de 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { registerFirstUser } from '../../services/api';
 import { useState } from 'react';
 
@@ -17,24 +18,20 @@ function LoginPage() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    // FUNÇÃO CORRIGIDA
     const handleRegister = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setError('');
 
-        // "Traduz" os nomes dos campos para o que o backend espera
         const dataToSend = {
             nome: formData.name,
             email: formData.email,
             senha: formData.password,
-            id_nivel_acesso: 1 // Adiciona o nível de acesso de Admin (geralmente ID 1)
+            id_nivel_acesso: 1
         };
 
         try {
-            // Envia o objeto corrigido para a API
             await registerFirstUser(dataToSend);
-            
             localStorage.setItem('hasAdminBeenCreated', 'true');
             alert('Administrador criado com sucesso! Você será redirecionado para a tela de login.');
             navigate('/signin');

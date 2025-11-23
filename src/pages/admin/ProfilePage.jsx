@@ -2,8 +2,13 @@ import ProfileIcon from "../../components/ProfileIcon"
 import UserEditForm from "../../components/UserEditForm"
 import StationsCreatedTable from "../../components/StationsCreatedTable"
 import StationImage from "../../assets/station_image.svg"
+import { useSelector } from "react-redux"
+import { formatISOToBR } from "../../utils/format"
+import loadingAnimation from '../../assets/loading.gif'
 
 function ProfilePage() {
+    const user = useSelector(state => state.auth.user)
+
     const stations = [
         {
             image: StationImage,
@@ -33,22 +38,33 @@ function ProfilePage() {
 
     return (
         <div className="w-full pb-8">
-            <div className="flex flex-col items-center mb-8">
-                <ProfileIcon />
-                <h1 className="text-3xl">Fulano da Silva</h1>
-                <p className="alt-light-color-text my-1">Ativo desde 09/02/2035</p>
-                <p className="red-color-text cursor-pointer">Excluir conta</p>
-            </div>
+            {
+                user ? (
+                    <>
+                        <div className="flex flex-col items-center mb-8">
+                            <ProfileIcon />
+                            <h1 className="text-3xl">{user.nome}</h1>
+                            <p className="alt-light-color-text my-1">Ativo desde { formatISOToBR(user.data_criacao) }</p>
+                            <p className="red-color-text cursor-pointer">Excluir conta</p>
+                        </div>
 
-            <div className="flex justify-between">
-                <div className="w-[59%]">
-                    <UserEditForm />
-                </div>
+                        <div className="flex justify-between">
+                            <div className="w-[59%]">
+                                <UserEditForm user={user} />
+                            </div>
 
-                <div className="w-[39%]">
-                    <StationsCreatedTable stations={stations} />
-                </div>
-            </div>
+                            <div className="w-[39%]">
+                                <StationsCreatedTable stations={stations} />
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex w-full h-screen justify-center items-center">
+                        <img src={loadingAnimation} alt="loading" width={160} />
+                    </div>
+                )
+            }
+
         </div>
     )
 }

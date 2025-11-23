@@ -1,7 +1,6 @@
 import ProfileIcon from "../../components/ProfileIcon"
 import UserEditForm from "../../components/UserEditForm"
 import StationsCreatedTable from "../../components/StationsCreatedTable"
-import StationImage from "../../assets/station_image.svg"
 import { useDispatch, useSelector } from "react-redux"
 import { formatISOToBR } from "../../utils/format"
 import loadingAnimation from '../../assets/loading.gif'
@@ -28,33 +27,6 @@ function ProfilePage() {
         }
     }
 
-    const stations = [
-        {
-            image: StationImage,
-            uid: 'abc123',
-            name: 'Ulmidade da água',
-            params: ['ulmidade, luz, chuva']
-        },
-        {
-            image: StationImage,
-            uid: 'xyz123',
-            name: 'Temperatura do solo',
-            params: ['temperatura']
-        },
-        {
-            image: StationImage,
-            uid: 'uia598',
-            name: 'Velocidade do vento',
-            params: ['veloc, vento']
-        },
-        {
-            image: StationImage,
-            uid: 'fla791',
-            name: 'Nível de luz',
-            params: ['luz, chuva']
-        },
-    ]
-
     return (
         <div className="w-full pb-8">
             {
@@ -73,7 +45,7 @@ function ProfilePage() {
                             </div>
 
                             <div className="w-[39%]">
-                                <StationsCreatedTable stations={stations} />
+                                <StationsCreatedTable stations={user.estacoes} />
                             </div>
                         </div>
                     </>

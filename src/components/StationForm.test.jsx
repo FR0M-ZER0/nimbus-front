@@ -2,19 +2,25 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import StationForm from './StationForm';
 
-// 1. Criamos o objeto de mock usando vi.hoisted para garantir que ele exista antes das importações
-const mocks = vi.hoisted(() => ({
+// CORREÇÃO: Padrão mais simples para evitar erro de inicialização
+const mocks = vi.hoisted(() => {
+  return {
     get: vi.fn(),
     post: vi.fn(),
-}));
+  }
+})
 
-// 2. Mockamos os módulos retornando nosso objeto criado acima
-vi.mock('../api/api', () => ({
+vi.mock('../api/api', () => {
+  return {
     default: mocks
-}));
-vi.mock('../services/api', () => ({
+  }
+})
+
+vi.mock('../services/api', () => {
+  return {
     default: mocks
-}));
+  }
+})
 
 vi.mock('react-toastify', () => ({
     toast: { success: vi.fn(), error: vi.fn() }
@@ -23,9 +29,8 @@ vi.mock('react-toastify', () => ({
 describe('StationForm', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        // Configura retorno padrão para GET (lista de parâmetros para popular o form)
+        // Configura respostas padrão
         mocks.get.mockResolvedValue({ data: [{ id_tipo_parametro: 1, nome: 'Chuva' }] });
-        // Configura retorno padrão para POST (sucesso ao criar)
         mocks.post.mockResolvedValue({ data: { id_estacao: '123' } });
     });
 
@@ -33,21 +38,20 @@ describe('StationForm', () => {
         const onCreationMock = vi.fn();
         render(<StationForm onStationCreation={onCreationMock} />);
 
-        // Aguarda o carregamento dos parâmetros (confirma que o useEffect rodou)
+        // Aguarda carregar para garantir que a tela está pronta
         await waitFor(() => expect(screen.getByText('Chuva')).toBeInTheDocument());
 
-        // Preenche os campos
-        // Como temos vários inputs, usamos seletores específicos ou getAllByRole se os labels não forem únicos
+        // Preenche os inputs (Buscando todos os campos de texto)
         const inputs = screen.getAllByRole('textbox');
-        // O primeiro input geralmente é o UUID, o segundo o Nome, etc. (Baseado na ordem do seu JSX)
-        if(inputs[0]) fireEvent.change(inputs[0], { target: { value: 'station-01' } }); // UUID
-        if(inputs[1]) fireEvent.change(inputs[1], { target: { value: 'Estação Teste' } }); // Nome
+        // Preenche o primeiro (UUID) e o segundo (Nome)
+        if(inputs[0]) fireEvent.change(inputs[0], { target: { value: 'station-01' } });
+        if(inputs[1]) fireEvent.change(inputs[1], { target: { value: 'Estação Teste' } });
         
         // Clica no botão de enviar
         const btn = screen.getByRole('button', { name: /Enviar/i });
         fireEvent.click(btn);
 
-        // Verifica se o POST foi chamado
+        // Verifica sucesso
         await waitFor(() => {
             expect(mocks.post).toHaveBeenCalled();
             expect(onCreationMock).toHaveBeenCalled();

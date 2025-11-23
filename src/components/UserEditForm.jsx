@@ -11,9 +11,11 @@ function UserEditForm({ user }) {
 	const [name, setName] = useState(user.nome)
 	const [email, setEmail] = useState(user.email)
 	const [role, setRole] = useState(user.nivel_acesso.id_nivel_acesso)
+	const [curPwd, setCurPwd] = useState('')
+	const [newPwd, setNewPwd] = useState('')
+	const [pwdConfirmation, setPwdConfirmation] = useState('')
 
-	const handleProfileUpdate = async (e) => {
-		e.preventDefault()
+	const handleProfileUpdate = async () => {
 		const data = {
 			nome: name,
 			email,
@@ -27,9 +29,28 @@ function UserEditForm({ user }) {
 			console.error(err)
 		}
 	}
+
+	const handlePasswordUpdate = async () => {
+		const data = {
+			current_password: curPwd,
+			new_password: newPwd,
+			password_confirmation: pwdConfirmation
+		}
+
+		try {
+			await api.put(`/user/password/${user.id_usuario}`, data)
+			setCurPwd('')
+			setNewPwd('')
+			setPwdConfirmation('')
+			toast.success('Senha atualizada com sucesso!')
+		} catch(err) {
+			console.error(err)
+		}
+	}
+
     return (
         <Card title={'Dados pessoais'}>
-            <form onSubmit={handleProfileUpdate}>
+            <div>
 				<div className="mb-24">
 					<div className="grid grid-cols-6 gap-x-4 gap-y-8">
 						<div className='col-span-3'>
@@ -56,7 +77,7 @@ function UserEditForm({ user }) {
 						</div>
 					</div>
 
-					<button className='submit-button mt-8'>
+					<button className='submit-button mt-8' onclick={handleProfileUpdate}>
 						Salvar
 					</button>
 				</div>
@@ -66,25 +87,25 @@ function UserEditForm({ user }) {
 					<div className="grid grid-cols-6 gap-x-4 gap-y-8">
 						<div className='col-span-3'>
 							<label className='alt-light-color-text mb-2'>Senha atual</label>
-							<PasswordInput />
+							<PasswordInput value={curPwd} onChange={e => setCurPwd(e.target.value)} />
 						</div>
 
 						<div className='col-span-3'>
 							<label className='alt-light-color-text mb-2'>Nova senha</label>
-							<PasswordInput />
+							<PasswordInput value={newPwd} onChange={e => setNewPwd(e.target.value)} />
 						</div>
 
 						<div className='col-span-3'>
 							<label className='alt-light-color-text mb-2'>Confirmar nova senha</label>
-							<PasswordInput />
+							<PasswordInput value={pwdConfirmation} onChange={e => setPwdConfirmation(e.target.value)} />
 						</div>
 					</div>
 
-					<button className='submit-button mt-8'>
+					<button className='submit-button mt-8' onClick={handlePasswordUpdate}>
 						Atualizar
 					</button>
 				</div>
-            </form>
+            </div>
         </Card>
     )
 }

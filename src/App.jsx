@@ -13,6 +13,8 @@ import SettingsPage from './pages/admin/SettingsPage';
 import ReportsPage from './pages/admin/ReportsPage';
 import LoginPage from './pages/admin/LoginPage';
 import SignInPage from './pages/admin/SignInPage';
+import { loginSuccess } from './store/slices/authSlice';
+import api from './api/api';
 
 const ProtectedRoute = () => {
     const isAuthenticated = localStorage.getItem('authToken');
@@ -34,6 +36,25 @@ function App() {
         dispatch({ type: 'WS_CONNECT' })
         return () => dispatch({ type: 'WS_DISCONNECT' })
     }, [dispatch])
+
+    useEffect(() => {
+        const token = localStorage.getItem('authToken')
+
+        if (token) {
+            api.get('/me', {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then(res => {
+                dispatch(loginSuccess({
+                    user: res.data,
+                    token
+                }))
+            })
+            .catch(() => {
+                localStorage.removeItem('authToken')
+            })
+        }
+    }, [])
 
     return (
         <Routes>

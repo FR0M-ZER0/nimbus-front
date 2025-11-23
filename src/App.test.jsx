@@ -1,68 +1,55 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from './App';
-// 1. Importamos o MemoryRouter REAL. Não vamos mocká-lo.
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
-// 2. Declaramos a função mock AQUI FORA.
-// Assim, nossos testes 'it(...)' conseguem acessá-la.
-const navigateMock = vi.fn();
+// Mocks das páginas para verificar onde o usuário "parou"
+vi.mock('./pages/admin/LoginPage', () => ({ 
+    default: () => <div data-testid="login-page">Pagina Cadastro</div> 
+}));
+vi.mock('./pages/admin/SignInPage', () => ({ 
+    default: () => <div data-testid="signin-page">Pagina Login</div> 
+}));
+vi.mock('./pages/admin/DashboardPage', () => ({ 
+    default: () => <div data-testid="dashboard-page">Dashboard</div> 
+}));
 
-// 3. Mockamos o 'react-router-dom'
-vi.mock('react-router-dom', async (importOriginal) => {
-  // Pegamos o módulo original
-  const actual = await importOriginal();
-  
-  return {
-    ...actual, // <-- Retornamos TODOS os exports reais (Routes, Route, etc.)
-    
-    // E sobrescrevemos APENAS o componente 'Navigate'
-    Navigate: (props) => {
-      // Quando o <Navigate> for renderizado, ele chama nosso mock
-      navigateMock(props.to); 
-      return <div data-testid="mock-navigate" />; // Renderiza algo simples
-    },
-  };
-});
+describe('App.jsx - Rotas', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+        localStorage.clear();
+    });
 
-// Função auxiliar para renderizar o App dentro do router
-const renderApp = (route = '/') => {
-  return render(
-    // 4. Usamos o MemoryRouter REAL para envolver o App.
-    // Isso resolve o erro "useNavigate() may be used only in..."
-    <MemoryRouter initialEntries={[route]}>
-      <App />
-    </MemoryRouter>
-  );
-};
+    it('Deve renderizar a tela de LOGIN (SignIn) se já tiver admin criado', async () => {
+        localStorage.setItem('hasAdminBeenCreated', 'true');
 
-describe('Componente de Roteamento Principal (App.jsx)', () => {
-  
-  // 5. Limpamos os mocks E o localStorage ANTES de cada teste
-  beforeEach(() => {
-    vi.clearAllMocks();
-    localStorage.clear();
-  });
-  
-  it('Deve redirecionar para a página de Login (/signin) se o administrador JÁ foi criado', () => {
-    // Configuração
-    localStorage.setItem('hasAdminBeenCreated', 'true');
+        render(
+            <Provider store={store}>
+                <MemoryRouter initialEntries={['/']}>
+                    <App />
+                </MemoryRouter>
+            </Provider>
+        );
 
-    // Ação
-    renderApp('/'); // Renderiza o App na rota inicial
+        await waitFor(() => {
+            expect(screen.getByTestId('signin-page')).toBeInTheDocument();
+        });
+    });
 
-    // Verificação
-    // 6. Verificamos se a NOSSA função mock foi chamada com a rota correta.
-    expect(navigateMock).toHaveBeenCalledWith('/signin');
-  });
+    it('Deve renderizar a tela de CADASTRO (Login) se for primeiro acesso', async () => {
+        // localStorage vazio
+        render(
+            <Provider store={store}>
+                <MemoryRouter initialEntries={['/']}>
+                    <App />
+                </MemoryRouter>
+            </Provider>
+        );
 
-  it('Deve redirecionar para a página de Cadastro (/login) se o setup NÃO foi concluído', () => {
-    // Configuração (localStorage já está limpo pelo beforeEach)
-    
-    // Ação
-    renderApp('/'); // Renderiza o App na rota inicial
-
-    // Verificação
-    expect(navigateMock).toHaveBeenCalledWith('/login');
-  });
+        await waitFor(() => {
+            expect(screen.getByTestId('login-page')).toBeInTheDocument();
+        });
+    });
 });

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="9" failures="0" errors="0" time="1.3180275">
+    <testsuite name="src/App.test.jsx" timestamp="2025-11-23T19:04:39.728Z" hostname="Biel" tests="2" failures="0" errors="0" skipped="0" time="0.1108516">
+        <testcase classname="src/App.test.jsx" name="App.jsx - Rotas &gt; Deve renderizar a tela de LOGIN (SignIn) se já tiver admin criado" time="0.0944896">
+        </testcase>
+        <testcase classname="src/App.test.jsx" name="App.jsx - Rotas &gt; Deve renderizar a tela de CADASTRO (Login) se for primeiro acesso" time="0.0136878">
+            <system-out>
+WebSocket desconectado
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/AlertForm.test.jsx" timestamp="2025-11-23T19:04:39.732Z" hostname="Biel" tests="1" failures="0" errors="0" skipped="0" time="0.1537079">
+        <testcase classname="src/components/AlertForm.test.jsx" name="Componente AlertForm &gt; Deve renderizar e enviar o formulário" time="0.1508444">
+            <system-out>
+Alerta criado com sucesso: { id: [33m1[39m }
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/StationForm.test.jsx" timestamp="2025-11-23T19:04:39.734Z" hostname="Biel" tests="1" failures="0" errors="0" skipped="0" time="0.4947356">
+        <testcase classname="src/components/StationForm.test.jsx" name="StationForm &gt; Deve enviar os dados da estação" time="0.4918709">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/StationTable.test.jsx" timestamp="2025-11-23T19:04:39.735Z" hostname="Biel" tests="2" failures="0" errors="0" skipped="0" time="0.1433318">
+        <testcase classname="src/components/StationTable.test.jsx" name="StationTable &gt; Deve renderizar os dados corretamente" time="0.1148846">
+            <system-err>
+Use the `defaultValue` or `value` props on &lt;select&gt; instead of setting `selected` on &lt;option&gt;.
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/components/StationTable.test.jsx" name="StationTable &gt; Deve clicar no botão de ação" time="0.0255185">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/admin/DashboardPage.test.jsx" timestamp="2025-11-23T19:04:39.736Z" hostname="Biel" tests="1" failures="0" errors="0" skipped="0" time="0.1199585">
+        <testcase classname="src/pages/admin/DashboardPage.test.jsx" name="DashboardPage &gt; Deve renderizar o dashboard e exibir dados da API" time="0.1170117">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/admin/LoginPage.test.jsx" timestamp="2025-11-23T19:04:39.737Z" hostname="Biel" tests="2" failures="0" errors="0" skipped="0" time="0.2954421">
+        <testcase classname="src/pages/admin/LoginPage.test.jsx" name="LoginPage &gt; Deve renderizar os campos corretamente" time="0.0714962">
+        </testcase>
+        <testcase classname="src/pages/admin/LoginPage.test.jsx" name="LoginPage &gt; Deve chamar a API de registro ao enviar o formulário" time="0.2210621">
+        </testcase>
+    </testsuite>
+</testsuites>

@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router"
+import { Link, useLocation, useNavigate } from "react-router"
 import {
 	HouseIcon,
 	CircuitryIcon,
@@ -8,10 +8,20 @@ import {
 	UserIcon,
 	GearIcon,
 	SignOutIcon,
+	ChartBarIcon
 } from "@phosphor-icons/react"
+import { useDispatch } from "react-redux"
+import { logout } from "../store/slices/authSlice"
 
 function Sidebar() {
-	const location = useLocation();
+	const location = useLocation()
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
+
+	const handleLogout = () => {
+		dispatch(logout())
+		navigate('/signin')
+	}
 
 	const links = [
 		{ to: "/admin", label: "Dashboard", icon: <HouseIcon size={28} /> },
@@ -27,6 +37,7 @@ function Sidebar() {
 		icon: <NewspaperIcon size={28} />,
 		},
 		{ to: "/admin/users", label: "Usuários", icon: <UsersIcon size={28} /> },
+		{ to: "/admin/reports", label: "Relatórios", icon: <ChartBarIcon size={28} /> },
 	]
 
 	const accountLinks = [
@@ -76,7 +87,7 @@ function Sidebar() {
 				))}
 
 				{/* TODO: Sign out não precisa ser link */}
-				<button className="flex items-center p-2 hover:bg-[#9093B4] rounded transition-all duration-200 ease-in-out w-full text-left">
+				<button className="flex items-center p-2 hover:bg-[#9093B4] rounded transition-all duration-200 ease-in-out w-full text-left" onClick={handleLogout}>
 					<SignOutIcon size={28} />
 					<span className="ml-4">Sair</span>
 				</button>

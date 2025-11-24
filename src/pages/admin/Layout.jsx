@@ -13,6 +13,7 @@ function Layout() {
         '/admin/alerts': 'Alertas',
         '/admin/logs': 'Histórico',
         '/admin/users': 'Usuários',
+        '/admin/reports': 'Relatórios',
         '/admin/profile': 'Perfil',
         '/admin/settings': 'Configurações',
     }

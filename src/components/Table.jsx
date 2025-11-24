@@ -3,7 +3,7 @@ import Paginator from './Paginator'
 import Filter from './Filter'
 import loadingAnimation from '../assets/loading.gif'
 import { usePagination } from '../hooks/usePagination'
-import { AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 
 function Table({ title, tableHeadEntries, tableBodyEntries, onLoading }) {

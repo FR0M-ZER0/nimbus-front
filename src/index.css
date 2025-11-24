@@ -17,6 +17,42 @@
   --sb-track-color: #14141d;
   --sb-thumb-color: #0000ff;
   --sb-size: 8px;
+
+  --gradient-dark-1: rgba(12, 12, 12, 0);
+  --gradient-dark-2: #070230;
+
+  --gradient-dark-bg-base: var(--main-dark-color);
+
+  --gradient-soft-1: #14141D;
+  --gradient-soft-2: rgba(23, 23, 29, 0.3);
+}
+
+html[data-theme="light"] {
+  --main-light-color: #1F1F1F;
+  --alt-light-color: #4A4C6A;
+  
+  --main-dark-color: #F5F5FA;
+  --alt-dark-color: #E9E9F5;
+  --alt-dark-color-2: #DADAF0;
+  --alt-dark-color-3: #BFC0F4;
+  
+  --green-color: #0A9F00;
+  --red-color: #D12A1A;
+  --blue-color: #3636FF;
+  --orange-color: #D5671C;
+  --yellow-color: #C9D40A;
+
+  --sb-track-color: #E1E1EC;
+  --sb-thumb-color: #6F76FF;
+  --sb-size: 8px;
+
+  --gradient-dark-1: rgba(255, 255, 255, 0);
+  --gradient-dark-2: #b0b0e4;
+
+  --gradient-dark-bg-base: var(--main-dark-color);
+
+  --gradient-soft-1: #cacae4;
+  --gradient-soft-2: rgba(240, 240, 255, 0.5);
 }
 
 /* Texto */
@@ -113,6 +149,7 @@
 /********************************************** Outros padrões **********************************************/
 body {
   font-family: "Roboto", sans-serif;
+  color: var(--main-light-color);
 }
 
 label {
@@ -133,14 +170,20 @@ a {
 
 /********************************************** Padrões específicos **********************************************/
 .gradient-dark-bg {
-  background: radial-gradient(circle, rgba(12, 12, 12, 0) -80%, #070230 360%)
-    var(--main-dark-color);
+  background: radial-gradient(
+      circle,
+      var(--gradient-dark-1) -80%,
+      var(--gradient-dark-2) 360%
+  )
+  var(--gradient-dark-bg-base);
 }
 
 .dark-gradient {
-  background: linear-gradient(to bottom,
-      #14141D 20%,
-      rgba(23, 23, 29, 0.3) 90%);
+  background: linear-gradient(
+      to bottom,
+      var(--gradient-soft-1) 20%,
+      var(--gradient-soft-2) 90%
+  );
 }
 
 .form-input {
@@ -203,6 +246,52 @@ a {
     scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
     scrollbar-width: thin;
   }
+}
+
+.rdp {
+  color: #000 !important;
+}
+
+.dark .rdp {
+  color: #fff !important;
+}
+
+.rdp-day {
+  color: #000 !important;
+}
+.dark .rdp-day {
+  color: #fff !important;
+}
+
+.rdp-day_outside {
+  opacity: 0.4 !important;
+}
+
+.rdp-caption_label {
+  color: #000 !important;
+  font-weight: 600 !important;
+}
+
+.dark .rdp-caption_label {
+  color: #fff !important;
+}
+
+.rdp-nav_button {
+  color: inherit !important;
+}
+
+.rdp-day_selected {
+  background-color: #2563eb !important;
+  color: #fff !important;
+}
+
+.rdp-day_range_middle {
+  background-color: rgba(37, 99, 235, 0.2) !important;
+  color: inherit !important;
+}
+
+.rdp {
+  background: transparent !important;
 }
 
 /* Alguns componentes das pages */

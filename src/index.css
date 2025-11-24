@@ -248,6 +248,52 @@ a {
   }
 }
 
+.rdp {
+  color: #000 !important;
+}
+
+.dark .rdp {
+  color: #fff !important;
+}
+
+.rdp-day {
+  color: #000 !important;
+}
+.dark .rdp-day {
+  color: #fff !important;
+}
+
+.rdp-day_outside {
+  opacity: 0.4 !important;
+}
+
+.rdp-caption_label {
+  color: #000 !important;
+  font-weight: 600 !important;
+}
+
+.dark .rdp-caption_label {
+  color: #fff !important;
+}
+
+.rdp-nav_button {
+  color: inherit !important;
+}
+
+.rdp-day_selected {
+  background-color: #2563eb !important;
+  color: #fff !important;
+}
+
+.rdp-day_range_middle {
+  background-color: rgba(37, 99, 235, 0.2) !important;
+  color: inherit !important;
+}
+
+.rdp {
+  background: transparent !important;
+}
+
 /* Alguns componentes das pages */
 
 .users-page-container {

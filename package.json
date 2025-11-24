@@ -11,6 +11,7 @@
     "test": "vitest run --coverage --reporter=verbose --reporter=junit --outputFile=./test-results.xml --environment=jsdom"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.17.8",
     "@nivo/core": "^0.99.0",
     "@nivo/line": "^0.99.0",
     "@phosphor-icons/react": "^2.1.10",

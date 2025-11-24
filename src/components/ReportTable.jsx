@@ -1,39 +1,156 @@
+import { useState, useEffect } from "react"
 import Card from "./Card"
+import api from "../api/api"
 import { DownloadSimpleIcon } from "@phosphor-icons/react"
+import { DayPicker } from "react-day-picker"
+import "react-day-picker/dist/style.css"
 
 function ReportTable() {
+    const [stations, setStations] = useState([])
+    const [selectedStation, setSelectedStation] = useState("")
+    const [params, setParams] = useState([])
+    const [selectedParam, setSelectedParam] = useState("")
+
+    const [range, setRange] = useState({ from: undefined, to: undefined })
+    const [openCalendar, setOpenCalendar] = useState(false)
+
+    const fetchStations = async () => {
+        try {
+            const response = await api.get("/stations")
+            setStations(response.data.data)
+        } catch (err) {
+            console.error("Erro ao buscar estações", err)
+        }
+    }
+
+    const fetchParams = async () => {
+        if (!selectedStation) return
+        try {
+            const response = await api.get(`/stations/${selectedStation}/tipo-parametros`)
+            setParams(response.data)
+        } catch (err) {
+            console.error("Erro ao buscar parâmetros", err)
+        }
+    }
+
+    const handleDownload = async () => {
+        if (!selectedStation || !range.from || !range.to) {
+            alert("Selecione estação e período!")
+            return
+        }
+
+        const startDate = range.from.toISOString()
+        const endDate = range.to.toISOString()
+
+        const query = new URLSearchParams({
+            id_estacao: selectedStation,
+            startDate,
+            endDate,
+            ...(selectedParam ? { id_parametro: selectedParam } : {}),
+        }).toString()
+
+        try {
+            const res = await api.get(`/reports/measurements?${query}`, {
+                responseType: "blob",
+            })
+
+            const blob = new Blob([res.data], { type: "application/pdf" })
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement("a")
+            link.href = url
+            link.download = "relatorio-medidas.pdf"
+            link.click()
+            window.URL.revokeObjectURL(url)
+        } catch (err) {
+            console.error("Erro ao baixar relatório", err)
+        }
+    }
+
+    useEffect(() => {
+        fetchStations()
+    }, [])
+
+    useEffect(() => {
+        fetchParams()
+        setSelectedParam("")
+    }, [selectedStation])
+
     return (
-        <Card title='Gerar relatórios'>
+        <Card title="Gerar relatórios">
             <div className="grid grid-cols-7 gap-x-4">
                 <div className="col-span-2">
-                    <label className='alt-light-color-text mb-2' htmlFor="">Estação</label>
+                    <label className="alt-light-color-text mb-2" htmlFor="station">
+                        Estação
+                    </label>
                     <select
                         id="station"
-                        className='form-input'
+                        className="form-input"
+                        value={selectedStation}
+                        onChange={(e) => setSelectedStation(e.target.value)}
                     >
-                        <option className='alt-dark-color-3-bg'>Escolha uma opção</option>
+                        <option value="">Escolha uma opção</option>
+                        {stations.map((s) => (
+                            <option key={s.id_estacao} value={s.id_estacao}>
+                                {s.nome}
+                            </option>
+                        ))}
                     </select>
                 </div>
 
                 <div className="col-span-3">
-                    <label className='alt-light-color-text mb-2' htmlFor="">Parâmetro</label>
+                    <label className="alt-light-color-text mb-2" htmlFor="param">
+                        Parâmetro
+                    </label>
                     <select
                         id="param"
-                        className='form-input'
+                        className="form-input"
+                        value={selectedParam}
+                        onChange={(e) => setSelectedParam(e.target.value)}
                     >
-                        <option className='alt-dark-color-3-bg'>Escolha uma opção</option>
+                        <option value="">Todos</option>
+                        {params.map((p) => (
+                            <option key={p.id_tipo_parametro} value={p.id_tipo_parametro}>
+                                {p.nome} ({p.unidade})
+                            </option>
+                        ))}
                     </select>
                 </div>
 
-                <div className='col-span-2'>
-                    <label className='alt-light-color-text mb-2' htmlFor="">Período</label>
-                    <input type="number" step={"any"}  min="-90" max="90" className='form-input' style={{padding: 12}} />
+                <div className="col-span-2">
+                    <label className="alt-light-color-text mb-2">Período</label>
+                    <div
+                        className="form-input cursor-pointer"
+                        onClick={() => setOpenCalendar(!openCalendar)}
+                    >
+                        {range.from && range.to
+                            ? `${range.from.toLocaleDateString()} - ${range.to.toLocaleDateString()}`
+                            : "Selecionar período"}
+                    </div>
+
+                    {openCalendar && (
+                        <div className="p-2 bg-white rounded-lg shadow-lg absolute z-50 mt-2">
+                            <DayPicker
+                                mode="range"
+                                selected={range}
+                                onSelect={(v) => setRange(v || { from: undefined, to: undefined })}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
 
             <div className="flex flex-col justify-center items-center h-[300px] space-y-2">
-                <DownloadSimpleIcon size={120} className="alt-light-color-text cursor-pointer" />
-                <p className="text-xl green-color-text cursor-pointer">Baixar</p>
+                <DownloadSimpleIcon
+                    size={120}
+                    className="alt-light-color-text cursor-pointer"
+                    onClick={handleDownload}
+                />
+                <p
+                    className="text-xl green-color-text cursor-pointer"
+                    onClick={handleDownload}
+                >
+                    Baixar
+                </p>
             </div>
         </Card>
     )

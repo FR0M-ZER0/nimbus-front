@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom'; // Garante uso do router-dom
 import { registerFirstUser } from '../../services/api';
 import { useState } from 'react';
 
@@ -17,24 +17,20 @@ function LoginPage() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    // FUNÇÃO CORRIGIDA
     const handleRegister = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setError('');
 
-        // "Traduz" os nomes dos campos para o que o backend espera
         const dataToSend = {
             nome: formData.name,
             email: formData.email,
             senha: formData.password,
-            id_nivel_acesso: 1 // Adiciona o nível de acesso de Admin (geralmente ID 1)
+            id_nivel_acesso: 1
         };
 
         try {
-            // Envia o objeto corrigido para a API
             await registerFirstUser(dataToSend);
-            
             localStorage.setItem('hasAdminBeenCreated', 'true');
             alert('Administrador criado com sucesso! Você será redirecionado para a tela de login.');
             navigate('/signin');
@@ -65,15 +61,42 @@ function LoginPage() {
                     )}
                     <div className='mb-6'>
                         <label htmlFor='name' className='block mb-2 text-sm font-medium alt-light-color-text'>Nome Completo</label>
-                        <input type='text' id='name' name='name' value={formData.name} onChange={handleChange} className='form-input main-light-color-text' required />
+                        <input 
+                            type='text' 
+                            id='name' 
+                            name='name' 
+                            data-testid="input-name"
+                            value={formData.name} 
+                            onChange={handleChange} 
+                            className='form-input main-light-color-text' 
+                            required 
+                        />
                     </div>
                     <div className='mb-6'>
                         <label htmlFor='email' className='block mb-2 text-sm font-medium alt-light-color-text'>E-mail</label>
-                        <input type='email' id='email' name='email' value={formData.email} onChange={handleChange} className='form-input main-light-color-text' required />
+                        <input 
+                            type='email' 
+                            id='email' 
+                            name='email' 
+                            data-testid="input-email"
+                            value={formData.email} 
+                            onChange={handleChange} 
+                            className='form-input main-light-color-text' 
+                            required 
+                        />
                     </div>
                     <div className='mb-6'>
                         <label htmlFor='password' className='block mb-2 text-sm font-medium alt-light-color-text'>Senha</label>
-                        <input type='password' id='password' name='password' value={formData.password} onChange={handleChange} className='form-input main-light-color-text' required />
+                        <input 
+                            type='password' 
+                            id='password' 
+                            name='password' 
+                            data-testid="input-password"
+                            value={formData.password} 
+                            onChange={handleChange} 
+                            className='form-input main-light-color-text' 
+                            required 
+                        />
                     </div>
                     <button type='submit' className='submit-button w-full main-light-color-text' disabled={isLoading}>
                         {isLoading ? 'Criando...' : 'Criar Administrador'}

@@ -1,8 +1,10 @@
 import SystemSearchbar from './SystemSearchbar'
 import { UserIcon, BellIcon, GearIcon } from '@phosphor-icons/react'
 import HamburguerMenu from './HamburguerMenu'
+import { useNavigate } from 'react-router'
 
 function Topbar({ title }) {
+    const navigate = useNavigate()
     return (
         <header className='flex py-[30px] items-center'>
             <p className='md:mr-0 mr-2 md:inline hidden'>
@@ -19,9 +21,9 @@ function Topbar({ title }) {
 
                 <div className='flex'>
                     {/* TODO: Adicionar o componente LINK a cada icone */}
-                    <UserIcon size={24} className='alt-light-color-text sm:block hidden' />
-                    <BellIcon size={24} className='alt-light-color-text md:mx-8 mx-2' />
-                    <GearIcon size={24} className='alt-light-color-text sm:block hidden' />
+                    <UserIcon size={24} className='alt-light-color-text sm:block hidden cursor-pointer' onClick={() => navigate('/admin/profile')} />
+                    <BellIcon size={24} className='alt-light-color-text md:mx-8 mx-2 cursor-pointer' />
+                    <GearIcon size={24} className='alt-light-color-text sm:block hidden cursor-pointer' onClick={() => navigate('/admin/settings')} />
                 </div>
             </div>
         </header>

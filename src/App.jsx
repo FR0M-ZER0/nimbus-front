@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -18,20 +18,27 @@ import api from './api/api';
 
 const ProtectedRoute = () => {
     const isAuthenticated = localStorage.getItem('authToken');
-    return isAuthenticated ? <AdminLayout /> : <Navigate to="/signin" />;
-};
+    return isAuthenticated ? <AdminLayout /> : <Navigate to="/signin" />
+}
 
-const InitialRedirect = () => {
-    const isSetupComplete = localStorage.getItem('hasAdminBeenCreated');
-
-    const destination = isSetupComplete ? '/signin' : '/login';
-    
-    return <Navigate to={destination} />;
-};
+const InitialRedirect = ({ exists }) => {
+    return <Navigate to={exists ? '/signin' : '/login'} />
+}
 
 function App() {
     const theme = useSelector(state => state.theme.mode)
     const dispatch = useDispatch()
+
+    const [userExists, setUserExists] = useState(null)
+    const fetchUserExistance = async () => {
+        try {
+            const response = await api.get('/user/check-existance')
+            setUserExists(response.data.exists)
+        } catch(err) {
+            console.error(err)
+            setUserExists(true)
+        }
+    }
 
     useEffect(() => {
         dispatch({ type: 'WS_CONNECT' })
@@ -55,6 +62,8 @@ function App() {
                 localStorage.removeItem('authToken')
             })
         }
+
+        fetchUserExistance()
     }, [])
 
     useEffect(() => {
@@ -63,7 +72,7 @@ function App() {
 
     return (
         <Routes>
-            <Route path='/' element={<InitialRedirect />} />
+            <Route path='/' element={<InitialRedirect exists={userExists} />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signin' element={<SignInPage />} />
 
@@ -82,8 +91,7 @@ function App() {
             {/* Redirecionamento para qualquer rota não encontrada */}
             <Route path='*' element={<Navigate to="/" />} />
         </Routes>
-    );
+    )
 }
 
-export default App;
-
+export default App

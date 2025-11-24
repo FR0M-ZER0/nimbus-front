@@ -76,7 +76,6 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signin' element={<SignInPage />} />
 
-            {/* Rotas Protegidas do Admin */}
             <Route path='/admin' element={<ProtectedRoute />}>
                 <Route index element={<DashboardPage />} />
                 <Route path='stations' element={<StationPage />} />
@@ -88,7 +87,6 @@ function App() {
                 <Route path='reports' element={<ReportsPage />} />
             </Route>
 
-            {/* Redirecionamento para qualquer rota não encontrada */}
             <Route path='*' element={<Navigate to="/" />} />
         </Routes>
     )

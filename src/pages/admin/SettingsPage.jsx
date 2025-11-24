@@ -1,8 +1,17 @@
+import { useDispatch, useSelector } from "react-redux"
 import Card from "../../components/Card"
 import Checkbox from "../../components/Checkbox"
 import PasswordInput from "../../components/PasswordInput"
+import { setTheme } from "../../store/slices/themeSlice"
 
 function SettingsPage() {
+    const dispatch = useDispatch()
+    const theme = useSelector(state => state.theme.mode)
+
+    const handleThemeToggle = (enabled) => {
+        dispatch(setTheme(enabled ? 'light' : 'dark'))
+    }
+
     return (
         <div className="w-full">
             <div className="flex justify-between">
@@ -10,7 +19,11 @@ function SettingsPage() {
                     <Card title={'Visual'}>
                         <div className="flex flex-col gap-4">
                             <Checkbox label="Habilitar alto contraste entre os componentes" />
-                            <Checkbox label="Habilitar tema claro" />
+                            <Checkbox
+                                label="Habilitar tema claro"
+                                defaultChecked={theme === 'light'}
+                                onToggle={handleThemeToggle}
+                            />
                         </div>
 
                         <div className="mt-12">

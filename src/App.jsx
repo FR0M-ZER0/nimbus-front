@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import AdminLayout from './pages/admin/Layout';
 import DashboardPage from './pages/admin/DashboardPage';
@@ -30,6 +30,7 @@ const InitialRedirect = () => {
 };
 
 function App() {
+    const theme = useSelector(state => state.theme.mode)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -55,6 +56,10 @@ function App() {
             })
         }
     }, [])
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme)
+    }, [theme])
 
     return (
         <Routes>

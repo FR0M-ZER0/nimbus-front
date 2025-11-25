@@ -6,7 +6,16 @@ import loadingAnimation from '../assets/loading.gif'
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion'
 
-function HeadlessTable({ title, tableEntries, onActionBtnClick, onLoading }) {
+function HeadlessTable({ 
+    title, 
+    tableEntries, 
+    onActionBtnClick, 
+    onLoading,
+    filters,
+    onSearchChange,
+    onSortChange,
+    onFilterChange
+}) {
     const { currentItems, pageCount, handlePageClick, rowAnimation } = usePagination(tableEntries, 10)
 
     return (
@@ -18,7 +27,25 @@ function HeadlessTable({ title, tableEntries, onActionBtnClick, onLoading }) {
 					</p>
 
                     <div className='ml-4 w-full'>
-                        <Filter />
+                        <Filter 
+                            sortOptions={[
+                                { value: 'data_criacao', label: 'Data de Criação', defaultOrder: 'desc' },
+                                { value: 'id_estacao', label: 'ID da Estação', defaultOrder: 'asc' },
+                                { value: 'nome', label: 'Nome', defaultOrder: 'asc' }
+                            ]}
+                            filterOptions={[
+                                { value: 'all', label: 'Todos' },
+                                { value: 'on', label: 'Online' },
+                                { value: 'off', label: 'Offline' }
+                            ]}
+                            currentSearch={filters.search}
+                            currentSortBy={filters.sortBy}
+                            currentSortOrder={filters.sortOrder}
+                            currentFilter={filters.status}
+                            onSearchChange={onSearchChange}
+                            onSortChange={onSortChange}
+                            onFilterChange={onFilterChange}
+                        />
                     </div>
 				</div>
 
@@ -94,10 +121,18 @@ function HeadlessTable({ title, tableEntries, onActionBtnClick, onLoading }) {
                     </table>
                 )}
                 
-                <Paginator pageCount={pageCount} onButtonClick={handlePageClick} />
+                <Paginator 
+                    pageCount={pageCount} 
+                    onButtonClick={(selectedItem) => {
+                        handlePageClick(selectedItem);
+                        if (filters.page !== selectedItem.selected + 1) {
+                            setFilters(prev => ({ ...prev, page: selectedItem.selected + 1 }));
+                        }
+                    }} 
+                />
             </div>
         </InfoCard>
     )
 }
 
-export default HeadlessTable
+export default HeadlessTable;

@@ -1,3 +1,4 @@
+// src/components/SavedAlerts.jsx
 import InfoCard from './InfoCard'
 import Filter from './Filter'
 import AlertModal from './AlertModal'
@@ -7,7 +8,16 @@ import { toast } from 'react-toastify'
 import loadingAnimation from '../assets/loading.gif'
 import { useState } from 'react';
 
-function SavedAlerts({ alerts, onDelete, onUpdate, onLoading }) {
+function SavedAlerts({ 
+    alerts, 
+    onDelete, 
+    onUpdate, 
+    onLoading,
+    filters,
+    onSearchChange,
+    onSortChange,
+    onFilterChange
+}) {
     const [alertEditing, setAlertEditing] = useState(null)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
@@ -39,7 +49,28 @@ function SavedAlerts({ alerts, onDelete, onUpdate, onLoading }) {
         <InfoCard>
             <div className='flex items-center space-x-2 mb-2'>
                 <h2 className='text-3xl'>Alertas</h2>
-                <Filter />
+                <div className='w-full'>
+                    <Filter 
+                        searchPlaceholder="Buscar por título"
+                        sortOptions={[
+                            { value: 'data_hora', label: 'Data/Hora', defaultOrder: 'desc' },
+                            { value: 'titulo', label: 'Título', defaultOrder: 'asc' }
+                        ]}
+                        filterOptions={[
+                            { value: 'all', label: 'Todos os tipos' },
+                            { value: 'temperature', label: 'Temperatura' },
+                            { value: 'humidity', label: 'Umidade' }
+                            // Add more filter options as needed
+                        ]}
+                        currentSearch={filters.search}
+                        currentSortBy={filters.sortBy}
+                        currentSortOrder={filters.sortOrder}
+                        currentFilter={filters.status || 'all'}
+                        onSearchChange={onSearchChange}
+                        onSortChange={onSortChange}
+                        onFilterChange={onFilterChange}
+                    />
+                </div>
             </div>
 
             {onLoading ? (
@@ -54,10 +85,10 @@ function SavedAlerts({ alerts, onDelete, onUpdate, onLoading }) {
                         <div key={alert.id_alerta} className='flex justify-between'>
                             <div>
                                 <p className='font-bold'>
-                                    {`Estação ${alert.parametro.id_estacao}: ${alert.titulo} ${alert.tipo_alerta.operador} ${alert.tipo_alerta.valor}`}
+                                    {`Estação ${alert.id_estacao}: ${alert.titulo} ${alert.tipo_alerta?.operador} ${alert.tipo_alerta?.valor}`}
                                 </p>
                                 <p>
-                                    {`${alert.parametro.descricao} - `}
+                                    {`${alert.parametro?.descricao || 'Parâmetro'} - `}
                                     <span className='italic'>"{alert.texto}"</span>
                                 </p>
                             </div>
@@ -83,7 +114,10 @@ function SavedAlerts({ alerts, onDelete, onUpdate, onLoading }) {
                 <AlertModal
                     alertEditing={alertEditing}
                     closeModal={closeEditModal}
-                    onUpdate={onUpdate}
+                    onUpdate={() => {
+                        closeEditModal();
+                        if (onUpdate) onUpdate();
+                    }}
                 />
             )}
         </InfoCard>

@@ -1,64 +1,37 @@
+import { useEffect, useState } from 'react'
 import Card from './Card'
+import api from '../api/api'
 
 function LastAlerts() {
-    const alerts = [
-        {
-            datetime: '10/09/2035 - 15:39',
-            station: 'abc123',
-            param: 'chuva',
-            operator: '>',
-            value: '0.25',
-            address: 'São José dos Campos'
-        },
-        {
-            datetime: '10/09/2035 - 15:39',
-            station: 'abc123',
-            param: 'chuva',
-            operator: '>',
-            value: '0.25',
-            address: 'São José dos Campos'
-        },
-        {
-            datetime: '10/09/2035 - 15:39',
-            station: 'abc123',
-            param: 'chuva',
-            operator: '>',
-            value: '0.25',
-            address: 'São José dos Campos'
-        },
-        {
-            datetime: '10/09/2035 - 15:39',
-            station: 'abc123',
-            param: 'chuva',
-            operator: '>',
-            value: '0.25',
-            address: 'São José dos Campos'
-        },
-        {
-            datetime: '10/09/2035 - 15:39',
-            station: 'abc123',
-            param: 'chuva',
-            operator: '>',
-            value: '0.25',
-            address: 'São José dos Campos'
-        },
-        {
-            datetime: '10/09/2035 - 15:39',
-            station: 'abc123',
-            param: 'chuva',
-            operator: '>',
-            value: '0.25',
-            address: 'São José dos Campos'
-        },
-        {
-            datetime: '10/09/2035 - 15:39',
-            station: 'abc123',
-            param: 'chuva',
-            operator: '>',
-            value: '0.25',
-            address: 'São José dos Campos'
-        },
-    ]
+    const [alerts, setAlerts] = useState([])
+
+    const fetchAlerts = async () => {
+        try {
+            const { data } = await api.get("/alarms")
+
+            const formatted = data.map(a => {
+                const date = new Date(a.created_at)
+                return {
+                    datetime: date.toLocaleDateString('pt-BR') +
+                              " - " + date.toLocaleTimeString('pt-BR', { hour12: false }),
+                    station: a.medida.parametro.estacao.id_estacao,
+                    param: a.medida.parametro.tipo_parametro.nome,
+                    operator: a.alerta.tipo_alerta?.operador ?? "",
+                    value: a.medida.valor,
+                    address: a.medida.parametro.estacao.endereco
+                }
+            })
+
+            setAlerts(formatted)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    useEffect(() => {
+        fetchAlerts()
+    }, [])
+
     return (
         <Card title={'Últimos alertas'}>
             <div  className='max-h-[680px] overflow-y-auto space-y-8'>

@@ -1,5 +1,5 @@
 import { XIcon } from '@phosphor-icons/react'
-import {  AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 
 function Modal({ onClose, children, needsButton=false, onSave, deleteBtn=false, onDelete }) {

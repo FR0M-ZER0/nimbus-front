@@ -13,6 +13,7 @@ import SettingsPage from './pages/admin/SettingsPage';
 import LoginPage from './pages/admin/LoginPage';
 import SignInPage from './pages/admin/SignInPage';
 import LandingPage from './pages/LandingPage';
+import EducationPage from './pages/EducationPage';
 
 const ProtectedRoute = () => {
     const isAuthenticated = localStorage.getItem('authToken');
@@ -36,6 +37,7 @@ function App() {
     return (
         <Routes>
             <Route path='/' element={<LandingPage />} />
+            <Route path='/educativo' element={<EducationPage />} />
             <Route path='/auth' element={<AuthRedirect />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signin' element={<SignInPage />} />

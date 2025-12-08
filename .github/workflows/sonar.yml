@@ -25,7 +25,7 @@ jobs:
         with:
           args: >
             -Dsonar.organization=fr0m-zer0
-            -Dsonar.projectKey=FROM_ZERO_nimbus-front
+            -Dsonar.projectKey=FR0M-ZER0_nimbus-front
             -Dsonar.sources=src
             -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/coverage/**,**/public/**,**/*.spec.ts,vite.config.js,tailwind.config.js
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info

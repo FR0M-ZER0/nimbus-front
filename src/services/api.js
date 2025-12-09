@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+
 const apiClient = axios.create({
-    baseURL: 'http://localhost:3001/api',
+    baseURL: baseURL,
     headers: {
         'Content-Type': 'application/json'
     }
@@ -42,7 +44,7 @@ export const registerFirstUser = async (userData) => {
 // --- Funções para o CRUD de Usuários ---
 const USER_ENDPOINT = '/user';
 
-export const getUsers = async () => { /* ...código sem alterações... */ try { const response = await apiClient.get(USER_ENDPOINT); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao buscar usuários.'); } };
-export const createUser = async (userData) => { /* ...código sem alterações... */ try { const response = await apiClient.post(USER_ENDPOINT, userData); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao criar usuário.'); } };
-export const updateUser = async (userId, userData) => { /* ...código sem alterações... */ try { const response = await apiClient.put(`${USER_ENDPOINT}/${userId}`, userData); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao atualizar usuário.'); } };
-export const deleteUser = async (userId) => { /* ...código sem alterações... */ try { const response = await apiClient.delete(`${USER_ENDPOINT}/${userId}`); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao deletar usuário.'); } };
+export const getUsers = async () => { try { const response = await apiClient.get(USER_ENDPOINT); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao buscar usuários.'); } };
+export const createUser = async (userData) => { try { const response = await apiClient.post(USER_ENDPOINT, userData); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao criar usuário.'); } };
+export const updateUser = async (userId, userData) => { try { const response = await apiClient.put(`${USER_ENDPOINT}/${userId}`, userData); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao atualizar usuário.'); } };
+export const deleteUser = async (userId) => { try { const response = await apiClient.delete(`${USER_ENDPOINT}/${userId}`); return response.data; } catch (error) { throw new Error(error.response?.data?.message || 'Erro ao deletar usuário.'); } };

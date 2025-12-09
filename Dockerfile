@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-COPY .env . 
+ENV VITE_API_URL=/api
 
 RUN npm run build
 
